@@ -10,5 +10,6 @@ namespace Buyora.Models
         [StringLength(100)]
         public string NameAr { get; set; } = string.Empty;
         public bool IsActive { get; set; } = false;
+        public int? DisplayOrder { get; set; }
     }
 }

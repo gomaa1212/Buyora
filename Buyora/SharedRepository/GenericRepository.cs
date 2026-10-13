@@ -23,7 +23,7 @@ namespace Buyora.SharedRepository
             await _dbset.AddRangeAsync(entities);
         }
 
-        public void DeleteAsync(T entity)
+        public void Delete(T entity)
         {
              _dbset.Remove(entity);
         }
@@ -43,7 +43,7 @@ namespace Buyora.SharedRepository
             return _dbset;
         }
 
-        public void  UpdateAsync(T entity)
+        public void  Update(T entity)
         {
              _dbset.Update(entity);
         }

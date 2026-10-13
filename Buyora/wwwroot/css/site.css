@@ -1,31 +1,341 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --buyora-blue-dark: #071f4e;
+    --buyora-blue: #0038A8;
+    --buyora-orange: #FF6B00;
+    --buyora-orange-light: #FFA800;
+    --buyora-bg: #F8FAFC;
+    --buyora-text: #1E293B;
+    --buyora-muted: #64748B;
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--buyora-bg);
+    color: var(--buyora-text);
+    font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.buyora-navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px rgba(7, 31, 78, 0.06);
+    border-bottom: 1px solid rgba(0, 56, 168, 0.08);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.buyora-logo {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.brand-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--buyora-blue-dark);
+    letter-spacing: -0.5px;
+}
+
+.buyora-nav-link {
+    color: var(--buyora-text) !important;
+    font-weight: 600;
+    font-size: 0.98rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+    .buyora-nav-link:hover,
+    .buyora-nav-link:focus,
+    .buyora-nav-link.active {
+        color: var(--buyora-orange) !important;
+        background-color: rgba(255, 107, 0, 0.06);
+    }
+
+    .buyora-nav-link i {
+        color: var(--buyora-blue);
+        transition: color 0.25s ease;
+    }
+
+    .buyora-nav-link:hover i {
+        color: var(--buyora-orange);
+    }
+
+.language-switcher-wrapper select,
+.language-switcher-wrapper .btn {
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-buyora-primary {
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.4rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+    .btn-buyora-primary:hover,
+    .btn-buyora-primary:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 56, 168, 0.25);
+        color: #ffffff;
+    }
+
+.btn-buyora-accent {
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.4rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+    .btn-buyora-accent:hover,
+    .btn-buyora-accent:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(255, 107, 0, 0.3);
+        color: #ffffff;
+    }
+
+.buyora-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .buyora-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(10, 42, 102, 0.08);
+    }
+
+.buyora-footer {
+    background: linear-gradient(135deg, var(--buyora-blue-dark) 0%, #04122e 100%);
+    color: #cbd5e1;
+    border-top: 3px solid var(--buyora-orange);
+}
+
+.footer-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.footer-slogan {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    letter-spacing: 0.3px;
+}
+
+.footer-copy {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.text-buyora-blue {
+    color: var(--buyora-blue) !important;
+}
+
+.text-buyora-orange {
+    color: var(--buyora-orange) !important;
+}
+
+.bg-buyora-blue {
+    background-color: var(--buyora-blue-dark) !important;
+}
+
+@media (min-width: 992px) {
+    .border-lg-0 {
+        border-top: 0 !important;
+    }
+}
+.buyora-lang-pill {
+    background-color: #f1f5f9;
+    border: 1px solid rgba(0, 56, 168, 0.12);
+    border-radius: 50rem;
+    padding: 0.2rem 0.65rem;
+    transition: all 0.25s ease;
+}
+
+    .buyora-lang-pill:hover,
+    .buyora-lang-pill:focus-within {
+        background-color: #ffffff;
+        border-color: var(--buyora-orange);
+        box-shadow: 0 3px 10px rgba(255, 107, 0, 0.12);
+    }
+
+.buyora-lang-icon {
+    color: var(--buyora-orange);
+    font-size: 0.95rem;
+    margin-inline-end: 0.35rem;
+}
+
+.buyora-lang-select {
+    background-color: transparent !important;
+    border: none !important;
+    color: var(--buyora-blue-dark) !important;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+    padding-inline-start: 0.2rem;
+    padding-inline-end: 1.5rem;
+    cursor: pointer;
+    box-shadow: none !important;
+    width: auto;
+    min-width: 85px;
+}
+
+    .buyora-lang-select option {
+        background-color: #ffffff;
+        color: var(--buyora-text);
+        font-weight: 600;
+    }
+.buyora-header-banner {
+    border-inline-start: 5px solid var(--buyora-orange);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.buyora-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    box-shadow: 0 6px 14px rgba(0, 56, 168, 0.2);
+}
+
+.buyora-table thead th {
+    background-color: var(--buyora-blue-dark);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+.buyora-table tbody tr {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+    .buyora-table tbody tr:hover {
+        background-color: rgba(0, 56, 168, 0.025);
+    }
+
+.buyora-table tbody td {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.buyora-category-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background-color: rgba(0, 56, 168, 0.08);
+    color: var(--buyora-blue);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.buyora-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 1.15rem;
+}
+
+    .buyora-status-badge.status-active {
+        background-color: rgba(16, 185, 129, 0.12);
+        color: #10b981;
+    }
+
+    .buyora-status-badge.status-inactive {
+        background-color: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+    }
+
+.buyora-order-pill {
+    display: inline-block;
+    min-width: 36px;
+    padding: 0.25rem 0.7rem;
+    border-radius: 8px;
+    background-color: #f1f5f9;
+    color: var(--buyora-blue-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid #e2e8f0;
+}
+
+.buyora-action-btn {
+    border-radius: 8px;
+    padding: 0.4rem 0.85rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+    .buyora-action-btn.btn-edit {
+        background-color: rgba(0, 56, 168, 0.08);
+        color: var(--buyora-blue);
+    }
+
+        .buyora-action-btn.btn-edit:hover {
+            background-color: var(--buyora-blue);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+    .buyora-action-btn.btn-delete {
+        background-color: rgba(239, 68, 68, 0.08);
+        color: #ef4444;
+    }
+
+        .buyora-action-btn.btn-delete:hover {
+            background-color: #ef4444;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+.buyora-empty-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background-color: rgba(255, 107, 0, 0.1);
+    color: var(--buyora-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    .w-md-auto {
+        width: auto !important;
+    }
 }

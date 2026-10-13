@@ -1,5 +1,8 @@
 
 using Buyora.DependencyInjection;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +13,29 @@ builder.Services.AddGeneralRegisterDependencyInjection(builder.Configuration);
 
 builder.Services.AddUnitOFWorkDependencyInjection();
 
-var supportedCultures = new[] { "en-US", "ar-EG" };
+builder.Services.AddServiceDependencyInjection();
 
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture("ar-EG")
-    .AddSupportedCultures(supportedCultures)
-    .AddSupportedUICultures(supportedCultures);
+// Languages
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("ar-EG")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("ar-EG");
+
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+
+    options.RequestCultureProviders.Insert(
+        0,
+        new CookieRequestCultureProvider()
+    );
+});
+
+
 
 var app = builder.Build();
 
@@ -28,7 +48,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseRequestLocalization(localizationOptions);
+app.UseRequestLocalization();
 
 app.UseRouting();
 
