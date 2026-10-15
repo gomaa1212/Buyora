@@ -24,7 +24,9 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     }
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/E_Commerce.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Buyora.styles.css" asp-append-version="true" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="sticky-top">
@@ -40,17 +42,17 @@
                 <div class="collapse navbar-collapse" id="buyoraMainNavbar">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2 pt-3 pt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link buyora-nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link buyora-nav-link"  asp-controller="Home" asp-action="Index">
                                 <i class="bi bi-house-door me-1"></i> @_localizer["home"]
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link buyora-nav-link" asp-area="" asp-controller="Category" asp-action="Index">
+                            <a class="nav-link buyora-nav-link"  asp-controller="Category" asp-action="Index">
                                 <i class="bi bi-grid me-1"></i> @_localizer["categories"]
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link buyora-nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
+                            <a class="nav-link buyora-nav-link"  asp-controller="Home" asp-action="Privacy">
                                 <i class="bi bi-shield-check me-1"></i> @_localizer["privacy"]
                             </a>
                         </li>
@@ -67,6 +69,7 @@
 
     <div class="container flex-grow-1 my-4">
         <main role="main" class="pb-4">
+            <partial name="_NotificationPartial" />
             @RenderBody()
         </main>
     </div>

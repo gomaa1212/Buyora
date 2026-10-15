@@ -1,5 +1,7 @@
-﻿using Buyora.SharedRepository;
-using Buyora.UnitOfWorks;
+﻿
+
+using BuyoraDataAccess.SharedRepository;
+using BuyoraDataAccess.UnitOfWorks;
 
 namespace Buyora.DependencyInjection
 {

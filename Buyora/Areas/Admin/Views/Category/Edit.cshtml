@@ -1,0 +1,95 @@
+﻿@model EditCategoryViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1 text-buyora-blue">@_localizer["editcategory"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["categoryEditTitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto">
+                    <i class="bi bi-arrow-left-short fs-5 buyora-rtl-flip"></i>
+                    <span>@_localizer["categories"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="buyora-card p-4 p-md-5">
+                <form asp-action="Edit" method="post" novalidate>
+                    <input asp-for="Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small" role="alert"></div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="NameEn" class="form-label buyora-label">
+                                <i class="bi bi-translate text-buyora-orange me-1"></i> Name (English)
+                            </label>
+                            <div class="buyora-input-group">
+                                <input asp-for="NameEn" class="form-control buyora-input" placeholder="e.g. Electronics" dir="ltr" />
+                            </div>
+                            <span asp-validation-for="NameEn" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="NameAr" class="form-label buyora-label">
+                                <i class="bi bi-translate text-buyora-blue me-1"></i> Name (Arabic)
+                            </label>
+                            <div class="buyora-input-group">
+                                <input asp-for="NameAr" class="form-control buyora-input" placeholder="مثال: إلكترونيات" dir="rtl" />
+                            </div>
+                            <span asp-validation-for="NameAr" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="DisplayOrder" class="form-label buyora-label">
+                                <i class="bi bi-sort-numeric-down text-buyora-blue me-1"></i> Display Order
+                            </label>
+                            <input type="number" asp-for="DisplayOrder" class="form-control buyora-input" placeholder="1" min="1" />
+                            <span asp-validation-for="DisplayOrder" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6 d-flex align-items-end">
+                            <div class="buyora-switch-card w-100 d-flex align-items-center justify-content-between">
+                                <div>
+                                    <label asp-for="IsActive" class="form-check-label fw-bold text-dark d-block cursor-pointer mb-0">
+                                        Is Active?
+                                    </label>
+                                    <span class="text-muted" style="font-size: 0.78rem;">Show this category on store</span>
+                                </div>
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input buyora-switch" type="checkbox" role="switch" asp-for="IsActive" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 pt-3 border-top mt-4">
+                            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-3">
+                                <a asp-action="Index" class="btn buyora-btn-light w-100 w-sm-auto px-4">
+                                    @_localizer["cancel"]
+                                </a>
+                                <button type="submit" class="btn btn-buyora-primary d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto px-5">
+                                    <i class="bi bi-check2-circle fs-5"></i>
+                                    <span>@_localizer["edit"]</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
