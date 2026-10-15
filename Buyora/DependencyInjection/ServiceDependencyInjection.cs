@@ -1,5 +1,6 @@
-﻿using Buyora.Models.Services.Implementations;
-using Buyora.Models.Services.Interfaces;
+﻿
+using BuyoraBusiness.Services.Implementations;
+using BuyoraBusiness.Services.Interfaces;
 
 namespace Buyora.DependencyInjection
 {

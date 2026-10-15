@@ -1,4 +1,5 @@
-﻿using Buyora.Data;
+﻿
+using BuyoraDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Buyora.DependencyInjection

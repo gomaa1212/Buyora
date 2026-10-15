@@ -1,3 +1,7 @@
 <Solution>
   <Project Path="Buyora/Buyora.csproj" />
+  <Project Path="BuyoraBusiness/BuyoraBusiness.csproj" Id="a793c30a-fdbd-4ed3-8f1e-f917288c7bb2" />
+  <Project Path="BuyoraDataAccess/BuyoraDataAccess.csproj" Id="96bf5d94-9558-45f1-a6e9-7da005c430de" />
+  <Project Path="BuyoraModels/BuyoraModels.csproj" Id="0487d687-1e4f-4488-b295-92f726613a80" />
+  <Project Path="BuyoraUtility/BuyoraUtility.csproj" Id="ca71a4c5-d29c-4dc5-bebc-276d5cfa38bd" />
 </Solution>

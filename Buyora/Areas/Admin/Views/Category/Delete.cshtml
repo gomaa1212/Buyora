@@ -1,0 +1,74 @@
+﻿@model GetCategoryByIdViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner buyora-danger-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box buyora-icon-danger">
+                    <i class="bi bi-trash3-fill"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1 text-danger">@_localizer["deletecategory"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["categoryDeleteTitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto">
+                    <i class="bi bi-arrow-left-short fs-5 buyora-rtl-flip"></i>
+                    <span>@_localizer["categories"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-6">
+            <div class="buyora-card p-4 p-md-5 text-center">
+                <div class="buyora-delete-warning-icon mx-auto mb-3">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+
+                <h4 class="fw-bold text-dark mb-2">@_localizer["sureDelete"]</h4>
+                <p class="text-muted small mb-4">
+                    @_localizer["sureDeleteTitle"]
+                </p>
+
+                <div class="buyora-delete-summary text-start p-3 rounded-3 mb-4">
+                    <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                        <span class="text-muted small fw-semibold">Category Name</span>
+                        <span class="fw-bold text-buyora-blue">@Model.Name</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                        <span class="text-muted small fw-semibold">Display Order</span>
+                        <span class="buyora-order-pill">@Model.DisplayOrder</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pt-2">
+                        <span class="text-muted small fw-semibold">Status</span>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge rounded-pill bg-success-subtle text-success px-3 py-1">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge rounded-pill bg-danger-subtle text-danger px-3 py-1">Inactive</span>
+                        }
+                    </div>
+                </div>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3">
+                        <a asp-action="Index" class="btn buyora-btn-light w-100 w-sm-auto px-4">
+                            @_localizer["cancel"]
+                        </a>
+                        <button type="submit" class="btn btn-buyora-danger d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto px-5">
+                            <i class="bi bi-trash3"></i>
+                            <span>@_localizer["delete"]</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

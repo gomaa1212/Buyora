@@ -1,0 +1,101 @@
+﻿@model IEnumerable<GetCategoriesListViewModel>
+@inject IStringLocalizer<SharedResource> _localizer
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1 text-buyora-blue">@_localizer["categories"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["categoryIndexTitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <a asp-action="Create" class="btn btn-buyora-accent d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto">
+                    <i class="bi bi-plus-circle-fill"></i>
+                    <span>@_localizer["createcategory"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="buyora-card overflow-hidden">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table buyora-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="ps-4">Name</th>
+                            <th scope="col" class="text-center">Is Active</th>
+                            <th scope="col" class="text-center">Display Order</th>
+                            <th scope="col" class="text-end pe-4">@_localizer["actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="buyora-category-avatar">
+                                            @(string.IsNullOrEmpty(category.Name) ? "C" : category.Name.Substring(0, 1).ToUpper())
+                                        </span>
+                                        <span class="fw-bold text-dark">@category.Name</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @if (category.IsActive)
+                                    {
+                                        <span class="buyora-status-badge status-active">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="buyora-status-badge status-inactive">
+                                            <i class="bi bi-x-circle-fill"></i>
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <span class="buyora-order-pill">@category.DisplayOrder</span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm buyora-action-btn btn-edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                            <span class="d-none d-sm-inline ms-1">@_localizer["edit"]</span>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm buyora-action-btn btn-delete">
+                                            <i class="bi bi-trash3"></i>
+                                            <span class="d-none d-sm-inline ms-1">@_localizer["delete"]</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 px-3">
+                <div class="buyora-empty-icon mx-auto mb-3">
+                    <i class="bi bi-folder-x"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">No Categories Found</h5>
+                <p class="text-muted small mb-4">Start building your catalog by creating your first product category.</p>
+                <a asp-action="Create" class="btn btn-buyora-primary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>@_localizer["createcategory"]</span>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
