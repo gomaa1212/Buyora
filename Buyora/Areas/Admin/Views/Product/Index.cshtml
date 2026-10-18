@@ -1,0 +1,125 @@
+﻿@model List<GetProductsListViewModel>
+@inject IStringLocalizer<SharedResource> _localizer
+
+@ViewData["Title"] = @_localizer["products"];
+
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-bag-check-fill"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1 text-buyora-blue">@_localizer["products"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["productsubtitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <a asp-action="Create" class="btn btn-buyora-accent d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto">
+                    <i class="bi bi-plus-circle-fill"></i>
+                    <span>@_localizer["addnewproduct"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            @foreach (var product in Model)
+            {
+                var hasDiscount = product.DiscountPrice.HasValue && product.DiscountPrice.Value > 0 && product.DiscountPrice.Value < product.Price;
+                var discountPercentage = hasDiscount
+                    ? (int)Math.Round(((product.Price - product.DiscountPrice!.Value) / product.Price) * 100)
+                    : 0;
+
+                <div class="col">
+                    <div class="buyora-card buyora-product-card h-100 d-flex flex-column overflow-hidden">
+                        <div class="buyora-product-img-wrapper position-relative">
+                            @if (hasDiscount)
+                            {
+                                <span class="buyora-discount-badge">
+                                    -@discountPercentage%
+                                </span>
+                            }
+
+                            <div class="buyora-product-actions">
+                                <a asp-action="Details" asp-route-id="@product.Id" class="buyora-quick-btn btn-details" title="Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="buyora-quick-btn btn-edit-sm" title="@_localizer["edit"]">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@product.Id" class="buyora-quick-btn btn-delete-sm" title="@_localizer["delete"]">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+
+                            <a asp-action="Details" asp-route-id="@product.Id" class="d-block h-100">
+                                @if (!string.IsNullOrEmpty(product.MainUrl))
+                                {
+                                    <img src="/@product.MainUrl" alt="@product.Name" class="buyora-product-img" />
+                                }
+                                else
+                                {
+                                    <div class="buyora-no-image d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="bi bi-image text-muted fs-1"></i>
+                                        <span class="text-muted small mt-1">No Image</span>
+                                    </div>
+                                }
+                            </a>
+                        </div>
+
+                        <div class="p-3 d-flex flex-column flex-grow-1">
+                            <h6 class="buyora-product-title fw-bold mb-2">
+                                <a asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-dark">
+                                    @product.Name
+                                </a>
+                            </h6>
+
+                            <div class="mt-auto pt-2">
+                                <div class="d-flex align-items-baseline gap-2 mb-3">
+                                    @if (hasDiscount)
+                                    {
+                                        <span class="buyora-price-current">@product.DiscountPrice.Value.ToString("N2") @_localizer["currency"]</span>
+                                        <span class="buyora-price-old text-muted text-decoration-line-through small">@product.Price.ToString("N2") @_localizer["currency"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="buyora-price-current">@product.Price.ToString("N2") @_localizer["currency"]</span>
+                                    }
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="m-0">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <button type="submit" class="btn btn-buyora-accent w-100 d-flex align-items-center justify-content-center gap-2 py-2">
+                                            <i class="bi bi-cart-plus-fill fs-5"></i>
+                                            <span>@_localizer["addtocart"]</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="buyora-card text-center py-5 px-3">
+            <div class="buyora-empty-icon mx-auto mb-3">
+                <i class="bi bi-box-seam"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">No Products Available</h5>
+            <p class="text-muted small mb-4">Your store catalog is currently empty. Start adding products to showcase them here.</p>
+            <a asp-action="Create" class="btn btn-buyora-primary d-inline-flex align-items-center gap-2">
+                <i class="bi bi-plus-lg"></i>
+                <span>Add First Product</span>
+            </a>
+        </div>
+    }
+</div>

@@ -120,6 +120,18 @@
   <data name="actions" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="activeoffer" xml:space="preserve">
+    <value>Active Offer</value>
+  </data>
+  <data name="addnewproduct" xml:space="preserve">
+    <value>Add New Product</value>
+  </data>
+  <data name="addtocart" xml:space="preserve">
+    <value>Add to Cart</value>
+  </data>
+  <data name="areyousure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
   <data name="back" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -128,6 +140,9 @@
   </data>
   <data name="categories" xml:space="preserve">
     <value>Categories</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Category</value>
   </data>
   <data name="categoryCreateTitle" xml:space="preserve">
     <value>Add a new product category to your store catalog</value>
@@ -141,8 +156,29 @@
   <data name="categoryIndexTitle" xml:space="preserve">
     <value>Manage and organize your store product categories</value>
   </data>
+  <data name="clicktouploadmain" xml:space="preserve">
+    <value>Click to upload new main image</value>
+  </data>
   <data name="createcategory" xml:space="preserve">
     <value>Create category</value>
+  </data>
+  <data name="createproduct" xml:space="preserve">
+    <value>Create New Product</value>
+  </data>
+  <data name="createproductsubtitle" xml:space="preserve">
+    <value>Add product details, pricing, stock, and media gallery</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>EGP</value>
+  </data>
+  <data name="currentgallery" xml:space="preserve">
+    <value>Current Gallery</value>
+  </data>
+  <data name="currentimages" xml:space="preserve">
+    <value>Current Images</value>
+  </data>
+  <data name="currentmainimage" xml:space="preserve">
+    <value>Current Main Image</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Delete</value>
@@ -150,22 +186,154 @@
   <data name="deletecategory" xml:space="preserve">
     <value>Delete Category</value>
   </data>
+  <data name="deleteproduct" xml:space="preserve">
+    <value>Delete Product</value>
+  </data>
+  <data name="deleteproductsubtitle" xml:space="preserve">
+    <value>Review product information before permanent deletion</value>
+  </data>
+  <data name="deleteproductwarning" xml:space="preserve">
+    <value>You are about to permanently delete this product and all its associated images. This action cannot be undone.</value>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="descriptionar" xml:space="preserve">
+    <value>Description (Arabic)</value>
+  </data>
+  <data name="descriptionen" xml:space="preserve">
+    <value>Description (English)</value>
+  </data>
+  <data name="discountprice" xml:space="preserve">
+    <value>Discount Price</value>
+  </data>
+  <data name="easyreturns" xml:space="preserve">
+    <value>Easy Returns</value>
+  </data>
   <data name="edit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="editcategory" xml:space="preserve">
     <value>Edit category</value>
   </data>
+  <data name="editproduct" xml:space="preserve">
+    <value>Edit Product</value>
+  </data>
+  <data name="editproductsubtitle" xml:space="preserve">
+    <value>Update product information, pricing, and inventory</value>
+  </data>
+  <data name="fastdelivery" xml:space="preserve">
+    <value>Fast Delivery</value>
+  </data>
+  <data name="filesizeerror" xml:space="preserve">
+    <value>File size must not exceed 2MB.</value>
+  </data>
+  <data name="galleryimages" xml:space="preserve">
+    <value>Gallery Images</value>
+  </data>
+  <data name="generalinformation" xml:space="preserve">
+    <value>General Information</value>
+  </data>
   <data name="home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="isactive" xml:space="preserve">
+    <value>Active Product</value>
+  </data>
+  <data name="mainthumbnail" xml:space="preserve">
+    <value>Main Thumbnail</value>
+  </data>
+  <data name="maxfilesize2mb" xml:space="preserve">
+    <value>Max file size: 2MB</value>
+  </data>
+  <data name="namear" xml:space="preserve">
+    <value>Product Name (Arabic)</value>
+  </data>
+  <data name="nameen" xml:space="preserve">
+    <value>Product Name (English)</value>
+  </data>
+  <data name="nodescription" xml:space="preserve">
+    <value>No description provided for this product.</value>
+  </data>
+  <data name="nogalleryimages" xml:space="preserve">
+    <value>No additional gallery images uploaded.</value>
+  </data>
+  <data name="noimageavailable" xml:space="preserve">
+    <value>No Image Available</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="originalproduct" xml:space="preserve">
+    <value>Original Buyora Product</value>
+  </data>
+  <data name="pricingandinventory" xml:space="preserve">
+    <value>Pricing &amp; Inventory</value>
+  </data>
   <data name="privacy" xml:space="preserve">
     <value>Privacy</value>
+  </data>
+  <data name="productdetails" xml:space="preserve">
+    <value>Product Details</value>
+  </data>
+  <data name="productdetailssubtitle" xml:space="preserve">
+    <value>Full specifications, gallery, and pricing overview</value>
+  </data>
+  <data name="productmedia" xml:space="preserve">
+    <value>Product Media</value>
+  </data>
+  <data name="products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="productstatus" xml:space="preserve">
+    <value>Product Status</value>
+  </data>
+  <data name="productsubtitle" xml:space="preserve">
+    <value>Explore our latest collection and manage store inventory</value>
+  </data>
+  <data name="regularprice" xml:space="preserve">
+    <value>Regular Price</value>
+  </data>
+  <data name="saveandpublish" xml:space="preserve">
+    <value>Save &amp; Publish Product</value>
+  </data>
+  <data name="savechanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="securepayment" xml:space="preserve">
+    <value>Secure Payment</value>
+  </data>
+  <data name="selectcategory" xml:space="preserve">
+    <value>Select Category</value>
+  </data>
+  <data name="stockquantity" xml:space="preserve">
+    <value>Stock Quantity</value>
   </data>
   <data name="sureDelete" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
   <data name="sureDeleteTitle" xml:space="preserve">
     <value>You are about to permanently delete this category. This action cannot be undone.</value>
+  </data>
+  <data name="updategalleryimages" xml:space="preserve">
+    <value>Add / Update Gallery Images</value>
+  </data>
+  <data name="updatemainimage" xml:space="preserve">
+    <value>Replace Main Image</value>
+  </data>
+  <data name="uploadadditionalimages" xml:space="preserve">
+    <value>Upload additional images</value>
+  </data>
+  <data name="visibletocustomers" xml:space="preserve">
+    <value>Visible to customers in store</value>
+  </data>
+  <data name="yousave" xml:space="preserve">
+    <value>You Save</value>
   </data>
 </root>

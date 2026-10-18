@@ -484,3 +484,358 @@ html[dir="rtl"] .buyora-rtl-flip {
         box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
         color: #ffffff;
     }
+.buyora-product-card {
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .buyora-product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 32px rgba(7, 31, 78, 0.1);
+    }
+
+.buyora-product-img-wrapper {
+    height: 230px;
+    background-color: #f8fafc;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.buyora-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.buyora-product-card:hover .buyora-product-img {
+    transform: scale(1.07);
+}
+
+.buyora-no-image {
+    background-color: #f1f5f9;
+}
+
+.buyora-discount-badge {
+    position: absolute;
+    top: 12px;
+    inset-inline-start: 12px;
+    z-index: 2;
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, #e04800 100%);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 50rem;
+    box-shadow: 0 4px 10px rgba(255, 107, 0, 0.35);
+}
+
+.buyora-product-actions {
+    position: absolute;
+    top: 12px;
+    inset-inline-end: 12px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.25s ease;
+}
+
+.buyora-product-card:hover .buyora-product-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 991.98px) {
+    .buyora-product-actions {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.buyora-quick-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+    .buyora-quick-btn.btn-details {
+        color: var(--buyora-blue-dark);
+    }
+
+        .buyora-quick-btn.btn-details:hover {
+            background-color: var(--buyora-blue-dark);
+            color: #ffffff;
+        }
+
+    .buyora-quick-btn.btn-edit-sm {
+        color: var(--buyora-blue);
+    }
+
+        .buyora-quick-btn.btn-edit-sm:hover {
+            background-color: var(--buyora-blue);
+            color: #ffffff;
+        }
+
+    .buyora-quick-btn.btn-delete-sm {
+        color: #ef4444;
+    }
+
+        .buyora-quick-btn.btn-delete-sm:hover {
+            background-color: #ef4444;
+            color: #ffffff;
+        }
+
+.buyora-product-title {
+    font-size: 1.02rem;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.9rem;
+}
+
+    .buyora-product-title a:hover {
+        color: var(--buyora-blue) !important;
+    }
+
+.buyora-price-current {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--buyora-blue-dark);
+}
+
+.buyora-price-old {
+    font-weight: 600;
+}
+.buyora-input-addon {
+    background-color: #f1f5f9;
+    border: 1.5px solid #e2e8f0;
+    color: var(--buyora-blue-dark);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 10px;
+}
+
+.buyora-upload-zone {
+    border: 2px dashed rgba(0, 56, 168, 0.25);
+    border-radius: 14px;
+    background-color: #f8fafc;
+    min-height: 185px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .buyora-upload-zone:hover {
+        border-color: var(--buyora-orange);
+        background-color: rgba(255, 107, 0, 0.03);
+    }
+
+.buyora-upload-secondary {
+    border-color: #cbd5e1;
+}
+
+.buyora-upload-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(255, 107, 0, 0.12);
+    color: var(--buyora-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+    .buyora-upload-icon.icon-secondary {
+        background-color: rgba(0, 56, 168, 0.1);
+        color: var(--buyora-blue);
+    }
+
+.buyora-upload-preview {
+    max-height: 130px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.buyora-gallery-thumb {
+    width: 54px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+}
+.buyora-main-stage {
+    height: 410px;
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+@media (max-width: 575.98px) {
+    .buyora-main-stage {
+        height: 300px;
+    }
+}
+
+.buyora-stage-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.2s ease, transform 0.35s ease;
+}
+
+.buyora-main-stage:hover .buyora-stage-img {
+    transform: scale(1.04);
+}
+
+.buyora-thumb-item {
+    width: 76px;
+    height: 76px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    background-color: #ffffff;
+    padding: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+    .buyora-thumb-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .buyora-thumb-item:hover {
+        border-color: var(--buyora-blue);
+        transform: translateY(-2px);
+    }
+
+    .buyora-thumb-item.active {
+        border-color: var(--buyora-orange);
+        box-shadow: 0 4px 12px rgba(255, 107, 0, 0.25);
+    }
+
+.buyora-price-box {
+    background: linear-gradient(135deg, rgba(0, 56, 168, 0.04) 0%, rgba(255, 107, 0, 0.05) 100%);
+    border: 1px solid rgba(0, 56, 168, 0.1);
+}
+
+.buyora-details-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--buyora-blue-dark);
+    line-height: 1.2;
+}
+
+.buyora-save-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background-color: rgba(255, 107, 0, 0.12);
+    color: var(--buyora-orange);
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50rem;
+}
+
+.buyora-description-text {
+    color: #475569;
+    line-height: 1.75;
+    font-size: 0.98rem;
+    white-space: pre-line;
+}
+
+.buyora-qty-selector {
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.35rem;
+}
+
+.buyora-qty-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: var(--buyora-blue-dark);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+    .buyora-qty-btn:hover {
+        background-color: var(--buyora-blue);
+        color: #ffffff;
+    }
+
+.buyora-qty-input {
+    width: 48px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--buyora-blue-dark);
+    outline: none;
+}
+.buyora-edit-main-img-box {
+    height: 190px;
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    overflow: hidden;
+}
+
+.buyora-edit-gallery-item {
+    width: 78px;
+    height: 78px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background-color: #f8fafc;
+    padding: 3px;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+    .buyora-edit-gallery-item:hover {
+        transform: translateY(-2px);
+        border-color: var(--buyora-blue);
+    }
+
+    .buyora-edit-gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 7px;
+    }

@@ -1,0 +1,348 @@
+﻿@model EditProductViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["editproduct"];
+    var main = Model.ProductImages?.FirstOrDefault(x => x.IsMain);
+    var others = Model.ProductImages?.Where(x => !x.IsMain).ToList() ?? new List<ProductImageViewModel>();
+
+    var hasDiscount = Model.DiscountPrice.HasValue && Model.DiscountPrice.Value > 0 && Model.DiscountPrice.Value < Model.Price;
+    var discountPercentage = hasDiscount
+        ? (int)Math.Round(((Model.Price - Model.DiscountPrice!.Value) / Model.Price) * 100)
+        : 0;
+    var savedAmount = hasDiscount ? (Model.Price - Model.DiscountPrice!.Value) : 0;
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1 text-buyora-blue">@_localizer["editproduct"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["editproductsubtitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <div class="d-flex flex-wrap align-items-center justify-content-md-end gap-2">
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn buyora-action-btn btn-edit d-inline-flex align-items-center gap-1 px-3 py-2">
+                        <i class="bi bi-eye"></i>
+                        <span>@_localizer["productdetails"]</span>
+                    </a>
+                    <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-1 px-3 py-2">
+                        <i class="bi bi-arrow-left-short fs-5 buyora-rtl-flip"></i>
+                        <span>@_localizer["back"]</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" novalidate>
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="ProductImages" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-4" role="alert"></div>
+
+        <div class="row g-4">
+            <div class="col-12 col-lg-8">
+                <div class="buyora-card p-4 p-md-5 mb-4">
+                    <div class="d-flex align-items-center gap-2 pb-3 mb-4 border-bottom">
+                        <i class="bi bi-info-circle-fill text-buyora-orange fs-5"></i>
+                        <h5 class="fw-bold text-buyora-blue mb-0">@_localizer["generalinformation"]</h5>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="NameEN" class="form-label buyora-label">
+                                <i class="bi bi-translate text-buyora-orange me-1"></i> @_localizer["nameen"]
+                            </label>
+                            <input asp-for="NameEN" class="form-control buyora-input" placeholder="e.g. Wireless Headphones" dir="ltr" />
+                            <span asp-validation-for="NameEN" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="NameAr" class="form-label buyora-label">
+                                <i class="bi bi-translate text-buyora-blue me-1"></i> @_localizer["namear"]
+                            </label>
+                            <input asp-for="NameAr" class="form-control buyora-input" placeholder="مثال: سماعة لاسلكية" dir="rtl" />
+                            <span asp-validation-for="NameAr" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="DescriptionEn" class="form-label buyora-label">
+                                <i class="bi bi-card-text text-buyora-orange me-1"></i> @_localizer["descriptionen"]
+                            </label>
+                            <textarea asp-for="DescriptionEn" rows="4" class="form-control buyora-input" dir="ltr"></textarea>
+                            <span asp-validation-for="DescriptionEn" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="DescriptionAr" class="form-label buyora-label">
+                                <i class="bi bi-card-text text-buyora-blue me-1"></i> @_localizer["descriptionar"]
+                            </label>
+                            <textarea asp-for="DescriptionAr" rows="4" class="form-control buyora-input" dir="rtl"></textarea>
+                            <span asp-validation-for="DescriptionAr" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buyora-card p-4 p-md-5">
+                    <div class="d-flex align-items-center justify-content-between pb-3 mb-4 border-bottom">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-images text-buyora-orange fs-5"></i>
+                            <h5 class="fw-bold text-buyora-blue mb-0">@_localizer["productmedia"]</h5>
+                        </div>
+                        <span class="badge bg-light text-muted border">JPG, PNG, WEBP (Max 2MB)</span>
+                    </div>
+
+                    <div class="row g-4 align-items-center mb-4 pb-4 border-bottom">
+                        <div class="col-12 col-md-5">
+                            <span class="form-label buyora-label d-block mb-2">@_localizer["currentmainimage"]</span>
+                            <div class="buyora-edit-main-img-box position-relative">
+                                @if (hasDiscount)
+                                {
+                                    <span class="buyora-discount-badge">
+                                        -@discountPercentage% @_localizer["off"]
+                                    </span>
+                                }
+
+                                @if (main != null && !string.IsNullOrEmpty(main.Url))
+                                {
+                                    <img src="/@main.Url" alt="@Model.NameEN" class="buyora-stage-img" />
+                                }
+                                else
+                                {
+                                    <div class="text-center text-muted py-4">
+                                        <i class="bi bi-image fs-1 d-block"></i>
+                                        <span class="small">@_localizer["noimageavailable"]</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-7">
+                            <span class="form-label buyora-label d-block mb-2">@_localizer["currentgallery"] (@others.Count)</span>
+                            @if (others.Any())
+                            {
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach (var item in others)
+                                    {
+                                        <div class="buyora-edit-gallery-item">
+                                            <img src="/@item.Url" alt="@Model.NameEN" />
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="buyora-delete-summary p-3 rounded-3 text-center text-muted small">
+                                    <i class="bi bi-collection me-1"></i> @_localizer["nogalleryimages"]
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="MainFile" class="form-label buyora-label">
+                                @_localizer["updatemainimage"]
+                            </label>
+                            <label for="mainFileInput" class="buyora-upload-zone d-flex flex-column align-items-center justify-content-center text-center p-4">
+                                <div id="mainPreviewContainer" class="d-none mb-2 w-100">
+                                    <img id="mainImagePreview" src="#" alt="Main Preview" class="buyora-upload-preview mx-auto d-block" />
+                                </div>
+                                <div id="mainUploadPrompt">
+                                    <div class="buyora-upload-icon mx-auto mb-2">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    </div>
+                                    <span class="fw-bold text-buyora-blue d-block small">@_localizer["clicktouploadmain"]</span>
+                                    <span class="text-muted" style="font-size: 0.75rem;">@_localizer["maxfilesize2mb"]</span>
+                                </div>
+                                <input id="mainFileInput" type="file" accept=".jpg,.jpeg,.png,.webp" asp-for="MainFile" data-val="false" class="d-none" />
+                            </label>
+                            <span asp-validation-for="MainFile" class="text-danger small mt-1 d-block fw-medium"></span>
+                            <span id="mainFileSizeError" class="text-danger small mt-1 d-none fw-medium">@_localizer["filesizeerror"]</span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Files" class="form-label buyora-label">
+                                @_localizer["updategalleryimages"] <span class="text-muted fw-normal small">(@_localizer["optional"])</span>
+                            </label>
+                            <label for="galleryFilesInput" class="buyora-upload-zone buyora-upload-secondary d-flex flex-column align-items-center justify-content-center text-center p-4">
+                                <div class="buyora-upload-icon icon-secondary mx-auto mb-2">
+                                    <i class="bi bi-collection-fill"></i>
+                                </div>
+                                <span class="fw-bold text-dark d-block small">@_localizer["uploadadditionalimages"]</span>
+                                <span id="galleryCountText" class="text-muted" style="font-size: 0.75rem;">JPG, JPEG, PNG, WEBP</span>
+                                <input id="galleryFilesInput" type="file" accept=".jpg,.jpeg,.png,.webp" asp-for="Files" multiple class="d-none" />
+                            </label>
+                            <div id="galleryPreviewGrid" class="d-flex flex-wrap gap-2 mt-2"></div>
+                            <span asp-validation-for="Files" class="text-danger small mt-1 d-block fw-medium"></span>
+                            <span id="galleryFileSizeError" class="text-danger small mt-1 d-none fw-medium">@_localizer["filesizeerror"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="buyora-card p-4 mb-4">
+                    <div class="d-flex align-items-center gap-2 pb-3 mb-4 border-bottom">
+                        <i class="bi bi-tags-fill text-buyora-orange fs-5"></i>
+                        <h5 class="fw-bold text-buyora-blue mb-0">@_localizer["pricingandinventory"]</h5>
+                    </div>
+
+                    @if (hasDiscount)
+                    {
+                        <div class="buyora-price-box p-3 rounded-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="small fw-bold text-buyora-blue">@_localizer["activeoffer"]</span>
+                                <span class="buyora-save-pill">
+                                    <i class="bi bi-lightning-charge-fill"></i> -@discountPercentage% (@savedAmount.ToString("N2") @_localizer["currency"])
+                                </span>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Price" class="form-label buyora-label">@_localizer["regularprice"]</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" min="0" asp-for="Price" class="form-control buyora-input" />
+                                <span class="input-group-text buyora-input-addon">@_localizer["currency"]</span>
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="DiscountPrice" class="form-label buyora-label">
+                                @_localizer["discountprice"] <span class="text-muted fw-normal small">(@_localizer["optional"])</span>
+                            </label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" min="0" asp-for="DiscountPrice" class="form-control buyora-input" />
+                                <span class="input-group-text buyora-input-addon text-buyora-orange">@_localizer["off"]</span>
+                            </div>
+                            <span asp-validation-for="DiscountPrice" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Quantity" class="form-label buyora-label">
+                                <i class="bi bi-boxes text-buyora-blue me-1"></i> @_localizer["stockquantity"]
+                            </label>
+                            <input type="number" min="0" asp-for="Quantity" class="form-control buyora-input" />
+                            <span asp-validation-for="Quantity" class="text-danger small mt-1 d-block fw-medium"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buyora-card p-4 mb-4">
+                    <div class="d-flex align-items-center gap-2 pb-3 mb-4 border-bottom">
+                        <i class="bi bi-diagram-3-fill text-buyora-orange fs-5"></i>
+                        <h5 class="fw-bold text-buyora-blue mb-0">@_localizer["organization"]</h5>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="CategoryId" class="form-label buyora-label">@_localizer["category"]</label>
+                        <select asp-for="CategoryId" asp-items="@(ViewBag.Categories)" class="form-select buyora-input">
+                            <option value="">-- @_localizer["selectcategory"] --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger small mt-1 d-block fw-medium"></span>
+                    </div>
+
+                    <div class="buyora-switch-card d-flex align-items-center justify-content-between">
+                        <div>
+                            <label asp-for="IsActive" class="form-check-label fw-bold text-dark d-block cursor-pointer mb-0">
+                                @_localizer["isactive"]
+                            </label>
+                            <span class="text-muted" style="font-size: 0.78rem;">@_localizer["visibletocustomers"]</span>
+                        </div>
+                        <div class="form-check form-switch m-0">
+                            <input class="form-check-input buyora-switch" type="checkbox" role="switch" asp-for="IsActive" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buyora-card p-4">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-buyora-primary py-2 d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-check2-circle fs-5"></i>
+                            <span>@_localizer["savechanges"]</span>
+                        </button>
+                        <a asp-action="Index" class="btn buyora-btn-light py-2 text-center">
+                            @_localizer["cancel"]
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const maxFileSize = 2 * 1024 * 1024;
+        const mainInput = document.getElementById('mainFileInput');
+        const mainPreview = document.getElementById('mainImagePreview');
+        const mainPreviewContainer = document.getElementById('mainPreviewContainer');
+        const mainUploadPrompt = document.getElementById('mainUploadPrompt');
+        const mainError = document.getElementById('mainFileSizeError');
+
+        mainInput.addEventListener('change', function() {
+            mainError.classList.add('d-none');
+            const file = this.files[0];
+            if (!file) return;
+
+            if (file.size > maxFileSize) {
+                mainError.classList.remove('d-none');
+                this.value = '';
+                mainPreviewContainer.classList.add('d-none');
+                mainUploadPrompt.classList.remove('d-none');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                mainPreview.src = e.target.result;
+                mainPreviewContainer.classList.remove('d-none');
+                mainUploadPrompt.classList.add('d-none');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        const galleryInput = document.getElementById('galleryFilesInput');
+        const galleryGrid = document.getElementById('galleryPreviewGrid');
+        const galleryCountText = document.getElementById('galleryCountText');
+        const galleryError = document.getElementById('galleryFileSizeError');
+
+        galleryInput.addEventListener('change', function() {
+            galleryError.classList.add('d-none');
+            galleryGrid.innerHTML = '';
+            const files = Array.from(this.files);
+            if (!files.length) return;
+
+            for (const file of files) {
+                if (file.size > maxFileSize) {
+                    galleryError.classList.remove('d-none');
+                    this.value = '';
+                    galleryGrid.innerHTML = '';
+                    galleryCountText.textContent = 'JPG, JPEG, PNG, WEBP';
+                    return;
+                }
+            }
+
+            galleryCountText.textContent = files.length + ' file(s)';
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'buyora-gallery-thumb';
+                    galleryGrid.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+}

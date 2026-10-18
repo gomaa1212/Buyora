@@ -1,0 +1,122 @@
+﻿@model GetProductByIdViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["deleteproduct"];
+    var main = Model.ProductImages?.FirstOrDefault(x => x.IsMain);
+    var others = Model.ProductImages?.Where(x => !x.IsMain).ToList() ?? new List<ProductImageViewModel>();
+    var totalImages = (main != null ? 1 : 0) + others.Count;
+
+    var hasDiscount = Model.DiscountPrice.HasValue && Model.DiscountPrice.Value > 0 && Model.DiscountPrice.Value < Model.Price;
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner buyora-danger-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box buyora-icon-danger">
+                    <i class="bi bi-trash3-fill"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1 text-danger">@_localizer["deleteproduct"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["deleteproductsubtitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <div class="d-flex flex-wrap align-items-center justify-content-md-end gap-2">
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn buyora-action-btn btn-edit d-inline-flex align-items-center gap-1 px-3 py-2">
+                        <i class="bi bi-eye"></i>
+                        <span>@_localizer["productdetails"]</span>
+                    </a>
+                    <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-1 px-3 py-2">
+                        <i class="bi bi-arrow-left-short fs-5 buyora-rtl-flip"></i>
+                        <span>@_localizer["back"]</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-7">
+            <div class="buyora-card p-4 p-md-5 text-center">
+                <div class="buyora-delete-warning-icon mx-auto mb-3">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+
+                <h4 class="fw-bold text-dark mb-2">@_localizer["areyousure"]</h4>
+                <p class="text-muted small mb-4">
+                    @_localizer["deleteproductwarning"]
+                </p>
+
+                <div class="buyora-delete-summary text-start p-3 p-sm-4 rounded-4 mb-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-sm-4 text-center">
+                            <div class="buyora-edit-main-img-box mx-auto" style="height: 135px; max-width: 150px;">
+                                @if (main != null && !string.IsNullOrEmpty(main.Url))
+                                {
+                                    <img src="/@main.Url" alt="@Model.Name" class="buyora-stage-img" />
+                                }
+                                else if (others.Any())
+                                {
+                                    <img src="/@others.First().Url" alt="@Model.Name" class="buyora-stage-img" />
+                                }
+                                else
+                                {
+                                    <div class="text-muted small">
+                                        <i class="bi bi-image fs-2 d-block"></i>
+                                        <span>@_localizer["noimageavailable"]</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-8">
+                            <h5 class="fw-bold text-buyora-blue mb-2">@Model.Name</h5>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Description))
+                            {
+                                <p class="text-muted small mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    @Model.Description
+                                </p>
+                            }
+
+                            <div class="d-flex align-items-center justify-content-between py-2 border-top">
+                                <span class="text-muted small fw-semibold">@_localizer["regularprice"]</span>
+                                <div>
+                                    @if (hasDiscount)
+                                    {
+                                        <span class="fw-bold text-buyora-orange me-2">@Model.DiscountPrice!.Value.ToString("N2") @_localizer["currency"]</span>
+                                        <span class="text-muted text-decoration-line-through small">@Model.Price.ToString("N2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fw-bold text-dark">@Model.Price.ToString("N2") @_localizer["currency"]</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                                <span class="text-muted small fw-semibold">@_localizer["productmedia"]</span>
+                                <span class="buyora-order-pill">@totalImages</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    <input asp-for="Id" type="hidden"  value="@Model.Id" />
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3">
+                        <a asp-action="Index" class="btn buyora-btn-light w-100 w-sm-auto px-4">
+                            @_localizer["cancel"]
+                        </a>
+                        <button type="submit" class="btn btn-buyora-danger d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto px-5">
+                            <i class="bi bi-trash3"></i>
+                            <span>@_localizer["delete"]</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

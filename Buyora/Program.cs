@@ -50,6 +50,17 @@ app.UseHttpsRedirection();
 
 app.UseRequestLocalization();
 
+app.Use(async (context, next) =>
+{
+    var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+    culture.NumberFormat = CultureInfo.InvariantCulture.NumberFormat;
+
+    CultureInfo.CurrentCulture = culture;   // تنسيق الأرقام
+    // CurrentUICulture سيبها زي ما هي (الترجمة)
+
+    await next();
+});
+
 app.UseRouting();
 
 app.UseAuthorization();
