@@ -17,39 +17,26 @@ namespace BuyoraBusiness.Services.Implementations
 
         public async Task<string> AddCategoryAsync(Category category)
         {
-            try
-            {
                 if(category is null)
                 {
-                    return "Failed";
+                    throw new ArgumentException("Failed");
                 }
                 await _unitOfWork.Repository<Category>().AddAsync(category);
                 await _unitOfWork.SaveChangesAsync();
                 return "Succeeded";
-            }
-            catch(Exception ex)
-            {
-                return "Failed";
-            }
+            
         }
 
         public async Task<string> DeleteCategoryAsync(int Id)
         {
-            try
-            {
                 var category = await GetCategoryByIdAsync(Id);
                 if(category is null)
                 {
-                    return "Failed";
+                     throw new ArgumentException("Failed");
                 }
                  _unitOfWork.Repository<Category>().Delete(category);
                 await _unitOfWork.SaveChangesAsync();
                 return "Succeeded";
-            }
-            catch(Exception ex)
-            {
-                return "Failed";
-            }
         }
 
         public async Task<List<Category>> GetCategoriesListAsync()
@@ -85,25 +72,13 @@ namespace BuyoraBusiness.Services.Implementations
 
         public async Task<string> UpdateCategoryAsync(Category category)
         {
-            try
-            {
-                var oldCategory = await GetCategoryByIdAsync(category.Id);
-                if(oldCategory is null)
+                if(category is null)
                 {
-                    return "Failed";
-                }
-                oldCategory.NameEn = category.NameEn;
-                oldCategory.NameAr = category.NameAr;
-                oldCategory.IsActive = category.IsActive;
-                oldCategory.DisplayOrder = category.DisplayOrder;
+                    throw new ArgumentException("Failed");
+                }  
+            _unitOfWork.Repository<Category>().Update(category);
                 await _unitOfWork.SaveChangesAsync();
                 return "Succeeded";
-            }
-            catch(Exception ex)
-            {
-                return "Failed";
-            }
-
         }
     }
 }

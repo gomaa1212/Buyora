@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BuyoraDataAccess\BuyoraDataAccess.csproj" />
     <ProjectReference Include="..\BuyoraModels\BuyoraModels.csproj" />
+	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

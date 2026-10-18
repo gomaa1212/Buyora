@@ -120,6 +120,18 @@
   <data name="actions" xml:space="preserve">
     <value>اجراءات</value>
   </data>
+  <data name="activeoffer" xml:space="preserve">
+    <value>عرض مفعل</value>
+  </data>
+  <data name="addnewproduct" xml:space="preserve">
+    <value>أضف منتج جديد</value>
+  </data>
+  <data name="addtocart" xml:space="preserve">
+    <value>أضف إلى السلة</value>
+  </data>
+  <data name="areyousure" xml:space="preserve">
+    <value>هل أنت متأكد؟</value>
+  </data>
   <data name="back" xml:space="preserve">
     <value>رجوع</value>
   </data>
@@ -128,6 +140,9 @@
   </data>
   <data name="categories" xml:space="preserve">
     <value>الاقسام</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>القسم</value>
   </data>
   <data name="categoryCreateTitle" xml:space="preserve">
     <value>أضف فئة منتجات جديدة إلى كتالوج متجرك.</value>
@@ -141,8 +156,29 @@
   <data name="categoryIndexTitle" xml:space="preserve">
     <value>إدارة وتنظيم أقسام منتجاتك</value>
   </data>
+  <data name="clicktouploadmain" xml:space="preserve">
+    <value>اضغط لرفع صورة رئيسية جديدة</value>
+  </data>
   <data name="createcategory" xml:space="preserve">
     <value>اضافة قسم </value>
+  </data>
+  <data name="createproduct" xml:space="preserve">
+    <value>إضافة منتج جديد</value>
+  </data>
+  <data name="createproductsubtitle" xml:space="preserve">
+    <value>أضف تفاصيل المنتج والتسعير والمخزون ومعرض الصور</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>ج.م</value>
+  </data>
+  <data name="currentgallery" xml:space="preserve">
+    <value>المعرض الحالي</value>
+  </data>
+  <data name="currentimages" xml:space="preserve">
+    <value>الصور الحالية</value>
+  </data>
+  <data name="currentmainimage" xml:space="preserve">
+    <value>الصورة الرئيسية الحالية</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>حذف</value>
@@ -150,22 +186,154 @@
   <data name="deletecategory" xml:space="preserve">
     <value>حذف القسم</value>
   </data>
+  <data name="deleteproduct" xml:space="preserve">
+    <value>حذف المنتج</value>
+  </data>
+  <data name="deleteproductsubtitle" xml:space="preserve">
+    <value>راجع بيانات المنتج قبل الحذف النهائي</value>
+  </data>
+  <data name="deleteproductwarning" xml:space="preserve">
+    <value>أنت على وشك حذف هذا المنتج وجميع الصور المرتبطة به نهائياً. لا يمكن التراجع عن هذا الإجراء.</value>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="descriptionar" xml:space="preserve">
+    <value>الوصف (بالعربي)</value>
+  </data>
+  <data name="descriptionen" xml:space="preserve">
+    <value>الوصف (بالإنجليزي)</value>
+  </data>
+  <data name="discountprice" xml:space="preserve">
+    <value>سعر الخصم</value>
+  </data>
+  <data name="easyreturns" xml:space="preserve">
+    <value>استرجاع سهل</value>
+  </data>
   <data name="edit" xml:space="preserve">
     <value>تعديل</value>
   </data>
   <data name="editcategory" xml:space="preserve">
     <value>تعديل قسم</value>
   </data>
+  <data name="editproduct" xml:space="preserve">
+    <value>تعديل المنتج</value>
+  </data>
+  <data name="editproductsubtitle" xml:space="preserve">
+    <value>تحديث بيانات المنتج والتسعير والمخزون</value>
+  </data>
+  <data name="fastdelivery" xml:space="preserve">
+    <value>توصيل سريع</value>
+  </data>
+  <data name="filesizeerror" xml:space="preserve">
+    <value>حجم الملف يجب ألا يتجاوز 2 ميجابايت.</value>
+  </data>
+  <data name="galleryimages" xml:space="preserve">
+    <value>الصور الفرعية</value>
+  </data>
+  <data name="generalinformation" xml:space="preserve">
+    <value>المعلومات الأساسية</value>
+  </data>
   <data name="home" xml:space="preserve">
     <value>الصفحة الرئيسية</value>
   </data>
+  <data name="isactive" xml:space="preserve">
+    <value>منتج مفعل</value>
+  </data>
+  <data name="mainthumbnail" xml:space="preserve">
+    <value>الصورة الرئيسية</value>
+  </data>
+  <data name="maxfilesize2mb" xml:space="preserve">
+    <value>الحد الأقصى للملف: 2 ميجابايت</value>
+  </data>
+  <data name="namear" xml:space="preserve">
+    <value>اسم المنتج (بالعربي)</value>
+  </data>
+  <data name="nameen" xml:space="preserve">
+    <value>اسم المنتج (بالإنجليزي)</value>
+  </data>
+  <data name="nodescription" xml:space="preserve">
+    <value>لا يوجد وصف متاح لهذا المنتج.</value>
+  </data>
+  <data name="nogalleryimages" xml:space="preserve">
+    <value>لا توجد صور فرعية مرفوعة.</value>
+  </data>
+  <data name="noimageavailable" xml:space="preserve">
+    <value>لا توجد صور متاحة</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>خصم</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>اختياري</value>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>التصنيف والتنظيم</value>
+  </data>
+  <data name="originalproduct" xml:space="preserve">
+    <value>منتج أصلي من Buyora</value>
+  </data>
+  <data name="pricingandinventory" xml:space="preserve">
+    <value>التسعير والمخزون</value>
+  </data>
   <data name="privacy" xml:space="preserve">
     <value>الخصوصية</value>
+  </data>
+  <data name="productdetails" xml:space="preserve">
+    <value>تفاصيل المنتج</value>
+  </data>
+  <data name="productdetailssubtitle" xml:space="preserve">
+    <value>المواصفات الكاملة ومعرض الصور ونظرة عامة على الأسعار</value>
+  </data>
+  <data name="productmedia" xml:space="preserve">
+    <value>صور المنتج</value>
+  </data>
+  <data name="products" xml:space="preserve">
+    <value>المنتجات</value>
+  </data>
+  <data name="productstatus" xml:space="preserve">
+    <value>حالة المنتج</value>
+  </data>
+  <data name="productsubtitle" xml:space="preserve">
+    <value>استكشف أحدث مجموعاتنا وأدر مخزون المتجر.</value>
+  </data>
+  <data name="regularprice" xml:space="preserve">
+    <value>السعر الأساسي</value>
+  </data>
+  <data name="saveandpublish" xml:space="preserve">
+    <value>حفظ ونشر المنتج</value>
+  </data>
+  <data name="savechanges" xml:space="preserve">
+    <value>حفظ التعديلات</value>
+  </data>
+  <data name="securepayment" xml:space="preserve">
+    <value>دفع آمن</value>
+  </data>
+  <data name="selectcategory" xml:space="preserve">
+    <value>اختر القسم</value>
+  </data>
+  <data name="stockquantity" xml:space="preserve">
+    <value>الكمية المتاحة</value>
   </data>
   <data name="sureDelete" xml:space="preserve">
     <value>هل أنت متأكد؟</value>
   </data>
   <data name="sureDeleteTitle" xml:space="preserve">
     <value>أنت على وشك حذف هذه الفئة نهائيًا. لا يمكن التراجع عن هذا الإجراء</value>
+  </data>
+  <data name="updategalleryimages" xml:space="preserve">
+    <value>إضافة / تحديث الصور الفرعية</value>
+  </data>
+  <data name="updatemainimage" xml:space="preserve">
+    <value>تغيير الصورة الرئيسية</value>
+  </data>
+  <data name="uploadadditionalimages" xml:space="preserve">
+    <value>رفع صور فرعية إضافية</value>
+  </data>
+  <data name="visibletocustomers" xml:space="preserve">
+    <value>يظهر للعملاء في المتجر</value>
+  </data>
+  <data name="yousave" xml:space="preserve">
+    <value>ستوفر</value>
   </data>
 </root>
