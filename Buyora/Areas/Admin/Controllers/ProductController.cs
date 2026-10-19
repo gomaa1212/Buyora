@@ -14,17 +14,29 @@ namespace Buyora.Areas.Admin.Controllers
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
+        private readonly int pageSize = 4;
         public ProductController(IProductService productService,IMapper mapper,ICategoryService categoryService)
         {
             _productService = productService;
             _mapper = mapper;
             _categoryService = categoryService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search = null,int page=1)
         {
-            var products = await _productService.GetProductsListAsync();
-            var productsDisplay = _mapper.Map<List<GetProductsListViewModel>>(products);
-            return View(productsDisplay);
+            var products = await _productService.GetProductsListAsync(page, pageSize,search);
+            var model = new PageResult<GetProductsListViewModel>()
+            {
+                Items = _mapper.Map<List<GetProductsListViewModel>>(products.Items),
+                TotalCount = products.TotalCount,
+                Page=page,
+                PageSize= pageSize,
+                Search = search
+            };
+            if(Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_DisplayProductsPartial", model);
+            }
+            return View(model);
         }
         public async Task<IActionResult> Create()
         {
@@ -133,6 +145,12 @@ namespace Buyora.Areas.Admin.Controllers
             }
             ModelState.AddModelError(string.Empty, "Failed to update product");
             return View(model);
+        }
+        public async Task<IActionResult> Search(string search,int page)
+        {
+            var products = await _productService.GetProductsListAsync(page,2,search);
+            var productsDisplay = _mapper.Map<List<GetProductsListViewModel>>(products);
+            return PartialView("_DisplayProductsPartial", productsDisplay);
         }
     }
 }

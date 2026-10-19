@@ -839,3 +839,108 @@ html[dir="rtl"] .buyora-rtl-flip {
         object-fit: cover;
         border-radius: 7px;
     }
+.buyora-search-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.buyora-search-icon {
+    position: absolute;
+    inset-inline-start: 1.1rem;
+    color: var(--buyora-blue);
+    font-size: 1.1rem;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.buyora-search-input {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    padding-inline-start: 2.9rem;
+    padding-inline-end: 2.9rem;
+    font-size: 0.96rem;
+    background-color: #f8fafc;
+    color: var(--buyora-text);
+    transition: all 0.25s ease;
+}
+
+    .buyora-search-input:focus {
+        background-color: #ffffff;
+        border-color: var(--buyora-orange);
+        box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.12);
+    }
+
+    .buyora-search-input::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+.buyora-search-spinner,
+.buyora-search-clear {
+    position: absolute;
+    inset-inline-end: 1rem;
+    z-index: 2;
+}
+
+.buyora-search-clear {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+    .buyora-search-clear:hover {
+        color: #ef4444;
+    }
+
+.buyora-products-container {
+    transition: opacity 0.2s ease;
+}
+
+.buyora-loading-fade {
+    opacity: 0.55;
+    pointer-events: none;
+}
+.buyora-pagination .page-link {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px !important;
+    color: var(--buyora-blue-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    min-width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+}
+
+    .buyora-pagination .page-link:hover {
+        background-color: rgba(0, 56, 168, 0.08);
+        border-color: var(--buyora-blue);
+        color: var(--buyora-blue);
+        transform: translateY(-1px);
+    }
+
+.buyora-pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    border-color: var(--buyora-orange);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3) !important;
+}
+
+.buyora-pagination .page-item.disabled .page-link {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #cbd5e1;
+    opacity: 0.7;
+}

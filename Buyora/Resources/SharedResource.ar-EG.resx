@@ -120,18 +120,6 @@
   <data name="actions" xml:space="preserve">
     <value>اجراءات</value>
   </data>
-  <data name="activeoffer" xml:space="preserve">
-    <value>عرض مفعل</value>
-  </data>
-  <data name="addnewproduct" xml:space="preserve">
-    <value>أضف منتج جديد</value>
-  </data>
-  <data name="addtocart" xml:space="preserve">
-    <value>أضف إلى السلة</value>
-  </data>
-  <data name="areyousure" xml:space="preserve">
-    <value>هل أنت متأكد؟</value>
-  </data>
   <data name="back" xml:space="preserve">
     <value>رجوع</value>
   </data>
@@ -140,9 +128,6 @@
   </data>
   <data name="categories" xml:space="preserve">
     <value>الاقسام</value>
-  </data>
-  <data name="category" xml:space="preserve">
-    <value>القسم</value>
   </data>
   <data name="categoryCreateTitle" xml:space="preserve">
     <value>أضف فئة منتجات جديدة إلى كتالوج متجرك.</value>
@@ -156,11 +141,50 @@
   <data name="categoryIndexTitle" xml:space="preserve">
     <value>إدارة وتنظيم أقسام منتجاتك</value>
   </data>
-  <data name="clicktouploadmain" xml:space="preserve">
-    <value>اضغط لرفع صورة رئيسية جديدة</value>
-  </data>
   <data name="createcategory" xml:space="preserve">
     <value>اضافة قسم </value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="deletecategory" xml:space="preserve">
+    <value>حذف القسم</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="editcategory" xml:space="preserve">
+    <value>تعديل قسم</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>الصفحة الرئيسية</value>
+  </data>
+  <data name="privacy" xml:space="preserve">
+    <value>الخصوصية</value>
+  </data>
+  <data name="sureDelete" xml:space="preserve">
+    <value>هل أنت متأكد؟</value>
+  </data>
+  <data name="sureDeleteTitle" xml:space="preserve">
+    <value>أنت على وشك حذف هذه الفئة نهائيًا. لا يمكن التراجع عن هذا الإجراء</value>
+  </data>
+  <data name="activeoffer" xml:space="preserve">
+    <value>عرض مفعل</value>
+  </data>
+  <data name="addnewproduct" xml:space="preserve">
+    <value>أضف منتج جديد</value>
+  </data>
+  <data name="addtocart" xml:space="preserve">
+    <value>أضف إلى السلة</value>
+  </data>
+  <data name="areyousure" xml:space="preserve">
+    <value>هل أنت متأكد؟</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="clicktouploadmain" xml:space="preserve">
+    <value>اضغط لرفع صورة رئيسية جديدة</value>
   </data>
   <data name="createproduct" xml:space="preserve">
     <value>إضافة منتج جديد</value>
@@ -179,12 +203,6 @@
   </data>
   <data name="currentmainimage" xml:space="preserve">
     <value>الصورة الرئيسية الحالية</value>
-  </data>
-  <data name="delete" xml:space="preserve">
-    <value>حذف</value>
-  </data>
-  <data name="deletecategory" xml:space="preserve">
-    <value>حذف القسم</value>
   </data>
   <data name="deleteproduct" xml:space="preserve">
     <value>حذف المنتج</value>
@@ -210,12 +228,6 @@
   <data name="easyreturns" xml:space="preserve">
     <value>استرجاع سهل</value>
   </data>
-  <data name="edit" xml:space="preserve">
-    <value>تعديل</value>
-  </data>
-  <data name="editcategory" xml:space="preserve">
-    <value>تعديل قسم</value>
-  </data>
   <data name="editproduct" xml:space="preserve">
     <value>تعديل المنتج</value>
   </data>
@@ -233,9 +245,6 @@
   </data>
   <data name="generalinformation" xml:space="preserve">
     <value>المعلومات الأساسية</value>
-  </data>
-  <data name="home" xml:space="preserve">
-    <value>الصفحة الرئيسية</value>
   </data>
   <data name="isactive" xml:space="preserve">
     <value>منتج مفعل</value>
@@ -276,9 +285,6 @@
   <data name="pricingandinventory" xml:space="preserve">
     <value>التسعير والمخزون</value>
   </data>
-  <data name="privacy" xml:space="preserve">
-    <value>الخصوصية</value>
-  </data>
   <data name="productdetails" xml:space="preserve">
     <value>تفاصيل المنتج</value>
   </data>
@@ -294,7 +300,7 @@
   <data name="productstatus" xml:space="preserve">
     <value>حالة المنتج</value>
   </data>
-  <data name="productsubtitle" xml:space="preserve">
+  <data name="productssubtitle" xml:space="preserve">
     <value>استكشف أحدث مجموعاتنا وأدر مخزون المتجر.</value>
   </data>
   <data name="regularprice" xml:space="preserve">
@@ -315,12 +321,6 @@
   <data name="stockquantity" xml:space="preserve">
     <value>الكمية المتاحة</value>
   </data>
-  <data name="sureDelete" xml:space="preserve">
-    <value>هل أنت متأكد؟</value>
-  </data>
-  <data name="sureDeleteTitle" xml:space="preserve">
-    <value>أنت على وشك حذف هذه الفئة نهائيًا. لا يمكن التراجع عن هذا الإجراء</value>
-  </data>
   <data name="updategalleryimages" xml:space="preserve">
     <value>إضافة / تحديث الصور الفرعية</value>
   </data>
@@ -335,5 +335,14 @@
   </data>
   <data name="yousave" xml:space="preserve">
     <value>ستوفر</value>
+  </data>
+  <data name="searchproductsplaceholder" xml:space="preserve">
+    <value>ابحث عن المنتجات بالاسم...</value>
+  </data>
+  <data name="noproductsfound" xml:space="preserve">
+    <value>لم يتم العثور على منتجات مطابقة</value>
+  </data>
+  <data name="noproductsfoundsubtitle" xml:space="preserve">
+    <value>جرب البحث بكلمات مختلفة. </value>
   </data>
 </root>

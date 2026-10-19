@@ -120,18 +120,6 @@
   <data name="actions" xml:space="preserve">
     <value>Actions</value>
   </data>
-  <data name="activeoffer" xml:space="preserve">
-    <value>Active Offer</value>
-  </data>
-  <data name="addnewproduct" xml:space="preserve">
-    <value>Add New Product</value>
-  </data>
-  <data name="addtocart" xml:space="preserve">
-    <value>Add to Cart</value>
-  </data>
-  <data name="areyousure" xml:space="preserve">
-    <value>Are you sure?</value>
-  </data>
   <data name="back" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -140,9 +128,6 @@
   </data>
   <data name="categories" xml:space="preserve">
     <value>Categories</value>
-  </data>
-  <data name="category" xml:space="preserve">
-    <value>Category</value>
   </data>
   <data name="categoryCreateTitle" xml:space="preserve">
     <value>Add a new product category to your store catalog</value>
@@ -156,11 +141,50 @@
   <data name="categoryIndexTitle" xml:space="preserve">
     <value>Manage and organize your store product categories</value>
   </data>
-  <data name="clicktouploadmain" xml:space="preserve">
-    <value>Click to upload new main image</value>
-  </data>
   <data name="createcategory" xml:space="preserve">
     <value>Create category</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="deletecategory" xml:space="preserve">
+    <value>Delete Category</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="editcategory" xml:space="preserve">
+    <value>Edit category</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="sureDelete" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="sureDeleteTitle" xml:space="preserve">
+    <value>You are about to permanently delete this category. This action cannot be undone.</value>
+  </data>
+  <data name="activeoffer" xml:space="preserve">
+    <value>Active Offer</value>
+  </data>
+  <data name="addnewproduct" xml:space="preserve">
+    <value>Add New Product</value>
+  </data>
+  <data name="addtocart" xml:space="preserve">
+    <value>Add to Cart</value>
+  </data>
+  <data name="areyousure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="clicktouploadmain" xml:space="preserve">
+    <value>Click to upload new main image</value>
   </data>
   <data name="createproduct" xml:space="preserve">
     <value>Create New Product</value>
@@ -179,12 +203,6 @@
   </data>
   <data name="currentmainimage" xml:space="preserve">
     <value>Current Main Image</value>
-  </data>
-  <data name="delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="deletecategory" xml:space="preserve">
-    <value>Delete Category</value>
   </data>
   <data name="deleteproduct" xml:space="preserve">
     <value>Delete Product</value>
@@ -210,12 +228,6 @@
   <data name="easyreturns" xml:space="preserve">
     <value>Easy Returns</value>
   </data>
-  <data name="edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="editcategory" xml:space="preserve">
-    <value>Edit category</value>
-  </data>
   <data name="editproduct" xml:space="preserve">
     <value>Edit Product</value>
   </data>
@@ -233,9 +245,6 @@
   </data>
   <data name="generalinformation" xml:space="preserve">
     <value>General Information</value>
-  </data>
-  <data name="home" xml:space="preserve">
-    <value>Home</value>
   </data>
   <data name="isactive" xml:space="preserve">
     <value>Active Product</value>
@@ -276,9 +285,6 @@
   <data name="pricingandinventory" xml:space="preserve">
     <value>Pricing &amp; Inventory</value>
   </data>
-  <data name="privacy" xml:space="preserve">
-    <value>Privacy</value>
-  </data>
   <data name="productdetails" xml:space="preserve">
     <value>Product Details</value>
   </data>
@@ -294,7 +300,7 @@
   <data name="productstatus" xml:space="preserve">
     <value>Product Status</value>
   </data>
-  <data name="productsubtitle" xml:space="preserve">
+  <data name="productssubtitle" xml:space="preserve">
     <value>Explore our latest collection and manage store inventory</value>
   </data>
   <data name="regularprice" xml:space="preserve">
@@ -315,12 +321,6 @@
   <data name="stockquantity" xml:space="preserve">
     <value>Stock Quantity</value>
   </data>
-  <data name="sureDelete" xml:space="preserve">
-    <value>Are you sure?</value>
-  </data>
-  <data name="sureDeleteTitle" xml:space="preserve">
-    <value>You are about to permanently delete this category. This action cannot be undone.</value>
-  </data>
   <data name="updategalleryimages" xml:space="preserve">
     <value>Add / Update Gallery Images</value>
   </data>
@@ -335,5 +335,14 @@
   </data>
   <data name="yousave" xml:space="preserve">
     <value>You Save</value>
+  </data>
+  <data name="searchproductsplaceholder" xml:space="preserve">
+    <value>Search products by name...</value>
+  </data>
+  <data name="noproductsfound" xml:space="preserve">
+    <value>No Matching Products Found</value>
+  </data>
+  <data name="noproductsfoundsubtitle" xml:space="preserve">
+    <value>Try adjusting your search keywords .</value>
   </data>
 </root>

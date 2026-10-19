@@ -31,10 +31,26 @@ namespace BuyoraBusiness.Services.Implementations
             return await _unitOfWork.Repository<Product>().GetAsQuerable().Include(x => x.ProductImages).FirstOrDefaultAsync(x => x.Id == Id);
         }
 
-        public async Task<List<Product>> GetProductsListAsync()
+        public async Task<(List<Product> Items, int TotalCount)> GetProductsListAsync(int page,int pageSize,string? search = null)
         {
-            return await _unitOfWork.Repository<Product>().GetAsQuerable().Include(x => x.ProductImages).ToListAsync();
+            IQueryable<Product> products = _unitOfWork.Repository<Product>().GetAsQuerable().AsNoTracking().Include(x => x.ProductImages);
+            var totalCount = 0;
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                products = products
+                      .Where(x =>
+                          x.NameAr.Contains(search) ||
+                          x.NameEn.Contains(search) ||
+                          (x.DescriptionAr != null && x.DescriptionAr.Contains(search)) ||
+                          (x.DescriptionEn != null && x.DescriptionEn.Contains(search)));
+            }
+            totalCount =await products.CountAsync();
+            var items =await products.OrderByDescending(x => x.Id)
+                .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (items, totalCount);
+
         }
+        
         public async Task<string> AddProductAsync(Product product, List<IFormFile> files , IFormFile mainFile)
         {     
             var uploadedUrls = new List<string>();
@@ -206,5 +222,7 @@ namespace BuyoraBusiness.Services.Implementations
                 }
             }
         }
+        
+
     }
 }

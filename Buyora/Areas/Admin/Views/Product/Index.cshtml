@@ -1,8 +1,9 @@
-﻿@model List<GetProductsListViewModel>
+﻿@model PageResult<GetProductsListViewModel>
 @inject IStringLocalizer<SharedResource> _localizer
 
-@ViewData["Title"] = @_localizer["products"];
-
+@{
+    ViewData["Title"] = _localizer["products"];
+}
 
 <div class="buyora-page-wrapper">
     <div class="buyora-card buyora-header-banner p-4 mb-4">
@@ -13,113 +14,107 @@
                 </div>
                 <div>
                     <h4 class="fw-bold mb-1 text-buyora-blue">@_localizer["products"]</h4>
-                    <p class="text-muted mb-0 small">@_localizer["productsubtitle"]</p>
+                    <p class="text-muted mb-0 small">@_localizer["productssubtitle"]</p>
                 </div>
             </div>
             <div class="col-12 col-md-5 text-md-end">
                 <a asp-action="Create" class="btn btn-buyora-accent d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto">
                     <i class="bi bi-plus-circle-fill"></i>
-                    <span>@_localizer["addnewproduct"]</span>
+                    <span>@_localizer["createproduct"]</span>
                 </a>
             </div>
         </div>
     </div>
 
-    @if (Model != null && Model.Any())
-    {
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-            @foreach (var product in Model)
-            {
-                var hasDiscount = product.DiscountPrice.HasValue && product.DiscountPrice.Value > 0 && product.DiscountPrice.Value < product.Price;
-                var discountPercentage = hasDiscount
-                    ? (int)Math.Round(((product.Price - product.DiscountPrice!.Value) / product.Price) * 100)
-                    : 0;
-
-                <div class="col">
-                    <div class="buyora-card buyora-product-card h-100 d-flex flex-column overflow-hidden">
-                        <div class="buyora-product-img-wrapper position-relative">
-                            @if (hasDiscount)
-                            {
-                                <span class="buyora-discount-badge">
-                                    -@discountPercentage%
-                                </span>
-                            }
-
-                            <div class="buyora-product-actions">
-                                <a asp-action="Details" asp-route-id="@product.Id" class="buyora-quick-btn btn-details" title="Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a asp-action="Edit" asp-route-id="@product.Id" class="buyora-quick-btn btn-edit-sm" title="@_localizer["edit"]">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@product.Id" class="buyora-quick-btn btn-delete-sm" title="@_localizer["delete"]">
-                                    <i class="bi bi-trash3"></i>
-                                </a>
-                            </div>
-
-                            <a asp-action="Details" asp-route-id="@product.Id" class="d-block h-100">
-                                @if (!string.IsNullOrEmpty(product.MainUrl))
-                                {
-                                    <img src="/@product.MainUrl" alt="@product.Name" class="buyora-product-img" />
-                                }
-                                else
-                                {
-                                    <div class="buyora-no-image d-flex flex-column align-items-center justify-content-center h-100">
-                                        <i class="bi bi-image text-muted fs-1"></i>
-                                        <span class="text-muted small mt-1">No Image</span>
-                                    </div>
-                                }
-                            </a>
-                        </div>
-
-                        <div class="p-3 d-flex flex-column flex-grow-1">
-                            <h6 class="buyora-product-title fw-bold mb-2">
-                                <a asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-dark">
-                                    @product.Name
-                                </a>
-                            </h6>
-
-                            <div class="mt-auto pt-2">
-                                <div class="d-flex align-items-baseline gap-2 mb-3">
-                                    @if (hasDiscount)
-                                    {
-                                        <span class="buyora-price-current">@product.DiscountPrice.Value.ToString("N2") @_localizer["currency"]</span>
-                                        <span class="buyora-price-old text-muted text-decoration-line-through small">@product.Price.ToString("N2") @_localizer["currency"]</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="buyora-price-current">@product.Price.ToString("N2") @_localizer["currency"]</span>
-                                    }
-                                </div>
-
-                                <div class="d-grid gap-2">
-                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="m-0">
-                                        <input type="hidden" name="productId" value="@product.Id" />
-                                        <button type="submit" class="btn btn-buyora-accent w-100 d-flex align-items-center justify-content-center gap-2 py-2">
-                                            <i class="bi bi-cart-plus-fill fs-5"></i>
-                                            <span>@_localizer["addtocart"]</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="buyora-card p-3 p-md-4 mb-4">
+        <div class="buyora-search-wrapper position-relative">
+            <span class="buyora-search-icon">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="search"
+                   id="searchInput"
+                   class="form-control buyora-search-input"
+                   asp-for="@Model.Search"
+                   placeholder="@_localizer["searchproductsplaceholder"]"
+                   autocomplete="off" />
+            <div id="searchSpinner" class="buyora-search-spinner d-none">
+                <div class="spinner-border spinner-border-sm text-buyora-orange" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-            }
-        </div>
-    }
-    else
-    {
-        <div class="buyora-card text-center py-5 px-3">
-            <div class="buyora-empty-icon mx-auto mb-3">
-                <i class="bi bi-box-seam"></i>
             </div>
-            <h5 class="fw-bold text-dark mb-2">No Products Available</h5>
-            <p class="text-muted small mb-4">Your store catalog is currently empty. Start adding products to showcase them here.</p>
-            <a asp-action="Create" class="btn btn-buyora-primary d-inline-flex align-items-center gap-2">
-                <i class="bi bi-plus-lg"></i>
-                <span>Add First Product</span>
-            </a>
+            <button type="button" id="clearSearchBtn" class="buyora-search-clear @(string.IsNullOrWhiteSpace(Model?.Search) ? "d-none" : "")" aria-label="Clear">
+                <i class="bi bi-x-circle-fill"></i>
+            </button>
         </div>
-    }
+    </div>
+
+    <div id="productList" class="buyora-products-container">
+        <partial name="_DisplayProductsPartial" model="Model" />
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            let timer;
+            let currentRequest;
+            const searchUrl = '@Url.Action("Index", "Product")';
+            const $searchInput = $("#searchInput");
+            const $spinner = $("#searchSpinner");
+            const $clearBtn = $("#clearSearchBtn");
+            const $productList = $("#productList");
+
+            function triggerSearch(searchTerm) {
+                if (currentRequest) currentRequest.abort();
+
+                $spinner.removeClass("d-none");
+                $clearBtn.addClass("d-none");
+                $productList.addClass("buyora-loading-fade");
+
+                currentRequest = $.ajax({
+                    url: searchUrl,
+                    type: "GET",
+                    data: { search: searchTerm },
+                    success: function(result) {
+                        $productList.html(result);
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort")
+                            console.error("AJAX Error: " + status + " - " + error);
+                    },
+                    complete: function(xhr, status) {
+                        if (status !== "abort") {
+                            $spinner.addClass("d-none");
+                            $productList.removeClass("buyora-loading-fade");
+                            if ($searchInput.val().trim().length > 0) {
+                                $clearBtn.removeClass("d-none");
+                            }
+                        }
+                    }
+                });
+            }
+
+            $searchInput.on("input", function() {
+                const searchTerm = $(this).val().trim();
+
+                if (searchTerm.length > 0) {
+                    $clearBtn.removeClass("d-none");
+                } else {
+                    $clearBtn.addClass("d-none");
+                }
+
+                clearTimeout(timer);
+                timer = setTimeout(function() {
+                    triggerSearch(searchTerm);
+                }, 400);
+            });
+
+            $clearBtn.on("click", function() {
+                $searchInput.val("").trigger("focus");
+                $clearBtn.addClass("d-none");
+                clearTimeout(timer);
+                triggerSearch("");
+            });
+        });
+    </script>
+}
