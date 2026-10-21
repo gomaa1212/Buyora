@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BuyoraBusiness.Services.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
+using Buyora.Areas.Admin.ViewModels.Category;
 using Buyora.Areas.Admin.ViewModels.Product;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Buyora.Helper;
+using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Buyora.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -21,18 +22,21 @@ namespace Buyora.Areas.Admin.Controllers
             _mapper = mapper;
             _categoryService = categoryService;
         }
-        public async Task<IActionResult> Index(string? search = null,int page=1)
+        public async Task<IActionResult> Index(string? search = null,string? categoryName = null,int page = 1)
         {
-            var products = await _productService.GetProductsListAsync(page, pageSize,search);
+            var categories = await _categoryService.GetCategoriesListAsync();
+            var products = await _productService.GetProductsListAsync(page, pageSize,categoryName,search);
             var model = new PageResult<GetProductsListViewModel>()
             {
                 Items = _mapper.Map<List<GetProductsListViewModel>>(products.Items),
                 TotalCount = products.TotalCount,
                 Page=page,
                 PageSize= pageSize,
+                CategoryName= categoryName,
                 Search = search
             };
-            if(Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            ViewBag.Categories = _mapper.Map<List<GetCategoriesListViewModel>>(categories);
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 return PartialView("_DisplayProductsPartial", model);
             }

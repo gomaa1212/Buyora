@@ -345,4 +345,70 @@
   <data name="noproductsfoundsubtitle" xml:space="preserve">
     <value>Try adjusting your search keywords .</value>
   </data>
+  <data name="herobadge" xml:space="preserve">
+    <value>Shop Smarter. Live Better.</value>
+  </data>
+  <data name="herotitle1" xml:space="preserve">
+    <value>Everything You Need,</value>
+  </data>
+  <data name="herotitle2" xml:space="preserve">
+    <value>Delivered with Speed.</value>
+  </data>
+  <data name="herosubtitle" xml:space="preserve">
+    <value>Discover top-quality products, exclusive daily discounts, and a seamless shopping experience tailored just for you at Buyora.</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="shopnow" xml:space="preserve">
+    <value>Shop Now</value>
+  </data>
+  <data name="browsecategories" xml:space="preserve">
+    <value>Browse Categories</value>
+  </data>
+  <data name="originalproducts" xml:space="preserve">
+    <value>Original Products</value>
+  </data>
+  <data name="customersupport" xml:space="preserve">
+    <value>Customer Support</value>
+  </data>
+  <data name="happycustomers" xml:space="preserve">
+    <value>Happy Customers</value>
+  </data>
+  <data name="fastdeliverysub" xml:space="preserve">
+    <value>Quick shipping to your doorstep</value>
+  </data>
+  <data name="securepaymentsub" xml:space="preserve">
+    <value>100% protected transactions</value>
+  </data>
+  <data name="easyreturnssub" xml:space="preserve">
+    <value>Hassle-free 14-day return policy</value>
+  </data>
+  <data name="support247" xml:space="preserve">
+    <value>24/7 Support</value>
+  </data>
+  <data name="support247sub" xml:space="preserve">
+    <value>Dedicated help anytime you need</value>
+  </data>
+  <data name="explore" xml:space="preserve">
+    <value>Explore</value>
+  </data>
+  <data name="shopbycategory" xml:space="preserve">
+    <value>Shop by Category</value>
+  </data>
+  <data name="viewall" xml:space="preserve">
+    <value>View All</value>
+  </data>
+  <data name="toppicks" xml:space="preserve">
+    <value>Top Picks</value>
+  </data>
+  <data name="promotitle" xml:space="preserve">
+    <value>Ready to Upgrade Your Shopping Experience?</value>
+  </data>
+  <data name="featuredproducts" xml:space="preserve">
+    <value>Featured Products</value>
+  </data>
+  <data name="promosubtitle" xml:space="preserve">
+    <value>Browse hundreds of authentic items with unbeatable offers today.</value>
+  </data>
 </root>

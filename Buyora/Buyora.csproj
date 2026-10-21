@@ -29,9 +29,4 @@
     <ProjectReference Include="..\BuyoraDataAccess\BuyoraDataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Customer\Controllers\" />
-    <Folder Include="Areas\Customer\ViewModels\" />
-  </ItemGroup>
-
 </Project>
