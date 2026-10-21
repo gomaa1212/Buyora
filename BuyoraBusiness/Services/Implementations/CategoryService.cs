@@ -17,26 +17,26 @@ namespace BuyoraBusiness.Services.Implementations
 
         public async Task<string> AddCategoryAsync(Category category)
         {
-                if(category is null)
-                {
-                    throw new ArgumentException("Failed");
-                }
-                await _unitOfWork.Repository<Category>().AddAsync(category);
-                await _unitOfWork.SaveChangesAsync();
-                return "Succeeded";
-            
+            if (category is null)
+            {
+                throw new ArgumentException("Failed");
+            }
+            await _unitOfWork.Repository<Category>().AddAsync(category);
+            await _unitOfWork.SaveChangesAsync();
+            return "Succeeded";
+
         }
 
         public async Task<string> DeleteCategoryAsync(int Id)
         {
-                var category = await GetCategoryByIdAsync(Id);
-                if(category is null)
-                {
-                     throw new ArgumentException("Failed");
-                }
-                 _unitOfWork.Repository<Category>().Delete(category);
-                await _unitOfWork.SaveChangesAsync();
-                return "Succeeded";
+            var category = await GetCategoryByIdAsync(Id);
+            if (category is null)
+            {
+                throw new ArgumentException("Failed");
+            }
+            _unitOfWork.Repository<Category>().Delete(category);
+            await _unitOfWork.SaveChangesAsync();
+            return "Succeeded";
         }
 
         public async Task<List<Category>> GetCategoriesListAsync()
@@ -49,7 +49,7 @@ namespace BuyoraBusiness.Services.Implementations
             var category = await _unitOfWork.Repository<Category>().GeByIdAsync(Id);
             return category;
         }
-
+        
         public async Task<bool> IsCategoryNameArExistAsync(string NameAr)
         {
             return await _unitOfWork.Repository<Category>().GetAsQuerable().AnyAsync(x => x.NameAr == NameAr);

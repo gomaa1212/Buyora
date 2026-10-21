@@ -345,4 +345,70 @@
   <data name="noproductsfoundsubtitle" xml:space="preserve">
     <value>جرب البحث بكلمات مختلفة. </value>
   </data>
+  <data name="herobadge" xml:space="preserve">
+    <value>تسوق بذكاء.. عِش بشكل أفضل</value>
+  </data>
+  <data name="herotitle1" xml:space="preserve">
+    <value>كل ما تحتاجه في مكان واحد،</value>
+  </data>
+  <data name="herotitle2" xml:space="preserve">
+    <value>يصلك بأقصى سرعة.</value>
+  </data>
+  <data name="herosubtitle" xml:space="preserve">
+    <value>اكتشف منتجات عالية الجودة، وخصومات يومية حصرية، وتجربة تسوق سلسة مصممة خصيصاً لك في Buyora.</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="shopnow" xml:space="preserve">
+    <value>تسوق الآن</value>
+  </data>
+  <data name="browsecategories" xml:space="preserve">
+    <value>تصفح الأقسام</value>
+  </data>
+  <data name="originalproducts" xml:space="preserve">
+    <value>منتجات أصلية</value>
+  </data>
+  <data name="customersupport" xml:space="preserve">
+    <value>دعم فني متواصل</value>
+  </data>
+  <data name="happycustomers" xml:space="preserve">
+    <value>عميل سعيد</value>
+  </data>
+  <data name="fastdeliverysub" xml:space="preserve">
+    <value>شحن سريع حتى باب منزلك</value>
+  </data>
+  <data name="securepaymentsub" xml:space="preserve">
+    <value>معاملات مالية محمية بالكامل</value>
+  </data>
+  <data name="easyreturnssub" xml:space="preserve">
+    <value>استرجاع سهل خلال 14 يوماً</value>
+  </data>
+  <data name="support247" xml:space="preserve">
+    <value>دعم فني 24/7</value>
+  </data>
+  <data name="support247sub" xml:space="preserve">
+    <value>مساعدة فورية في أي وقت</value>
+  </data>
+  <data name="explore" xml:space="preserve">
+    <value>استكشف</value>
+  </data>
+  <data name="shopbycategory" xml:space="preserve">
+    <value>تسوق حسب القسم</value>
+  </data>
+  <data name="viewall" xml:space="preserve">
+    <value>عرض الكل</value>
+  </data>
+  <data name="toppicks" xml:space="preserve">
+    <value>مختاراتنا لك</value>
+  </data>
+  <data name="promotitle" xml:space="preserve">
+    <value>هل أنت مستعد لتجربة تسوق استثنائية؟</value>
+  </data>
+  <data name="featuredproducts" xml:space="preserve">
+    <value>أحدث المنتجات المميزة</value>
+  </data>
+  <data name="promosubtitle" xml:space="preserve">
+    <value>تصفح مئات المنتجات الأصلية بأفضل الأسعار والعروض الحصرية اليوم.</value>
+  </data>
 </root>

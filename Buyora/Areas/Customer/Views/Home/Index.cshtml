@@ -1,0 +1,252 @@
+﻿@using Buyora.Areas.Admin.ViewModels.Category
+@using Buyora.Areas.Admin.ViewModels.Product
+@using Buyora.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["home"];
+    var categories = ViewBag.Categories as IEnumerable<GetCategoriesListViewModel>;
+    var featuredProducts = ViewBag.FeaturedProducts as IEnumerable<GetProductsListViewModel>;
+}
+
+<div class="buyora-home-wrapper">
+    <section class="buyora-hero-section position-relative overflow-hidden mb-5">
+        <div class="buyora-hero-bg" style="background-image: url('/Hero.png');"></div>
+
+        <div class="row align-items-center position-relative z-2 py-4 py-lg-5 px-3 px-md-5 mx-0 w-100">
+            <div class="col-12 col-lg-7 col-xl-6">
+                <div class="buyora-hero-content">
+                    <span class="buyora-hero-badge d-inline-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-stars text-buyora-orange"></i>
+                        <span>@_localizer["herobadge"]</span>
+                    </span>
+
+                    <h1 class="buyora-hero-title fw-extrabold mb-3">
+                        @_localizer["herotitle1"]
+                        <span class="buyora-text-gradient d-block mt-1">@_localizer["herotitle2"]</span>
+                    </h1>
+
+                    <p class="buyora-hero-subtitle text-muted mb-4">
+                        @_localizer["herosubtitle"]
+                    </p>
+
+                    
+
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-buyora-accent btn-lg px-5 py-3 d-inline-flex align-items-center gap-2">
+                            <span>@_localizer["shopnow"]</span>
+                            <i class="bi bi-arrow-right buyora-rtl-flip"></i>
+                        </a>
+                        <a href="#categories" class="btn buyora-btn-outline btn-sm d-inline-flex align-items-center gap-1">
+                            <span>@_localizer["browsecategories"]</span>
+                            <i class="bi bi-arrow-right-short fs-5 buyora-rtl-flip"></i>
+                        </a>
+                        
+                    </div>
+
+                    <div class="row g-3 mt-4 pt-3 border-top border-secondary-subtle">
+                        <div class="col-4">
+                            <h5 class="fw-extrabold text-buyora-blue mb-0">100%</h5>
+                            <span class="text-muted small">@_localizer["originalproducts"]</span>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="fw-extrabold text-buyora-orange mb-0">24/7</h5>
+                            <span class="text-muted small">@_localizer["customersupport"]</span>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="fw-extrabold text-buyora-blue mb-0">+10K</h5>
+                            <span class="text-muted small">@_localizer["happycustomers"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 d-lg-none mt-4 text-center">
+                <img src="/Hero.png" alt="Buyora Shopping" class="img-fluid rounded-4" />
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+            <div class="col">
+                <div class="buyora-card p-3 p-xl-4 h-100 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-orange">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">@_localizer["fastdelivery"]</h6>
+                        <p class="text-muted small mb-0">@_localizer["fastdeliverysub"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="buyora-card p-3 p-xl-4 h-100 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-blue">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">@_localizer["securepayment"]</h6>
+                        <p class="text-muted small mb-0">@_localizer["securepaymentsub"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="buyora-card p-3 p-xl-4 h-100 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-orange">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">@_localizer["easyreturns"]</h6>
+                        <p class="text-muted small mb-0">@_localizer["easyreturnssub"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="buyora-card p-3 p-xl-4 h-100 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-blue">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">@_localizer["support247"]</h6>
+                        <p class="text-muted small mb-0">@_localizer["support247sub"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5" id="categories">
+        <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-4">
+            <div>
+                <span class="text-buyora-orange fw-bold small text-uppercase">@_localizer["explore"]</span>
+                <h3 class="fw-extrabold text-buyora-blue mb-0">@_localizer["shopbycategory"]</h3>
+            </div>
+            <a asp-controller="Category" asp-area="Admin" asp-action="Index" class="btn buyora-btn-outline btn-sm d-inline-flex align-items-center gap-1">
+                <span>@_localizer["viewall"]</span>
+                <i class="bi bi-arrow-right-short fs-5 buyora-rtl-flip"></i>
+            </a>
+        </div>
+
+        @if (categories != null && categories.Any())
+        {
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+                @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder).Take(6))
+                {
+                    <div class="col">
+                        <a asp-controller="Product" asp-area="Admin" asp-action="Index" asp-route-categoryName="@cat.Name" class="buyora-card buyora-cat-tile p-4 text-center text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
+                            <div class="buyora-cat-tile-avatar mb-3">
+                                @(string.IsNullOrEmpty(cat.Name) ? "B" : cat.Name.Substring(0, 1).ToUpper())
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0 text-truncate w-100">@cat.Name</h6>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        
+    </section>
+
+    @if (featuredProducts != null && featuredProducts.Any())
+    {
+        <section class="mb-5">
+            <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-4">
+                <div>
+                    <span class="text-buyora-orange fw-bold small text-uppercase">@_localizer["toppicks"]</span>
+                    <h3 class="fw-extrabold text-buyora-blue mb-0">@_localizer["featuredproducts"]</h3>
+                </div>
+                <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn buyora-btn-outline btn-sm d-inline-flex align-items-center gap-1">
+                    <span>@_localizer["viewall"]</span>
+                    <i class="bi bi-arrow-right-short fs-5 buyora-rtl-flip"></i>
+                </a>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                @foreach (var product in featuredProducts)
+                {
+                    var hasDiscount = product.DiscountPrice.HasValue && product.DiscountPrice.Value > 0 && product.DiscountPrice.Value < product.Price;
+                    var discountPercentage = hasDiscount
+                        ? (int)Math.Round(((product.Price - product.DiscountPrice!.Value) / product.Price) * 100)
+                        : 0;
+
+                    <div class="col">
+                        <div class="buyora-card buyora-product-card h-100 d-flex flex-column overflow-hidden">
+                            <div class="buyora-product-img-wrapper position-relative">
+                                @if (hasDiscount)
+                                {
+                                    <span class="buyora-discount-badge">
+                                        -@discountPercentage% @_localizer["off"]
+                                    </span>
+                                }
+
+                                <a asp-controller="Product" asp-area="Admin" asp-action="Details" asp-route-id="@product.Id" class="d-block h-100">
+                                    @if (!string.IsNullOrEmpty(product.MainUrl))
+                                    {
+                                        <img src="/@product.MainUrl" alt="@product.Name" class="buyora-product-img" />
+                                    }
+                                    else
+                                    {
+                                        <div class="buyora-no-image d-flex flex-column align-items-center justify-content-center h-100">
+                                            <i class="bi bi-image text-muted fs-1"></i>
+                                            <span class="text-muted small mt-1">@_localizer["noimageavailable"]</span>
+                                        </div>
+                                    }
+                                </a>
+                            </div>
+
+                            <div class="p-3 d-flex flex-column flex-grow-1">
+                                <h6 class="buyora-product-title fw-bold mb-2">
+                                    <a asp-controller="Product" asp-area="Admin" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-dark">
+                                        @product.Name
+                                    </a>
+                                </h6>
+
+                                <div class="mt-auto pt-2">
+                                    <div class="d-flex align-items-baseline gap-2 mb-3">
+                                        @if (hasDiscount)
+                                        {
+                                            <span class="buyora-price-current">@product.DiscountPrice!.Value.ToString("N2") @_localizer["currency"]</span>
+                                            <span class="buyora-price-old text-muted text-decoration-line-through small">@product.Price.ToString("N2")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="buyora-price-current">@product.Price.ToString("N2") @_localizer["currency"]</span>
+                                        }
+                                    </div>
+
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="m-0">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <button type="submit" class="btn btn-buyora-accent btn-add-to-cart w-100 d-flex align-items-center justify-content-center gap-2 py-2">
+                                            <i class="bi bi-cart-plus-fill fs-5 cart-btn-icon"></i>
+                                            <span class="cart-btn-text">@_localizer["addtocart"]</span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+    <section class="buyora-promo-banner rounded-4 p-4 p-md-5 text-white position-relative overflow-hidden">
+        <div class="row align-items-center gy-4 position-relative z-2">
+            <div class="col-12 col-lg-8">
+                <span class="badge rounded-pill bg-warning text-dark fw-bold px-3 py-2 mb-3">
+                    <i class="bi bi-lightning-charge-fill me-1"></i> Buyora Special Deals
+                </span>
+                <h2 class="fw-extrabold mb-2">@_localizer["promotitle"]</h2>
+                <p class="mb-0 text-white-50 fs-6">@_localizer["promosubtitle"]</p>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-end">
+                <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-buyora-accent btn-lg px-5 py-3 d-inline-flex align-items-center gap-2">
+                    <span>@_localizer["shopnow"]</span>
+                    <i class="bi bi-arrow-right buyora-rtl-flip"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>

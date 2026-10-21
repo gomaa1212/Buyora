@@ -944,3 +944,248 @@ html[dir="rtl"] .buyora-rtl-flip {
     color: #cbd5e1;
     opacity: 0.7;
 }
+.fw-extrabold {
+    font-weight: 800;
+}
+
+/* ===== Hero ===== */
+.buyora-hero-section {
+    background-color: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 56, 168, 0.08);
+    box-shadow: 0 12px 36px rgba(7, 31, 78, 0.06);
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+}
+
+/* الصورة بتاخد 55% من العرض على الجهة المقابلة للنص (يمين في LTR / شمال في RTL) */
+.buyora-hero-bg {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 55%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: 1;
+    pointer-events: none;
+    /* تلاشي ناعم ناحية النص */
+    -webkit-mask-image: linear-gradient(to left, #000 80%, transparent);
+    mask-image: linear-gradient(to left, #000 80%, transparent);
+}
+
+/* في العربي بنقلب الصورة عشان الشخصية تبص ناحية النص (الـ mask بيتقلب معاها تلقائيًا) */
+html[dir="rtl"] .buyora-hero-bg {
+    transform: scaleX(-1);
+}
+
+@media (max-width: 991.98px) {
+    .buyora-hero-bg {
+        display: none;
+    }
+
+    .buyora-hero-section {
+        min-height: auto;
+    }
+}
+
+.buyora-hero-badge {
+    background: linear-gradient(135deg, rgba(0, 56, 168, 0.08) 0%, rgba(255, 107, 0, 0.12) 100%);
+    color: var(--buyora-blue-dark);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.45rem 1rem;
+    border-radius: 50rem;
+    border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+.buyora-hero-title {
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    color: var(--buyora-blue-dark);
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    text-wrap: balance;
+}
+
+.buyora-text-gradient {
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+.buyora-hero-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 540px;
+}
+
+.buyora-hero-search {
+    max-width: 520px;
+}
+
+/* ===== باقي الأقسام (من غير تغيير) ===== */
+.buyora-feature-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+    .buyora-feature-icon.icon-orange {
+        background-color: rgba(255, 107, 0, 0.12);
+        color: var(--buyora-orange);
+    }
+
+    .buyora-feature-icon.icon-blue {
+        background-color: rgba(0, 56, 168, 0.1);
+        color: var(--buyora-blue);
+    }
+
+.buyora-cat-tile {
+    border-radius: 16px;
+}
+
+.buyora-cat-tile-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(0, 56, 168, 0.08) 0%, rgba(255, 107, 0, 0.1) 100%);
+    color: var(--buyora-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    transition: all 0.25s ease;
+}
+
+.buyora-cat-tile:hover .buyora-cat-tile-avatar {
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    color: #ffffff;
+    transform: scale(1.08);
+}
+
+.buyora-promo-banner {
+    background: linear-gradient(135deg, var(--buyora-blue-dark) 0%, var(--buyora-blue) 100%);
+    box-shadow: 0 16px 36px rgba(7, 31, 78, 0.18);
+}
+.buyora-cat-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+    .buyora-cat-scroll::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .buyora-cat-scroll::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 10px;
+    }
+
+.buyora-cat-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 1rem 0.45rem 0.55rem;
+    background-color: #f1f5f9;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 50rem;
+    color: var(--buyora-text);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+    z-index: 1;
+}
+
+html[dir="rtl"] .buyora-cat-pill {
+    padding: 0.45rem 0.55rem 0.45rem 1rem;
+}
+
+.buyora-cat-pill-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(0, 56, 168, 0.1);
+    color: var(--buyora-blue);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.buyora-cat-pill:not(.active):hover {
+    background-color: rgba(0, 56, 168, 0.06);
+    border-color: var(--buyora-blue);
+    color: var(--buyora-blue-dark);
+    box-shadow: 0 4px 12px rgba(0, 56, 168, 0.1);
+    z-index: 2;
+}
+
+    .buyora-cat-pill:not(.active):hover .buyora-cat-pill-avatar {
+        background-color: var(--buyora-blue);
+        color: #ffffff;
+    }
+
+.buyora-cat-pill.active,
+.buyora-cat-pill.active:hover {
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    border-color: var(--buyora-blue-dark);
+    color: #ffffff !important;
+    box-shadow: 0 5px 14px rgba(0, 56, 168, 0.25);
+    z-index: 2;
+}
+
+    .buyora-cat-pill.active .buyora-cat-pill-avatar,
+    .buyora-cat-pill.active:hover .buyora-cat-pill-avatar {
+        background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+        color: #ffffff;
+    }
+
+.btn-add-to-cart {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+    .btn-add-to-cart .cart-btn-text,
+    .btn-add-to-cart .cart-btn-icon {
+        color: #ffffff;
+        transition: color 0.25s ease, transform 0.3s ease;
+    }
+
+    .btn-add-to-cart:hover {
+        background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 107, 0, 0.35);
+    }
+
+        .btn-add-to-cart:hover .cart-btn-text,
+        .btn-add-to-cart:hover .cart-btn-icon {
+            color: var(--buyora-blue-dark);
+        }
+
+        .btn-add-to-cart:hover .cart-btn-icon {
+            transform: scale(1.15) rotate(-6deg);
+        }

@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = _localizer["products"];
+    var categories = ViewBag.Categories as IEnumerable<GetCategoriesListViewModel>;
+    var selectedCategory = Context.Request.Query["categoryName"].ToString();
 }
 
 <div class="buyora-page-wrapper">
@@ -46,6 +48,48 @@
                 <i class="bi bi-x-circle-fill"></i>
             </button>
         </div>
+
+        @if (categories != null && categories.Any())
+        {
+            <div class="buyora-category-filter-bar mt-3 pt-3 border-top">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="text-muted small fw-bold text-uppercase d-flex align-items-center gap-1">
+                        <i class="bi bi-funnel-fill text-buyora-orange"></i>
+                        <span>@_localizer["categories"]</span>
+                    </span>
+                </div>
+
+                <div class="buyora-cat-scroll d-flex align-items-center gap-2 overflow-auto py-2 px-1">
+                    <a asp-controller="Product"
+                       asp-area="Admin"
+                       asp-action="Index"
+                       asp-route-categoryName=""
+                       asp-route-search="@Model.Search"
+                       class="buyora-cat-pill @(string.IsNullOrEmpty(selectedCategory) ? "active" : "")">
+                        <span class="buyora-cat-pill-avatar">
+                            <i class="bi bi-grid-fill"></i>
+                        </span>
+                        <span class="buyora-cat-pill-name">@_localizer["viewall"]</span>
+                    </a>
+
+                    @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder))
+                    {
+                        var isActiveCat = string.Equals(selectedCategory, cat.Name, StringComparison.OrdinalIgnoreCase);
+                        <a asp-controller="Product"
+                           asp-area="Admin"
+                           asp-action="Index"
+                           asp-route-categoryName="@cat.Name"
+                           asp-route-search="@Model.Search"
+                           class="buyora-cat-pill @(isActiveCat ? "active" : "")">
+                            <span class="buyora-cat-pill-avatar">
+                                @(string.IsNullOrEmpty(cat.Name) ? "B" : cat.Name.Substring(0, 1).ToUpper())
+                            </span>
+                            <span class="buyora-cat-pill-name">@cat.Name</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
     </div>
 
     <div id="productList" class="buyora-products-container">
@@ -58,6 +102,7 @@
         $(function() {
             let timer;
             let currentRequest;
+            const currentCategory = '@Html.Raw(selectedCategory)';
             const searchUrl = '@Url.Action("Index", "Product")';
             const $searchInput = $("#searchInput");
             const $spinner = $("#searchSpinner");
@@ -74,7 +119,7 @@
                 currentRequest = $.ajax({
                     url: searchUrl,
                     type: "GET",
-                    data: { search: searchTerm },
+                    data: { categoryName: currentCategory, search: searchTerm },
                     success: function(result) {
                         $productList.html(result);
                     },

@@ -31,10 +31,15 @@ namespace BuyoraBusiness.Services.Implementations
             return await _unitOfWork.Repository<Product>().GetAsQuerable().Include(x => x.ProductImages).FirstOrDefaultAsync(x => x.Id == Id);
         }
 
-        public async Task<(List<Product> Items, int TotalCount)> GetProductsListAsync(int page,int pageSize,string? search = null)
+        public async Task<(List<Product> Items, int TotalCount)> GetProductsListAsync(int page,int pageSize, string? categoryName = null, string? search = null)
         {
             IQueryable<Product> products = _unitOfWork.Repository<Product>().GetAsQuerable().AsNoTracking().Include(x => x.ProductImages);
             var totalCount = 0;
+            if(!string.IsNullOrWhiteSpace(categoryName))
+            {
+    
+                products = products.Include(x=>x.Category).Where(x => x.Category.NameAr == categoryName || x.Category.NameEn == categoryName);
+            }
             if (!string.IsNullOrWhiteSpace(search))
             {
                 products = products
@@ -44,6 +49,7 @@ namespace BuyoraBusiness.Services.Implementations
                           (x.DescriptionAr != null && x.DescriptionAr.Contains(search)) ||
                           (x.DescriptionEn != null && x.DescriptionEn.Contains(search)));
             }
+            
             totalCount =await products.CountAsync();
             var items =await products.OrderByDescending(x => x.Id)
                 .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();

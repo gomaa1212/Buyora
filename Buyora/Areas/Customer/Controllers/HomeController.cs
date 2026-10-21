@@ -1,23 +1,39 @@
+using AspNetCoreGeneratedDocument;
+using AutoMapper;
+using Buyora.Areas.Admin.ViewModels.Category;
+using Buyora.Areas.Admin.ViewModels.Product;
 using Buyora.Resources;
+using BuyoraBusiness.Services.Interfaces;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 
-namespace Buyora.Areas.Admin.Controllers
+namespace Buyora.Areas.Customer.Controllers
 {
-    [Area("Admin")]
+    [Area("Customer")]
     public class HomeController : Controller
     {
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
         private readonly IHtmlLocalizer<SharedResource> _localizer;
-        public HomeController(IHtmlLocalizer<SharedResource> localizer)
+        public HomeController(IProductService productService, ICategoryService categoryService,IMapper mapper, IHtmlLocalizer<SharedResource> localizer)
         {
-            _localizer=localizer;
+            _productService = productService;
+            _categoryService = categoryService;
+            _localizer = localizer;
+            _mapper = mapper;
+
         }
     
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var products = await _productService.GetProductsListAsync(1, 8);
+            var categories = await _categoryService.GetCategoriesListAsync();
+            ViewBag.FeaturedProducts = _mapper.Map<List<GetProductsListViewModel>>(products.Items);
+            ViewBag.Categories = _mapper.Map<List<GetCategoriesListViewModel>>(categories);
             return View();
         }
 
