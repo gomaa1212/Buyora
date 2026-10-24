@@ -1,0 +1,68 @@
+﻿@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["accessdenied"];
+}
+
+<div class="buyora-auth-wrapper py-3 py-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+            <div class="buyora-card buyora-auth-card overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 buyora-auth-visual d-flex flex-column justify-content-between p-4 p-xl-5 text-white position-relative">
+                        <div class="position-relative z-2 text-center text-lg-start">
+                            <span class="buyora-auth-badge d-inline-flex align-items-center gap-2 mb-2">
+                                <i class="bi bi-shield-fill-exclamation text-buyora-orange"></i>
+                                <span>403 - @_localizer["restrictedarea"]</span>
+                            </span>
+                        </div>
+
+                        <div class="buyora-auth-img-stage my-auto position-relative z-2 text-center">
+                            <img src="/AccessDenied.png" alt="Access Denied" class="buyora-auth-img img-fluid" />
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-7 p-4 p-sm-5 bg-white d-flex flex-column justify-content-center">
+                        <div class="mb-3">
+                            <span class="buyora-mail-pulse-badge d-inline-flex align-items-center gap-2 mb-3">
+                                <i class="bi bi-exclamation-octagon-fill"></i>
+                                <span>@_localizer["permissionrequired"]</span>
+                            </span>
+                            <h3 class="fw-extrabold text-buyora-blue mb-2">@_localizer["accessdenied"]</h3>
+                            <p class="text-muted mb-0">@_localizer["accessdeniedsubtitle"]</p>
+                        </div>
+
+                        <div class="buyora-steps-box p-3 p-sm-4 rounded-4 my-3">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="buyora-resend-icon">
+                                    <i class="bi bi-person-fill-lock"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-1 small">@_localizer["whyseeingthis"]</h6>
+                                    <p class="text-muted mb-0" style="font-size: 0.83rem; line-height: 1.6;">
+                                        @_localizer["accessdeniedreason"]
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-12 col-sm-6">
+                                <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-house-door-fill fs-5 cart-btn-icon"></i>
+                                    <span class="cart-btn-text">@_localizer["returntohome"]</span>
+                                </a>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <a asp-area="Identity" asp-controller="Account" asp-action="Login" class="btn buyora-btn-outline w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-arrow-left-right fs-5"></i>
+                                    <span>@_localizer["switchaccount"]</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

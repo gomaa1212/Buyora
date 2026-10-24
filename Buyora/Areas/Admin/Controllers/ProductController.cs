@@ -4,11 +4,13 @@ using Buyora.Areas.Admin.ViewModels.Product;
 using Buyora.Helper;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Buyora.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Employee")]
     public class ProductController : Controller
     {
         
@@ -22,6 +24,7 @@ namespace Buyora.Areas.Admin.Controllers
             _mapper = mapper;
             _categoryService = categoryService;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? search = null,string? categoryName = null,int page = 1)
         {
             var categories = await _categoryService.GetCategoriesListAsync();
@@ -75,6 +78,7 @@ namespace Buyora.Areas.Admin.Controllers
                 CultureHelper.IsEnglish() ? "NameEn" : "NameAr" ,
                 selectedCategoryId);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var product = await _productService.GetProductByIdWithIncludeAsync(id);
@@ -150,11 +154,6 @@ namespace Buyora.Areas.Admin.Controllers
             ModelState.AddModelError(string.Empty, "Failed to update product");
             return View(model);
         }
-        public async Task<IActionResult> Search(string search,int page)
-        {
-            var products = await _productService.GetProductsListAsync(page,2,search);
-            var productsDisplay = _mapper.Map<List<GetProductsListViewModel>>(products);
-            return PartialView("_DisplayProductsPartial", productsDisplay);
-        }
+        
     }
 }

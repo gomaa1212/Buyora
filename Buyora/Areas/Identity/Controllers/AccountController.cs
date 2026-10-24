@@ -2,8 +2,10 @@
 using Buyora.Areas.Identity.ViewModels;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 
 namespace Buyora.Areas.Identity.Controllers
@@ -13,14 +15,16 @@ namespace Buyora.Areas.Identity.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public AccountController(UserManager<ApplicationUser> userManger, SignInManager<ApplicationUser> signInManager, IMapper mapper, IEmailService emailService, IEmailTemplateService emailTemplateService, IConfiguration config)
+        public AccountController(UserManager<ApplicationUser> userManger, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService, IEmailTemplateService emailTemplateService, IConfiguration config)
         {
             _userManager = userManger;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _mapper = mapper;
             _emailService = emailService;
             _emailTemplateService = emailTemplateService;
@@ -29,7 +33,7 @@ namespace Buyora.Areas.Identity.Controllers
 
         private string AbsoluteUrl(string? path)
             => _config["App:BaseUrl"]!.TrimEnd('/') + path;
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             return View();
         }
@@ -43,6 +47,7 @@ namespace Buyora.Areas.Identity.Controllers
             }
             var user = _mapper.Map<ApplicationUser>(model);
             var res = await _userManager.CreateAsync(user, model.Password);
+            await _userManager.AddToRoleAsync(user, "Customer");
             if (res.Succeeded)
             {
                 await SendConfirmationEmailAsync(user);
@@ -151,7 +156,7 @@ namespace Buyora.Areas.Identity.Controllers
                 return View("RegisterConfirmation");
             }
             await SendConfirmationEmailAsync(user);
-            
+
             return View("RegisterConfirmation");
         }
         [HttpPost]
@@ -159,7 +164,7 @@ namespace Buyora.Areas.Identity.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home", new {Area="Customer"});
+            return RedirectToAction("Index", "Home", new { Area = "Customer" });
         }
         public IActionResult ForgetPassword()
         {
@@ -175,11 +180,11 @@ namespace Buyora.Areas.Identity.Controllers
                 return View(model);
             }
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if(user == null)
+            if (user == null)
             {
                 return View("ForgetPasswordConfirmation");
             }
-            if(!user.EmailConfirmed)
+            if (!user.EmailConfirmed)
             {
                 ModelState.AddModelError(string.Empty, "Please confirm your email");
                 return View(model);
@@ -189,15 +194,15 @@ namespace Buyora.Areas.Identity.Controllers
 
             return View("ForgetPasswordConfirmation");
         }
-        public async Task<IActionResult> ConfirmForgetPassword(string userId,string token)
+        public async Task<IActionResult> ConfirmForgetPassword(string userId, string token)
         {
-            if(string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
                 return BadRequest();
             }
             var user = await _userManager.FindByIdAsync(userId);
-            
-            if(user == null)
+
+            if (user == null)
             {
                 return NotFound();
             }
@@ -210,7 +215,7 @@ namespace Buyora.Areas.Identity.Controllers
         }
         private async Task SendResetPasswordEmailAsync(ApplicationUser user)
         {
-            if(user == null)
+            if (user == null)
             {
                 return;
             }
@@ -234,28 +239,143 @@ namespace Buyora.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View("ResetPassword", model);
             }
             var user = await _userManager.FindByIdAsync(model.Id);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
-            var res = await _userManager.ResetPasswordAsync(user,model.Token,model.Password);
-            if(res.Succeeded)
+            var res = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            if (res.Succeeded)
             {
                 TempData["SuccessMessage"] = "Password changes Successfully";
                 return RedirectToAction("Login");
             }
-            foreach(var error in res.Errors)
+            foreach (var error in res.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return View("ResetPassword", model);
         }
+        public IActionResult AccessDenied(string? ReturnUrl)
+        {
+            return View();
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GoogleLogin(string? returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(GoogleCallback), "Account",
+                new { area = "Identity", returnUrl });
 
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(
+                GoogleDefaults.AuthenticationScheme, redirectUrl);
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        // جوجل بيرجّع المستخدم هنا بعد ما يوافق (ده الـ Login والـ Register مع بعض)
+        [HttpGet]
+        public async Task<IActionResult> GoogleCallback(string? returnUrl = null, string? remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                TempData["ErrorMessage"] = "Google sign-in failed. Please try again.";
+                return RedirectToAction(nameof(Login));
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                TempData["ErrorMessage"] = "Google sign-in failed. Please try again.";
+                return RedirectToAction(nameof(Login));
+            }
+
+            // 1) الحساب مربوط بجوجل قبل كده؟ ادخّله (Login)
+            var signIn = await _signInManager.ExternalLoginSignInAsync(
+                info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (signIn.Succeeded)
+                return RedirectAfterLogin(returnUrl);
+
+            if (signIn.IsLockedOut)
+            {
+                TempData["ErrorMessage"] = "Account locked, try again later.";
+                return RedirectToAction(nameof(Login));
+            }
+
+            // 2) أول مرة: نجيب الإيميل من جوجل
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                TempData["ErrorMessage"] = "We could not get your email from Google.";
+                return RedirectToAction(nameof(Login));
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                // مفيش حساب بالإيميل ده: اعمل حساب جديد (Register)
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name) ?? email.Split('@')[0];
+
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true,      // جوجل أكّد الإيميل
+                    Name = name                 // عدّل حسب خصائص ApplicationUser عندك
+                };
+
+                var create = await _userManager.CreateAsync(user);
+                if (!create.Succeeded)
+                {
+                    TempData["ErrorMessage"] = "Could not create your account.";
+                    return RedirectToAction(nameof(Login));
+                }
+
+                await _userManager.AddToRoleAsync(user, "Customer");
+            }
+            else if (!user.EmailConfirmed)
+            {
+                // فيه حساب بنفس الإيميل بس لسه ما اتأكدش (ممكن حد تاني سجّل بإيميلك قبل كده).
+                // نشيل الباسوورد القديم عشان اللي سجّله ما يفضلش يقدر يدخل بيه.
+                if (await _userManager.HasPasswordAsync(user))
+                    await _userManager.RemovePasswordAsync(user);
+
+                user.EmailConfirmed = true;
+                await _userManager.UpdateAsync(user);
+            }
+
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                TempData["ErrorMessage"] = "Account locked, try again later.";
+                return RedirectToAction(nameof(Login));
+            }
+
+            // 3) اربط جوجل بالحساب، وسجّل الدخول
+            var link = await _userManager.AddLoginAsync(user, info);
+            if (!link.Succeeded)
+            {
+                TempData["ErrorMessage"] = "Could not link your Google account.";
+                return RedirectToAction(nameof(Login));
+            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+            return RedirectAfterLogin(returnUrl);
+        }
+
+        private IActionResult RedirectAfterLogin(string? returnUrl)
+        {
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return LocalRedirect(returnUrl);
+
+            return RedirectToAction("Index", "Home", new { Area = "Customer" });
+
+        }
     }
 }

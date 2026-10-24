@@ -663,4 +663,25 @@
   <data name="resendconfirmation" xml:space="preserve">
     <value>Resend Link</value>
   </data>
+  <data name="accessdenied" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="accessdeniedsubtitle" xml:space="preserve">
+    <value>Sorry, you do not have the required permissions to view this page or perform this action.</value>
+  </data>
+  <data name="restrictedarea" xml:space="preserve">
+    <value>Restricted Area</value>
+  </data>
+  <data name="permissionrequired" xml:space="preserve">
+    <value>Administrator / Authorized Only</value>
+  </data>
+  <data name="whyseeingthis" xml:space="preserve">
+    <value>Why am I seeing this page?</value>
+  </data>
+  <data name="accessdeniedreason" xml:space="preserve">
+    <value>Your current account role does not grant access to this section. If you believe this is a mistake, please sign in with an authorized account.</value>
+  </data>
+  <data name="switchaccount" xml:space="preserve">
+    <value>Sign In with Another Account</value>
+  </data>
 </root>

@@ -2,12 +2,14 @@
 using Buyora.Areas.Admin.ViewModels.Category;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace Buyora.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Employee")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -23,6 +25,7 @@ namespace Buyora.Areas.Admin.Controllers
             var displays = _mapper.Map<List<GetCategoriesListViewModel>>(categories);
             return View(displays);
         }
+        
         public async Task<IActionResult> Create()
         {
             return View();

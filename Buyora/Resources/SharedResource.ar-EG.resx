@@ -663,4 +663,25 @@
   <data name="resendconfirmation" xml:space="preserve">
     <value>إعادة إرسال الرابط</value>
   </data>
+  <data name="accessdenied" xml:space="preserve">
+    <value>تم رفض الوصول</value>
+  </data>
+  <data name="accessdeniedsubtitle" xml:space="preserve">
+    <value>عذراً، لا تملك الصلاحيات اللازمة لعرض هذه الصفحة أو تنفيذ هذا الإجراء.</value>
+  </data>
+  <data name="restrictedarea" xml:space="preserve">
+    <value>منطقة مقيدة الصلاحيات</value>
+  </data>
+  <data name="permissionrequired" xml:space="preserve">
+    <value>للمصرح لهم فقط</value>
+  </data>
+  <data name="whyseeingthis" xml:space="preserve">
+    <value>لماذا تظهر لي هذه الصفحة؟</value>
+  </data>
+  <data name="accessdeniedreason" xml:space="preserve">
+    <value>صلاحيات حسابك الحالي لا تسمح بالدخول إلى هذا القسم. إذا كنت تعتقد أن هذا خطأ، يرجى تسجيل الدخول بحساب يملك الصلاحية.</value>
+  </data>
+  <data name="switchaccount" xml:space="preserve">
+    <value>الدخول بحساب آخر</value>
+  </data>
 </root>

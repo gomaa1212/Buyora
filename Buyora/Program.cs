@@ -15,7 +15,7 @@ builder.Services.AddUnitOFWorkDependencyInjection();
 
 builder.Services.AddServiceDependencyInjection();
 
-builder.Services.AddIdentityDependencyInjection();
+builder.Services.AddIdentityDependencyInjection(builder.Configuration);
 
 // Languages
 builder.Services.Configure<RequestLocalizationOptions>(options =>
