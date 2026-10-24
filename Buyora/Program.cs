@@ -15,6 +15,8 @@ builder.Services.AddUnitOFWorkDependencyInjection();
 
 builder.Services.AddServiceDependencyInjection();
 
+builder.Services.AddIdentityDependencyInjection();
+
 // Languages
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -62,6 +64,8 @@ app.Use(async (context, next) =>
 });
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

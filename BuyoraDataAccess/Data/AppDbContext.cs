@@ -1,10 +1,12 @@
 ﻿
 using BuyoraModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuyoraDataAccess.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         public AppDbContext()
         {
@@ -16,8 +18,11 @@ namespace BuyoraDataAccess.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Product>()
                 .Property(x => x.Price)
                 .HasPrecision(18, 2);

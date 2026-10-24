@@ -1,0 +1,165 @@
+﻿@model RegisterViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["register"];
+}
+
+<div class="buyora-auth-wrapper py-3 py-md-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-11">
+            <div class="buyora-card buyora-auth-card overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 buyora-auth-visual d-flex flex-column justify-content-between p-4 p-xl-5 text-white position-relative">
+                        <div class="position-relative z-2 text-center text-lg-start">
+                            <span class="buyora-auth-badge d-inline-flex align-items-center gap-2 mb-3">
+                                <i class="bi bi-shield-check text-buyora-orange"></i>
+                                <span>@_localizer["secureaccount"]</span>
+                            </span>
+                            <h3 class="fw-extrabold mb-2">@_localizer["welcometobuyora"]</h3>
+                            <p class="text-white-50 small mb-0">@_localizer["registersidebarsubtitle"]</p>
+                        </div>
+
+                        <div class="buyora-auth-img-stage my-2 position-relative z-2 text-center">
+                            <img src="/Register.jpeg" alt="Buyora Register" class="buyora-auth-img img-fluid" />
+                        </div>
+
+                        <div class="position-relative z-2">
+                            <div class="d-flex align-items-center gap-3 p-3 rounded-4 buyora-auth-perks">
+                                <div class="buyora-perk-icon">
+                                    <i class="bi bi-gift-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 small text-white">@_localizer["exclusiveoffers"]</h6>
+                                    <span class="text-white-50" style="font-size: 0.78rem;">@_localizer["exclusiveofferssub"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-7 p-4 p-sm-5 bg-white d-flex flex-column justify-content-center">
+                        <div class="mb-4">
+                            <h3 class="fw-extrabold text-buyora-blue mb-1">@_localizer["createaccount"]</h3>
+                            <p class="text-muted small mb-0">@_localizer["registersubtitle"]</p>
+                        </div>
+
+                        <form asp-action="Register" method="post" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-3" role="alert"></div>
+
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label asp-for="Name" class="form-label buyora-label">
+                                        <i class="bi bi-person-fill text-buyora-orange me-1"></i> @_localizer["fullname"]
+                                    </label>
+                                    <input asp-for="Name" class="form-control buyora-input" placeholder="@_localizer["fullnameplaceholder"]" autocomplete="name" />
+                                    <span asp-validation-for="Name" class="text-danger small mt-1 d-block fw-medium"></span>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <label asp-for="Email" class="form-label buyora-label">
+                                        <i class="bi bi-envelope-fill text-buyora-blue me-1"></i> @_localizer["email"]
+                                    </label>
+                                    <input asp-for="Email" type="email" class="form-control buyora-input" placeholder="name@example.com" dir="ltr" autocomplete="email" />
+                                    <span asp-validation-for="Email" class="text-danger small mt-1 d-block fw-medium"></span>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <label asp-for="PhoneNumber" class="form-label buyora-label">
+                                        <i class="bi bi-telephone-fill text-buyora-orange me-1"></i> @_localizer["phonenumber"]
+                                    </label>
+                                    <input asp-for="PhoneNumber" type="tel" class="form-control buyora-input" placeholder="01xxxxxxxxx" dir="ltr" autocomplete="tel" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger small mt-1 d-block fw-medium"></span>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <label asp-for="Password" class="form-label buyora-label">
+                                        <i class="bi bi-lock-fill text-buyora-orange me-1"></i> @_localizer["password"]
+                                    </label>
+                                    <div class="position-relative">
+                                        <input asp-for="Password" type="password" id="registerPassword" class="form-control buyora-input buyora-pass-input" placeholder="••••••••" dir="ltr" autocomplete="new-password" />
+                                        <button type="button" class="buyora-pass-toggle" onclick="togglePasswordVisibility('registerPassword', this)" aria-label="Toggle Password">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger small mt-1 d-block fw-medium"></span>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <label asp-for="ConfirmPassword" class="form-label buyora-label">
+                                        <i class="bi bi-shield-lock-fill text-buyora-blue me-1"></i> @_localizer["confirmpassword"]
+                                    </label>
+                                    <div class="position-relative">
+                                        <input asp-for="ConfirmPassword" type="password" id="registerConfirmPassword" class="form-control buyora-input buyora-pass-input" placeholder="••••••••" dir="ltr" autocomplete="new-password" />
+                                        <button type="button" class="buyora-pass-toggle" onclick="togglePasswordVisibility('registerConfirmPassword', this)" aria-label="Toggle Confirm Password">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger small mt-1 d-block fw-medium"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="Address" class="form-label buyora-label">
+                                        <i class="bi bi-geo-alt-fill text-buyora-orange me-1"></i> @_localizer["address"]
+                                    </label>
+                                    <textarea asp-for="Address" rows="2" class="form-control buyora-input" placeholder="@_localizer["addressplaceholder"]" autocomplete="street-address"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger small mt-1 d-block fw-medium"></span>
+                                </div>
+
+                                <div class="col-12 pt-2">
+                                    <button type="submit" class="btn btn-buyora-accent btn-add-to-cart w-100 py-3 d-flex align-items-center justify-content-center gap-2 fs-6">
+                                        <i class="bi bi-person-plus-fill fs-5 cart-btn-icon"></i>
+                                        <span class="cart-btn-text">@_localizer["register"]</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="buyora-auth-divider my-3">
+                            <span>@_localizer["orcontinuewith"]</span>
+                        </div>
+
+                        <form asp-action="ExternalLogin" asp-route-provider="Google" method="post">
+                            <button type="submit" class="btn buyora-google-btn w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                                <svg class="buyora-google-icon" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                                </svg>
+                                <span>@_localizer["continuewithgoogle"]</span>
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-4 pt-3 border-top">
+                            <span class="text-muted small">@_localizer["alreadyhaveaccount"]</span>
+                            <a asp-action="Login" class="fw-bold text-buyora-blue text-decoration-none ms-1 buyora-auth-link">
+                                @_localizer["login"]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (!input) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
+}

@@ -411,4 +411,256 @@
   <data name="promosubtitle" xml:space="preserve">
     <value>تصفح مئات المنتجات الأصلية بأفضل الأسعار والعروض الحصرية اليوم.</value>
   </data>
+  <data name="register" xml:space="preserve">
+    <value>إنشاء حساب</value>
+  </data>
+  <data name="createaccount" xml:space="preserve">
+    <value>إنشاء حساب جديد</value>
+  </data>
+  <data name="registersubtitle" xml:space="preserve">
+    <value>أدخل بياناتك بالأسفل لتبدأ تجربة التسوق في Buyora</value>
+  </data>
+  <data name="secureaccount" xml:space="preserve">
+    <value>تسجيل آمن وموثوق 100%</value>
+  </data>
+  <data name="welcometobuyora" xml:space="preserve">
+    <value>انضم لعائلة Buyora!</value>
+  </data>
+  <data name="registersidebarsubtitle" xml:space="preserve">
+    <value>أنشئ حسابك لمتابعة طلباتك بسهولة والاستمتاع بعمليات شراء سريعة وآمنة.</value>
+  </data>
+  <data name="exclusiveoffers" xml:space="preserve">
+    <value>عروض حصرية للأعضاء</value>
+  </data>
+  <data name="exclusiveofferssub" xml:space="preserve">
+    <value>احصل على خصومات وهدايا خاصة فور تسجيلك</value>
+  </data>
+  <data name="fullname" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="fullnameplaceholder" xml:space="preserve">
+    <value>أدخل اسمك بالكامل</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="confirmpassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="address" xml:space="preserve">
+    <value>عنوان التوصيل</value>
+  </data>
+  <data name="addressplaceholder" xml:space="preserve">
+    <value>المحافظة، المنطقة، اسم الشارع، رقم العقار...</value>
+  </data>
+  <data name="alreadyhaveaccount" xml:space="preserve">
+    <value>لديك حساب بالفعل؟</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="continuewithgoogle" xml:space="preserve">
+    <value>المتابعة باستخدام حساب Google</value>
+  </data>
+  <data name="orregisterwithemail" xml:space="preserve">
+    <value>أو التسجيل بالبريد الإلكتروني</value>
+  </data>
+  <data name="phonenumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="orcontinuewith" xml:space="preserve">
+    <value>أو المتابعة باستخدام</value>
+  </data>
+  <data name="almostthere" xml:space="preserve">
+    <value>خطوة واحدة متبقية!</value>
+  </data>
+  <data name="checkyouremail" xml:space="preserve">
+    <value>راجع بريدك الإلكتروني</value>
+  </data>
+  <data name="checkemailsubtitle" xml:space="preserve">
+    <value>لقد أرسلنا رابط تفعيل إلى بريدك الإلكتروني لتأكيد حسابك في Buyora.</value>
+  </data>
+  <data name="verificationlinksentto" xml:space="preserve">
+    <value>تم إرسال رابط التفعيل إلى:</value>
+  </data>
+  <data name="nextsteps" xml:space="preserve">
+    <value>الخطوات التالية</value>
+  </data>
+  <data name="step1title" xml:space="preserve">
+    <value>افتح صندوق الوارد في بريدك</value>
+  </data>
+  <data name="step1desc" xml:space="preserve">
+    <value>ابحث عن رسالة من Buyora بعنوان تأكيد الحساب.</value>
+  </data>
+  <data name="step2title" xml:space="preserve">
+    <value>اضغط على زر تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="step2desc" xml:space="preserve">
+    <value>اضغط على الزر البرتقالي داخل الرسالة لتفعيل حسابك فوراً.</value>
+  </data>
+  <data name="step3title" xml:space="preserve">
+    <value>ابدأ التسوق!</value>
+  </data>
+  <data name="step3desc" xml:space="preserve">
+    <value>بمجرد التفعيل، سجل دخولك واستمتع بعروض Buyora الحصرية.</value>
+  </data>
+  <data name="openemailapp" xml:space="preserve">
+    <value>فتح البريد الإلكتروني</value>
+  </data>
+  <data name="backtologin" xml:space="preserve">
+    <value>العودة لتسجيل الدخول</value>
+  </data>
+  <data name="checkspamfolder" xml:space="preserve">
+    <value>لم تصلك الرسالة؟ يرجى التحقق من مجلد الرسائل غير المرغوب فيها (Spam).</value>
+  </data>
+  <data name="emailconfirmed" xml:space="preserve">
+    <value>تم تأكيد البريد الإلكتروني بنجاح!</value>
+  </data>
+  <data name="emailconfirmedsubtitle" xml:space="preserve">
+    <value>تم التحقق من بريدك الإلكتروني بنجاح. يمكنك الآن استخدام كافة مميزات Buyora والبدء بالتسوق.</value>
+  </data>
+  <data name="congratulations" xml:space="preserve">
+    <value>تهانينا</value>
+  </data>
+  <data name="accountactivated" xml:space="preserve">
+    <value>تم تفعيل الحساب بالكامل</value>
+  </data>
+  <data name="accountactivatedsub" xml:space="preserve">
+    <value>لديك الآن صلاحية كاملة لحسابك، طلباتك، وقائمة المفضلة.</value>
+  </data>
+  <data name="loginnow" xml:space="preserve">
+    <value>تسجيل الدخول إلى حسابك</value>
+  </data>
+  <data name="returntohome" xml:space="preserve">
+    <value>العودة للرئيسية</value>
+  </data>
+  <data name="securelogin" xml:space="preserve">
+    <value>دخول آمن ومحمي</value>
+  </data>
+  <data name="welcomeback" xml:space="preserve">
+    <value>مرحباً بعودتك!</value>
+  </data>
+  <data name="loginsidebarsubtitle" xml:space="preserve">
+    <value>سجل دخولك للوصول إلى سلة مشترياتك ومتابعة طلباتك واستكشاف أحدث العروض.</value>
+  </data>
+  <data name="fastcheckout" xml:space="preserve">
+    <value>تسوق سلس وسريع</value>
+  </data>
+  <data name="fastcheckoutsub" xml:space="preserve">
+    <value>منتجاتك المحفوظة وعناوينك جاهزة لإتمام الطلب فوراً</value>
+  </data>
+  <data name="loginsubtitle" xml:space="preserve">
+    <value>أدخل بريدك الإلكتروني وكلمة المرور للوصول إلى حسابك في Buyora</value>
+  </data>
+  <data name="forgotpassword" xml:space="preserve">
+    <value>نسيت كلمة المرور؟</value>
+  </data>
+  <data name="rememberme" xml:space="preserve">
+    <value>تذكرني</value>
+  </data>
+  <data name="remembermesub" xml:space="preserve">
+    <value>البقاء متصلاً على هذا الجهاز</value>
+  </data>
+  <data name="donthaveaccount" xml:space="preserve">
+    <value>ليس لديك حساب بعد؟</value>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="passwordrecovery" xml:space="preserve">
+    <value>استعادة الحساب</value>
+  </data>
+  <data name="forgotpasswordsidebarsubtitle" xml:space="preserve">
+    <value>لا تقلق! يمكنك استعادة كلمة المرور الخاصة بك في خطوات بسيطة وسريعة.</value>
+  </data>
+  <data name="quickandsecure" xml:space="preserve">
+    <value>تحقق فوري وآمن</value>
+  </data>
+  <data name="quickandsecuresub" xml:space="preserve">
+    <value>سيتم إرسال رابط آمن لإعادة تعيين كلمة المرور إلى بريدك</value>
+  </data>
+  <data name="dontworry" xml:space="preserve">
+    <value>لا مشكلة!</value>
+  </data>
+  <data name="resetpasswordtitle" xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="resetpasswordsubtitle" xml:space="preserve">
+    <value>أدخل البريد الإلكتروني المرتبط بحسابك في Buyora وسنرسل لك رابطاً لإعادة تعيين كلمة المرور.</value>
+  </data>
+  <data name="resetpasswordhint" xml:space="preserve">
+    <value>تأكد من إدخال نفس البريد الإلكتروني المستخدم عند التسجيل، وتفقد مجلد الرسائل غير المرغوب فيها (Spam) إذا لم تصلك الرسالة خلال دقيقة.</value>
+  </data>
+  <data name="sendresetlink" xml:space="preserve">
+    <value>إرسال رابط الاستعادة</value>
+  </data>
+  <data name="rememberedpassword" xml:space="preserve">
+    <value>تذكرت كلمة المرور؟</value>
+  </data>
+  <data name="forgotpasswordconfirmation" xml:space="preserve">
+    <value>تم إرسال بريد استعادة كلمة المرور</value>
+  </data>
+  <data name="resetlinksent" xml:space="preserve">
+    <value>تم إرسال رابط الاستعادة</value>
+  </data>
+  <data name="forgotpasswordsentsubtitle" xml:space="preserve">
+    <value>لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى اتباع التعليمات لإنشاء كلمة مرور جديدة.</value>
+  </data>
+  <data name="resetlinksentto" xml:space="preserve">
+    <value>تم إرسال رابط إعادة التعيين إلى:</value>
+  </data>
+  <data name="forgotstep1desc" xml:space="preserve">
+    <value>ابحث عن رسالة من Buyora تخص طلب استعادة كلمة المرور.</value>
+  </data>
+  <data name="forgotstep2desc" xml:space="preserve">
+    <value>اضغط على زر إعادة التعيين داخل البريد لتعيين كلمة مرور جديدة ومحمية.</value>
+  </data>
+  <data name="forgotstep3desc" xml:space="preserve">
+    <value>سجل دخولك إلى حسابك في Buyora باستخدام كلمة المرور الجديدة.</value>
+  </data>
+  <data name="changepassword" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="securereset" xml:space="preserve">
+    <value>تحديث آمن لكلمة المرور</value>
+  </data>
+  <data name="almostdone" xml:space="preserve">
+    <value>لقد أوشكت على الانتهاء!</value>
+  </data>
+  <data name="changepasswordsidebarsubtitle" xml:space="preserve">
+    <value>أنشئ كلمة مرور جديدة وآمنة لحسابك في Buyora للمتابعة.</value>
+  </data>
+  <data name="strongpassword" xml:space="preserve">
+    <value>أقصى درجات الأمان</value>
+  </data>
+  <data name="strongpasswordsub" xml:space="preserve">
+    <value>استخدم مزيجاً من الحروف والأرقام والرموز</value>
+  </data>
+  <data name="newcredentials" xml:space="preserve">
+    <value>بيانات الاعتماد الجديدة</value>
+  </data>
+  <data name="changepasswordsubtitle" xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور الجديدة بالأسفل. تأكد من أنها قوية وآمنة.</value>
+  </data>
+  <data name="newpassword" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="updatepassword" xml:space="preserve">
+    <value>تحديث كلمة المرور</value>
+  </data>
+  <data name="forgotstep3title" xml:space="preserve">
+    <value>سجّل الدخول إلى حسابك</value>
+  </data>
+  <data name="emailnotconfirmedtitle" xml:space="preserve">
+    <value>الحساب غير مفعل بعد</value>
+  </data>
+  <data name="emailnotconfirmedsub" xml:space="preserve">
+    <value>يرجى تفعيل بريدك الإلكتروني أو طلب رابط تفعيل جديد.</value>
+  </data>
+  <data name="resendconfirmation" xml:space="preserve">
+    <value>إعادة إرسال الرابط</value>
+  </data>
 </root>

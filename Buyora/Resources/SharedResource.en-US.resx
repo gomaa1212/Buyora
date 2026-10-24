@@ -411,4 +411,256 @@
   <data name="promosubtitle" xml:space="preserve">
     <value>Browse hundreds of authentic items with unbeatable offers today.</value>
   </data>
+  <data name="register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="createaccount" xml:space="preserve">
+    <value>Create Your Account</value>
+  </data>
+  <data name="registersubtitle" xml:space="preserve">
+    <value>Fill in your details below to start shopping with Buyora</value>
+  </data>
+  <data name="secureaccount" xml:space="preserve">
+    <value>100% Secure Registration</value>
+  </data>
+  <data name="welcometobuyora" xml:space="preserve">
+    <value>Join Buyora Family!</value>
+  </data>
+  <data name="registersidebarsubtitle" xml:space="preserve">
+    <value>Create an account to track orders, save items, and enjoy fast checkout.</value>
+  </data>
+  <data name="exclusiveoffers" xml:space="preserve">
+    <value>Member Exclusive Deals</value>
+  </data>
+  <data name="exclusiveofferssub" xml:space="preserve">
+    <value>Get instant access to special discounts</value>
+  </data>
+  <data name="fullname" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="fullnameplaceholder" xml:space="preserve">
+    <value>Enter your full name</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="confirmpassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="address" xml:space="preserve">
+    <value>Delivery Address</value>
+  </data>
+  <data name="addressplaceholder" xml:space="preserve">
+    <value>City, Street, Building number...</value>
+  </data>
+  <data name="alreadyhaveaccount" xml:space="preserve">
+    <value>Already have an account?</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="continuewithgoogle" xml:space="preserve">
+    <value>Continue with Google</value>
+  </data>
+  <data name="orregisterwithemail" xml:space="preserve">
+    <value>Or register with email</value>
+  </data>
+  <data name="phonenumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="orcontinuewith" xml:space="preserve">
+    <value>Or continue with</value>
+  </data>
+  <data name="almostthere" xml:space="preserve">
+    <value>Almost There!</value>
+  </data>
+  <data name="checkyouremail" xml:space="preserve">
+    <value>Check Your Email</value>
+  </data>
+  <data name="checkemailsubtitle" xml:space="preserve">
+    <value>We've sent a confirmation link to your email address to activate your Buyora account.</value>
+  </data>
+  <data name="verificationlinksentto" xml:space="preserve">
+    <value>Verification link sent to:</value>
+  </data>
+  <data name="nextsteps" xml:space="preserve">
+    <value>What to do next</value>
+  </data>
+  <data name="step1title" xml:space="preserve">
+    <value>Open your email inbox</value>
+  </data>
+  <data name="step1desc" xml:space="preserve">
+    <value>Look for an email from Buyora with the subject "Confirm your Buyora Account".</value>
+  </data>
+  <data name="step2title" xml:space="preserve">
+    <value>Click the confirmation button</value>
+  </data>
+  <data name="step2desc" xml:space="preserve">
+    <value>Click the orange verification button inside the email to activate your account.</value>
+  </data>
+  <data name="step3title" xml:space="preserve">
+    <value>Start shopping!</value>
+  </data>
+  <data name="step3desc" xml:space="preserve">
+    <value>Once verified, sign in and enjoy exclusive Buyora deals.</value>
+  </data>
+  <data name="openemailapp" xml:space="preserve">
+    <value>Open Gmail</value>
+  </data>
+  <data name="backtologin" xml:space="preserve">
+    <value>Back to Sign In</value>
+  </data>
+  <data name="checkspamfolder" xml:space="preserve">
+    <value>Didn't receive the email? Please check your Spam or Promotions folder.</value>
+  </data>
+  <data name="emailconfirmed" xml:space="preserve">
+    <value>Email Confirmed Successfully!</value>
+  </data>
+  <data name="emailconfirmedsubtitle" xml:space="preserve">
+    <value>Your email address has been successfully verified. You can now access all Buyora features and start shopping.</value>
+  </data>
+  <data name="congratulations" xml:space="preserve">
+    <value>Congratulations</value>
+  </data>
+  <data name="accountactivated" xml:space="preserve">
+    <value>Account is fully activated</value>
+  </data>
+  <data name="accountactivatedsub" xml:space="preserve">
+    <value>You have full access to your Buyora profile, orders, and wishlist.</value>
+  </data>
+  <data name="loginnow" xml:space="preserve">
+    <value>Sign In to Your Account</value>
+  </data>
+  <data name="returntohome" xml:space="preserve">
+    <value>Return to Store Home</value>
+  </data>
+  <data name="securelogin" xml:space="preserve">
+    <value>Protected Sign In</value>
+  </data>
+  <data name="welcomeback" xml:space="preserve">
+    <value>Welcome Back!</value>
+  </data>
+  <data name="loginsidebarsubtitle" xml:space="preserve">
+    <value>Sign in to access your cart, track your orders, and explore new deals.</value>
+  </data>
+  <data name="fastcheckout" xml:space="preserve">
+    <value>Seamless Shopping</value>
+  </data>
+  <data name="fastcheckoutsub" xml:space="preserve">
+    <value>Your saved items and addresses are ready</value>
+  </data>
+  <data name="loginsubtitle" xml:space="preserve">
+    <value>Enter your email and password to access your Buyora account</value>
+  </data>
+  <data name="forgotpassword" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
+  <data name="rememberme" xml:space="preserve">
+    <value>Remember Me</value>
+  </data>
+  <data name="remembermesub" xml:space="preserve">
+    <value>Keep me signed in on this device</value>
+  </data>
+  <data name="donthaveaccount" xml:space="preserve">
+    <value>Don't have an account yet?</value>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Log Out</value>
+  </data>
+  <data name="passwordrecovery" xml:space="preserve">
+    <value>Account Recovery</value>
+  </data>
+  <data name="forgotpasswordsidebarsubtitle" xml:space="preserve">
+    <value>Happened to the best of us! Resetting your password is quick and easy.</value>
+  </data>
+  <data name="quickandsecure" xml:space="preserve">
+    <value>Instant Verification</value>
+  </data>
+  <data name="quickandsecuresub" xml:space="preserve">
+    <value>A secure reset link will be sent to your inbox</value>
+  </data>
+  <data name="dontworry" xml:space="preserve">
+    <value>No Problem!</value>
+  </data>
+  <data name="resetpasswordtitle" xml:space="preserve">
+    <value>Reset Your Password</value>
+  </data>
+  <data name="resetpasswordsubtitle" xml:space="preserve">
+    <value>Enter the email address associated with your Buyora account and we will send you a link to reset your password.</value>
+  </data>
+  <data name="resetpasswordhint" xml:space="preserve">
+    <value>Make sure to enter the exact email address you used during registration, and check your Spam folder if the email doesn't arrive within a minute.</value>
+  </data>
+  <data name="sendresetlink" xml:space="preserve">
+    <value>Send Reset Link</value>
+  </data>
+  <data name="rememberedpassword" xml:space="preserve">
+    <value>Remembered your password?</value>
+  </data>
+  <data name="forgotpasswordconfirmation" xml:space="preserve">
+    <value>Password Reset Email Sent</value>
+  </data>
+  <data name="resetlinksent" xml:space="preserve">
+    <value>Reset Link Sent</value>
+  </data>
+  <data name="forgotpasswordsentsubtitle" xml:space="preserve">
+    <value>We have sent a password reset link to your email address. Please follow the instructions to secure a new password.</value>
+  </data>
+  <data name="resetlinksentto" xml:space="preserve">
+    <value>Password reset link sent to:</value>
+  </data>
+  <data name="forgotstep1desc" xml:space="preserve">
+    <value>Look for an email from Buyora regarding your password reset request.</value>
+  </data>
+  <data name="forgotstep2desc" xml:space="preserve">
+    <value>Click the reset button inside the email to set a new secure password.</value>
+  </data>
+  <data name="forgotstep3desc" xml:space="preserve">
+    <value>Sign in to your Buyora account using your new password.</value>
+  </data>
+  <data name="changepassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="securereset" xml:space="preserve">
+    <value>Secure Password Update</value>
+  </data>
+  <data name="almostdone" xml:space="preserve">
+    <value>Almost Done!</value>
+  </data>
+  <data name="changepasswordsidebarsubtitle" xml:space="preserve">
+    <value>Create a new secure password for your Buyora account to continue.</value>
+  </data>
+  <data name="strongpassword" xml:space="preserve">
+    <value>Maximum Security</value>
+  </data>
+  <data name="strongpasswordsub" xml:space="preserve">
+    <value>Use a mix of letters, numbers, &amp; symbols</value>
+  </data>
+  <data name="newcredentials" xml:space="preserve">
+    <value>New Credentials</value>
+  </data>
+  <data name="changepasswordsubtitle" xml:space="preserve">
+    <value>Please enter your new password below. Make sure it's strong and secure.</value>
+  </data>
+  <data name="newpassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="updatepassword" xml:space="preserve">
+    <value>Update Password</value>
+  </data>
+  <data name="forgotstep3title" xml:space="preserve">
+    <value>Sign In to Your Account</value>
+  </data>
+  <data name="emailnotconfirmedtitle" xml:space="preserve">
+    <value>Account Not Activated Yet</value>
+  </data>
+  <data name="emailnotconfirmedsub" xml:space="preserve">
+    <value>Please verify your email or request a new activation link.</value>
+  </data>
+  <data name="resendconfirmation" xml:space="preserve">
+    <value>Resend Link</value>
+  </data>
 </root>

@@ -1,0 +1,55 @@
+﻿@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["emailconfirmed"];
+}
+
+<div class="buyora-auth-wrapper py-3 py-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+            <div class="buyora-card buyora-auth-card overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 buyora-auth-visual d-flex flex-column justify-content-center align-items-center p-4 p-xl-5 text-white position-relative">
+                        <div class="buyora-auth-img-stage position-relative z-2 text-center my-auto">
+                            <img src="/ConfirmEmail.png" alt="Email Confirmed" class="buyora-auth-img img-fluid" />
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-7 p-4 p-sm-5 bg-white d-flex flex-column justify-content-center text-center text-sm-start">
+                        <div class="mb-4">
+                            <div class="buyora-success-icon-badge mx-auto mx-sm-0 mb-3">
+                                <i class="bi bi-check-lg"></i>
+                            </div>
+                            <span class="text-buyora-orange fw-bold small text-uppercase d-block mb-1">@_localizer["congratulations"]</span>
+                            <h2 class="fw-extrabold text-buyora-blue mb-2">@_localizer["emailconfirmed"]</h2>
+                            <p class="text-muted mb-0">@_localizer["emailconfirmedsubtitle"]</p>
+                        </div>
+
+                        <div class="buyora-success-box p-4 rounded-4 mb-4 text-start">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="buyora-success-check">
+                                    <i class="bi bi-shield-fill-check"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-1 small">@_localizer["accountactivated"]</h6>
+                                    <span class="text-muted" style="font-size: 0.82rem;">@_localizer["accountactivatedsub"]</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <a asp-action="Login" class="btn btn-buyora-accent btn-add-to-cart py-3 d-flex align-items-center justify-content-center gap-2 fs-6">
+                                <i class="bi bi-box-arrow-in-right fs-5 cart-btn-icon"></i>
+                                <span class="cart-btn-text">@_localizer["loginnow"]</span>
+                            </a>
+                            <a asp-controller="Home" asp-action="Index" asp-area="Customer" class="btn buyora-btn-outline py-2 d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-house-door"></i>
+                                <span>@_localizer["returntohome"]</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
