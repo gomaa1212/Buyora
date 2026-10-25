@@ -23,18 +23,21 @@
                                 -@discountPercentage% @_localizer["off"]
                             </span>
                         }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                        {
+                            <div class="buyora-product-actions">
+                                <a asp-action="Details" asp-route-id="@product.Id" class="buyora-quick-btn btn-details" title="@_localizer["productdetails"]">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="buyora-quick-btn btn-edit-sm" title="@_localizer["edit"]">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@product.Id" class="buyora-quick-btn btn-delete-sm" title="@_localizer["delete"]">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        }
 
-                        <div class="buyora-product-actions">
-                            <a asp-action="Details" asp-route-id="@product.Id" class="buyora-quick-btn btn-details" title="@_localizer["productdetails"]">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a asp-action="Edit" asp-route-id="@product.Id" class="buyora-quick-btn btn-edit-sm" title="@_localizer["edit"]">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@product.Id" class="buyora-quick-btn btn-delete-sm" title="@_localizer["delete"]">
-                                <i class="bi bi-trash3"></i>
-                            </a>
-                        </div>
 
                         <a asp-action="Details" asp-route-id="@product.Id" class="d-block h-100">
                             @if (!string.IsNullOrEmpty(product.MainUrl))

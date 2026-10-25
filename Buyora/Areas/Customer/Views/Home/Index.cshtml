@@ -123,10 +123,14 @@
                 <span class="text-buyora-orange fw-bold small text-uppercase">@_localizer["explore"]</span>
                 <h3 class="fw-extrabold text-buyora-blue mb-0">@_localizer["shopbycategory"]</h3>
             </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
             <a asp-controller="Category" asp-area="Admin" asp-action="Index" class="btn buyora-btn-outline btn-sm d-inline-flex align-items-center gap-1">
                 <span>@_localizer["viewall"]</span>
                 <i class="bi bi-arrow-right-short fs-5 buyora-rtl-flip"></i>
             </a>
+                
+            }
         </div>
 
         @if (categories != null && categories.Any())

@@ -684,4 +684,31 @@
   <data name="switchaccount" xml:space="preserve">
     <value>Sign In with Another Account</value>
   </data>
+  <data name="adminpanel" xml:space="preserve">
+    <value>Admin Panel</value>
+  </data>
+  <data name="overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="catalogandsales" xml:space="preserve">
+    <value>Catalog &amp; Sales</value>
+  </data>
+  <data name="orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="management" xml:space="preserve">
+    <value>Management</value>
+  </data>
+  <data name="users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="store" xml:space="preserve">
+    <value>View Store</value>
+  </data>
+  <data name="administrator" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
 </root>

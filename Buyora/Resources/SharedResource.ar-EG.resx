@@ -684,4 +684,31 @@
   <data name="switchaccount" xml:space="preserve">
     <value>الدخول بحساب آخر</value>
   </data>
+  <data name="adminpanel" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="overview" xml:space="preserve">
+    <value>نظرة عامة</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>الرئيسية والإحصائيات</value>
+  </data>
+  <data name="catalogandsales" xml:space="preserve">
+    <value>المتجر والمبيعات</value>
+  </data>
+  <data name="orders" xml:space="preserve">
+    <value>الطلبات</value>
+  </data>
+  <data name="management" xml:space="preserve">
+    <value>الإدارة</value>
+  </data>
+  <data name="users" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
+  <data name="store" xml:space="preserve">
+    <value>العودة للمتجر</value>
+  </data>
+  <data name="administrator" xml:space="preserve">
+    <value>مدير النظام</value>
+  </data>
 </root>
