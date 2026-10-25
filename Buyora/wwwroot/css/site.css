@@ -1473,3 +1473,238 @@ html[dir="rtl"] .buyora-cat-pill {
     -webkit-text-fill-color: transparent;
     line-height: 1.1;
 }
+.buyora-admin-body {
+    background-color: #f1f5f9;
+    overflow-x: hidden;
+}
+
+.buyora-admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.buyora-admin-sidebar {
+    width: 275px;
+    background: linear-gradient(180deg, #071f4e 0%, #092c74 60%, #06183d 100%);
+    color: #ffffff;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    inset-inline-start: 0;
+    z-index: 1045;
+    box-shadow: 0 10px 30px rgba(7, 31, 78, 0.25);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.buyora-sidebar-brand {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    min-height: 76px;
+}
+
+.buyora-sidebar-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 3px;
+}
+
+.buyora-sidebar-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+}
+
+.buyora-sidebar-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #FFA800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.buyora-nav-group-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.buyora-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.72rem 0.95rem;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.94rem;
+    transition: all 0.25s ease;
+}
+
+.buyora-sidebar-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background-color: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.85);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.buyora-sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+html[dir="rtl"] .buyora-sidebar-link:hover {
+    transform: translateX(-4px);
+}
+
+.buyora-sidebar-link:hover .buyora-sidebar-icon {
+    background-color: rgba(255, 107, 0, 0.2);
+    color: #FFA800;
+}
+
+.buyora-sidebar-link.active {
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(255, 107, 0, 0.32);
+}
+
+    .buyora-sidebar-link.active .buyora-sidebar-icon {
+        background-color: rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+    }
+
+.buyora-sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(4, 15, 45, 0.35);
+}
+
+.buyora-sidebar-store-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-radius: 11px;
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+}
+
+    .buyora-sidebar-store-btn:hover {
+        background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+        border-color: var(--buyora-orange);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(255, 107, 0, 0.3);
+    }
+
+.buyora-sidebar-logout-btn {
+    background-color: rgba(239, 68, 68, 0.14);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    color: #fca5a5;
+    border-radius: 11px;
+    padding: 0.62rem 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+}
+
+    .buyora-sidebar-logout-btn:hover {
+        background-color: #ef4444;
+        border-color: #ef4444;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+.buyora-admin-main {
+    flex: 1;
+    margin-inline-start: 275px;
+    min-width: 0;
+    transition: margin 0.3s ease;
+}
+
+.buyora-admin-topbar {
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e2e8f0;
+    min-height: 76px;
+    z-index: 1020;
+}
+
+.buyora-sidebar-toggle {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: var(--buyora-blue-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buyora-admin-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.buyora-admin-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #e2e8f0;
+}
+
+.buyora-admin-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(7, 31, 78, 0.55);
+    backdrop-filter: blur(2px);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+    .buyora-admin-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+@media (max-width: 991.98px) {
+    .buyora-admin-main {
+        margin-inline-start: 0;
+    }
+
+    .buyora-admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    html[dir="rtl"] .buyora-admin-sidebar {
+        transform: translateX(100%);
+    }
+
+    .buyora-admin-sidebar.show {
+        transform: translateX(0) !important;
+    }
+}
