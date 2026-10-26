@@ -711,4 +711,70 @@
   <data name="administrator" xml:space="preserve">
     <value>Administrator</value>
   </data>
+  <data name="shoppingcart" xml:space="preserve">
+    <value>Cart</value>
+  </data>
+  <data name="items" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="cartsubtitle" xml:space="preserve">
+    <value>Review your selected items and complete your delivery information</value>
+  </data>
+  <data name="continueshopping" xml:space="preserve">
+    <value>Continue Shopping</value>
+  </data>
+  <data name="emptycarttitle" xml:space="preserve">
+    <value>Your Shopping Cart is Empty</value>
+  </data>
+  <data name="emptycartsubtitle" xml:space="preserve">
+    <value>Looks like you haven't added any products to your cart yet. Explore our store and discover amazing deals!</value>
+  </data>
+  <data name="cartitems" xml:space="preserve">
+    <value>Cart Items</value>
+  </data>
+  <data name="unitprice" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
+  <data name="instock" xml:space="preserve">
+    <value>In Stock</value>
+  </data>
+  <data name="subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="shippingandcheckout" xml:space="preserve">
+    <value>Shipping &amp; Checkout</value>
+  </data>
+  <data name="enterdeliverydetails" xml:space="preserve">
+    <value>Please fill in your delivery details</value>
+  </data>
+  <data name="recipientname" xml:space="preserve">
+    <value>Recipient Name</value>
+  </data>
+  <data name="shippingaddress" xml:space="preserve">
+    <value>Shipping Address</value>
+  </data>
+  <data name="ordernotes" xml:space="preserve">
+    <value>Order Notes (Optional)</value>
+  </data>
+  <data name="ordernotesplaceholder" xml:space="preserve">
+    <value>Special instructions for delivery...</value>
+  </data>
+  <data name="shipping" xml:space="preserve">
+    <value>Shipping</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="totalamount" xml:space="preserve">
+    <value>Total Amount</value>
+  </data>
+  <data name="placeorder" xml:space="preserve">
+    <value>Place Order Now</value>
+  </data>
+  <data name="price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

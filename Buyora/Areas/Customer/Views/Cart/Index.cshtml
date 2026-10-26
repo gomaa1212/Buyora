@@ -1,0 +1,217 @@
+﻿@model ShoppingCartViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["shoppingcart"];
+    var items = Model?.ShoppingCartItems?.ToList() ?? new List<DisplayShoppingCartViewModel>();
+    var totalItemsCount = items.Sum(x => x.Count);
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-6 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-cart-check-fill"></i>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h4 class="fw-extrabold mb-0 text-buyora-blue">@_localizer["shoppingcart"]</h4>
+                        @if (totalItemsCount > 0)
+                        {
+                            <span class="badge rounded-pill bg-warning text-dark fw-bold px-2 py-1">
+                                @totalItemsCount @_localizer["items"]
+                            </span>
+                        }
+                    </div>
+                    <p class="text-muted mb-0 small mt-1">@_localizer["cartsubtitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-2 px-3 py-2">
+                    <i class="bi bi-arrow-left buyora-rtl-flip"></i>
+                    <span>@_localizer["continueshopping"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (!items.Any())
+    {
+        <div class="buyora-card p-5 text-center my-4">
+            <div class="buyora-empty-cart-icon mx-auto mb-3">
+                <i class="bi bi-cart-x"></i>
+            </div>
+            <h4 class="fw-extrabold text-buyora-blue mb-2">@_localizer["emptycarttitle"]</h4>
+            <p class="text-muted small mx-auto mb-4" style="max-width: 440px;">
+                @_localizer["emptycartsubtitle"]
+            </p>
+            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart px-5 py-3 d-inline-flex align-items-center gap-2">
+                <i class="bi bi-bag-plus-fill fs-5 cart-btn-icon"></i>
+                <span class="cart-btn-text">@_localizer["shopnow"]</span>
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4 align-items-start">
+            <div class="col-12 col-lg-7 col-xl-8">
+                <div class="buyora-card overflow-hidden">
+                    <div class="p-3 p-sm-4 border-bottom bg-light bg-opacity-50 d-flex align-items-center justify-content-between">
+                        <h6 class="fw-extrabold text-buyora-blue mb-0 d-flex align-items-center gap-2">
+                            <i class="bi bi-bag-heart-fill text-buyora-orange"></i>
+                            <span>@_localizer["cartitems"] (@items.Count)</span>
+                        </h6>
+                        <span class="text-muted small">@_localizer["price"] / @_localizer["total"]</span>
+                    </div>
+
+                    <div class="divide-y">
+                        @foreach (var item in items)
+                        {
+                            var totalItemPrice = item.Count * item.UnitPrice;
+
+                            <div class="buyora-cart-item p-3 p-sm-4">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-4 col-sm-3 col-md-2">
+                                        <div class="buyora-cart-item-img-box">
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="/@item.ImageUrl.TrimStart('/')" alt="@item.ProductName" class="buyora-cart-item-img" />
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                                                    <i class="bi bi-image fs-3"></i>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8 col-sm-9 col-md-5">
+                                        <h6 class="fw-extrabold text-dark mb-1 text-truncate" title="@item.ProductName">
+                                            @item.ProductName
+                                        </h6>
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="text-muted small">@_localizer["unitprice"]:</span>
+                                            <span class="fw-bold text-buyora-blue small">
+                                                @item.UnitPrice.ToString("N2") @_localizer["currency"]
+                                            </span>
+                                        </div>
+                                        <span class="buyora-stock-pill">
+                                            <i class="bi bi-check-circle-fill"></i> @_localizer["instock"]
+                                        </span>
+                                    </div>
+
+                                    <div class="col-7 col-sm-6 col-md-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="buyora-cart-qty-box d-inline-flex align-items-center">
+                                                <a asp-action="Minus" asp-route-cartId="@item.Id" class="buyora-cart-qty-btn" title="@_localizer["decrease"]">
+                                                    <i class="bi bi-dash"></i>
+                                                </a>
+                                                <span class="buyora-cart-qty-val">@item.Count</span>
+                                                <a asp-action="Plus" asp-route-cartId="@item.Id" class="buyora-cart-qty-btn" title="@_localizer["increase"]">
+                                                    <i class="bi bi-plus"></i>
+                                                </a>
+                                            </div>
+
+                                            <a asp-action="Remove" asp-route-cartId="@item.Id" class="buyora-cart-remove-btn" title="@_localizer["delete"]">
+                                                <i class="bi bi-trash3"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-5 col-sm-6 col-md-2 text-end">
+                                        <span class="text-muted d-block" style="font-size: 0.72rem;">@_localizer["subtotal"]</span>
+                                        <span class="fw-extrabold text-buyora-orange fs-6">
+                                            @totalItemPrice.ToString("N2") <small class="fw-bold">@_localizer["currency"]</small>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-5 col-xl-4">
+                <div class="buyora-card p-4 buyora-checkout-sticky">
+                    <div class="d-flex align-items-center gap-2 pb-3 mb-3 border-bottom">
+                        <div class="buyora-perk-icon" style="width: 36px; height: 36px; font-size: 1rem;">
+                            <i class="bi bi-truck"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-extrabold text-buyora-blue mb-0">@_localizer["shippingandcheckout"]</h5>
+                            <span class="text-muted" style="font-size: 0.78rem;">@_localizer["enterdeliverydetails"]</span>
+                        </div>
+                    </div>
+
+                    <form asp-action="Summary" method="post" novalidate>
+                        <input type="hidden" asp-for="Order.TotalAmount" />
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-3" role="alert"></div>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="Order.Name" class="form-label buyora-label">
+                                    <i class="bi bi-person-fill text-buyora-orange me-1"></i> @_localizer["recipientname"]
+                                </label>
+                                <input asp-for="Order.Name" class="form-control buyora-input" placeholder="@_localizer["fullnameplaceholder"]" />
+                                <span asp-validation-for="Order.Name" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Order.PhoneNumber" class="form-label buyora-label">
+                                    <i class="bi bi-telephone-fill text-buyora-blue me-1"></i> @_localizer["phonenumber"]
+                                </label>
+                                <input asp-for="Order.PhoneNumber" type="tel" class="form-control buyora-input" placeholder="01xxxxxxxxx" dir="ltr" />
+                                <span asp-validation-for="Order.PhoneNumber" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Order.ShippingAddress" class="form-label buyora-label">
+                                    <i class="bi bi-geo-alt-fill text-buyora-orange me-1"></i> @_localizer["shippingaddress"]
+                                </label>
+                                <textarea asp-for="Order.ShippingAddress" rows="2" class="form-control buyora-input" placeholder="@_localizer["addressplaceholder"]"></textarea>
+                                <span asp-validation-for="Order.ShippingAddress" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Order.Notes" class="form-label buyora-label">
+                                    <i class="bi bi-chat-left-text-fill text-buyora-blue me-1"></i> @_localizer["ordernotes"]
+                                </label>
+                                <textarea asp-for="Order.Notes" rows="2" class="form-control buyora-input" placeholder="@_localizer["ordernotesplaceholder"]"></textarea>
+                                <span asp-validation-for="Order.Notes" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+                        </div>
+
+                        <div class="buyora-summary-box p-3 rounded-4 my-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small">@_localizer["items"] (@totalItemsCount)</span>
+                                <span class="fw-bold text-dark small">@Model.Order.TotalAmount.ToString("N2") @_localizer["currency"]</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small">@_localizer["shipping"]</span>
+                                <span class="badge bg-success-subtle text-success fw-bold">@_localizer["free"]</span>
+                            </div>
+                            <hr class="my-2 opacity-10" />
+                            <div class="d-flex align-items-center justify-content-between pt-1">
+                                <span class="fw-extrabold text-buyora-blue">@_localizer["totalamount"]</span>
+                                <span class="fw-extrabold text-buyora-orange fs-4">
+                                    @Model.Order.TotalAmount.ToString("N2") <small class="fs-6">@_localizer["currency"]</small>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-buyora-accent btn-add-to-cart w-100 py-3 d-flex align-items-center justify-content-center gap-2 fs-6">
+                            <i class="bi bi-shield-check fs-5 cart-btn-icon"></i>
+                            <span class="cart-btn-text">@_localizer["placeorder"]</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

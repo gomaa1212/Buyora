@@ -9,5 +9,7 @@
         public void Delete(T entity);
         public void Update(T entity);
         public Task AddRangeAsync(IEnumerable<T> entities);
+        public void RemoveRange(IEnumerable<T> entities);
+
     }
 }

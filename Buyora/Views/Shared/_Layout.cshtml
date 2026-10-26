@@ -1,8 +1,27 @@
-﻿@inject IStringLocalizer<SharedResource> _localizer
+﻿@using Buyora.Helper
+@using Buyora.Resources
+@using BuyoraBusiness.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Localization
+@inject UserManager<ApplicationUser> _userManager
+@inject IShoppingCartService _shoppingCartService
+@inject IStringLocalizer<SharedResource> _localizer
 @inject SignInManager<ApplicationUser> _sinInManager
 
 @{
     var IsRightToLift = CultureHelper.IsRightToLeft();
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
+    int initialCartCount = 0;
+    if (_sinInManager.IsSignedIn(User))
+    {
+        var userId = _userManager.GetUserId(User);
+        if (!string.IsNullOrEmpty(userId))
+        {
+            initialCartCount = await _shoppingCartService.GetUserCartCountAsync(userId);
+        }
+    }
 }
 <!DOCTYPE html>
 <html lang="@(IsRightToLift ? "ar" : "en")" dir="@(IsRightToLift ? "rtl" : "ltr")">
@@ -28,6 +47,29 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+    <div class="buyora-topbar d-none d-md-block">
+        <div class="container d-flex align-items-center justify-content-between py-1">
+            <div class="d-flex align-items-center gap-3">
+                <span class="buyora-topbar-item">
+                    <i class="bi bi-patch-check-fill text-buyora-orange"></i>
+                    <span>100% @_localizer["originalproducts"]</span>
+                </span>
+                <span class="buyora-topbar-divider">|</span>
+                <span class="buyora-topbar-item">
+                    <i class="bi bi-truck text-buyora-orange"></i>
+                    <span>@_localizer["fastdelivery"]</span>
+                </span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="buyora-topbar-item">
+                    <i class="bi bi-headset text-buyora-orange"></i>
+                    <span>@_localizer["support247"]</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg buyora-navbar py-2">
             <div class="container">
@@ -35,62 +77,90 @@
                     <img src="~/Logo.png" alt="Buyora" class="buyora-logo" />
                     <span class="brand-title">Buyora</span>
                 </a>
-                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#buyoraMainNavbar" aria-controls="buyoraMainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <div class="d-flex align-items-center gap-2 d-lg-none">
+                    <a class="buyora-cart-btn position-relative" asp-area="Customer" asp-controller="Cart" asp-action="Index" title="@_localizer["shoppingcart"]">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span class="buyora-cart-count-badge js-cart-count @(initialCartCount > 0 ? "" : "d-none")">
+                            @initialCartCount
+                        </span>
+                    </a>
+                    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#buyoraMainNavbar" aria-controls="buyoraMainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
                 <div class="collapse navbar-collapse" id="buyoraMainNavbar">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-1 pt-3 pt-lg-0">
+                    <ul class="navbar-nav ms-lg-3 me-auto mb-2 mb-lg-0 gap-lg-1 pt-3 pt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link buyora-nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link buyora-nav-link @(string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                               asp-area="Customer" asp-controller="Home" asp-action="Index">
                                 <i class="bi bi-house-door me-1"></i> @_localizer["home"]
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link buyora-nav-link" asp-area="Admin" asp-controller="Product" asp-action="Index">
+                            <a class="nav-link buyora-nav-link @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                               asp-area="Admin" asp-controller="Product" asp-action="Index">
                                 <i class="bi bi-bag-check me-1"></i> @_localizer["products"]
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link buyora-nav-link" asp-area="Customer" asp-controller="Home" asp-action="Privacy">
-                                <i class="bi bi-shield-check me-1"></i> @_localizer["privacy"]
                             </a>
                         </li>
                     </ul>
 
+                    <form asp-area="Admin" asp-controller="Product" asp-action="Index" method="get" class="buyora-nav-search my-2 my-lg-0 mx-lg-3">
+                        <div class="buyora-nav-search-box">
+                            <i class="bi bi-search buyora-nav-search-icon"></i>
+                            <input type="search"
+                                   name="search"
+                                   value="@Context.Request.Query["search"]"
+                                   class="form-control buyora-nav-search-input"
+                                   placeholder="@_localizer["searchproductsplaceholder"]"
+                                   autocomplete="off" />
+                        </div>
+                    </form>
+
                     <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 pt-3 pt-lg-0 border-top border-lg-0 mt-2 mt-lg-0">
+                        <a class="buyora-cart-pill d-none d-lg-inline-flex align-items-center gap-2 position-relative @(string.Equals(currentController, "Cart", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                           asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                            <span class="buyora-cart-icon-wrap">
+                                <i class="bi bi-cart3"></i>
+                            </span>
+                            <span class="fw-bold small">@_localizer["shoppingcart"]</span>
+                            <span class="buyora-cart-pill-count js-cart-count @(initialCartCount > 0 ? "" : "d-none")">
+                                @initialCartCount
+                            </span>
+                        </a>
+
                         @if (_sinInManager.IsSignedIn(User))
                         {
                             <div class="d-flex align-items-center justify-content-between gap-2">
                                 <span class="buyora-user-pill d-inline-flex align-items-center gap-2">
                                     <i class="bi bi-person-circle text-buyora-orange"></i>
-                                    <span class="text-truncate" style="max-width: 130px;">@User.Identity?.Name</span>
+                                    <span class="text-truncate" style="max-width: 120px;">@User.Identity?.Name</span>
                                 </span>
 
                                 <form asp-area="Identity"
                                       asp-controller="Account"
                                       asp-action="Logout"
                                       method="post"
-                                      class="d-inline">
-
+                                      class="d-inline m-0">
                                     <button type="submit"
                                             class="btn buyora-nav-logout-btn d-inline-flex align-items-center justify-content-center gap-1">
-
                                         <i class="bi bi-box-arrow-right buyora-rtl-flip"></i>
                                         <span>@_localizer["logout"]</span>
-
                                     </button>
                                 </form>
-
                             </div>
                         }
                         else
                         {
                             <div class="d-flex align-items-center gap-2">
-                                <a class="btn buyora-btn-outline btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1 flex-grow-1" asp-area="Identity" asp-controller="Account" asp-action="Login">
+                                <a class="btn buyora-btn-outline btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1 flex-grow-1"
+                                   asp-area="Identity" asp-controller="Account" asp-action="Login">
                                     <i class="bi bi-box-arrow-in-right buyora-rtl-flip"></i>
                                     <span>@_localizer["login"]</span>
                                 </a>
-                                <a class="btn btn-buyora-accent btn-add-to-cart btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1 flex-grow-1" asp-area="Identity" asp-controller="Account" asp-action="Register">
+                                <a class="btn btn-buyora-accent btn-add-to-cart btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1 flex-grow-1"
+                                   asp-area="Identity" asp-controller="Account" asp-action="Register">
                                     <i class="bi bi-person-plus-fill cart-btn-icon"></i>
                                     <span class="cart-btn-text">@_localizer["register"]</span>
                                 </a>
@@ -114,18 +184,86 @@
     </div>
 
     <footer class="buyora-footer mt-auto">
-        <div class="container py-4">
-            <div class="row gy-3 align-items-center justify-content-between text-center text-md-start">
-                <div class="col-12 col-md-6 d-flex flex-column flex-sm-row align-items-center justify-content-center justify-content-md-start gap-3">
-                    <img src="~/Logo.png" alt="Buyora" class="footer-logo" />
-                    <div>
-                        <h6 class="text-white fw-bold mb-1">Buyora</h6>
-                        <p class="footer-slogan mb-0">Shop Smarter. Live Better.</p>
+        <div class="container pt-5 pb-4">
+            <div class="row g-4 justify-content-between pb-4 border-bottom border-light border-opacity-10">
+                <div class="col-12 col-lg-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="~/Logo.png" alt="Buyora" class="footer-logo" />
+                        <div>
+                            <h5 class="text-white fw-extrabold mb-0">Buyora</h5>
+                            <span class="footer-slogan">Shop Smarter. Live Better.</span>
+                        </div>
                     </div>
+                    <p class="footer-desc mb-3">
+                        @_localizer["herosubtitle"]
+                    </p>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="#" class="buyora-social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="buyora-social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="buyora-social-link" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="buyora-social-link" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2">
+                    <h6 class="buyora-footer-heading mb-3">@_localizer["explore"]</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                        <li>
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="buyora-footer-link">
+                                @_localizer["home"]
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="buyora-footer-link">
+                                @_localizer["products"]
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="buyora-footer-link">
+                                @_localizer["shoppingcart"]
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3">
+                    <h6 class="buyora-footer-heading mb-3">@_localizer["customersupport"]</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                        <li class="buyora-footer-info">
+                            <i class="bi bi-shield-check text-buyora-orange"></i>
+                            <span>@_localizer["securepayment"]</span>
+                        </li>
+                        <li class="buyora-footer-info">
+                            <i class="bi bi-truck text-buyora-orange"></i>
+                            <span>@_localizer["fastdelivery"]</span>
+                        </li>
+                        <li class="buyora-footer-info">
+                            <i class="bi bi-arrow-repeat text-buyora-orange"></i>
+                            <span>@_localizer["easyreturns"]</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-3">
+                    <h6 class="buyora-footer-heading mb-3">@_localizer["securepayment"]</h6>
+                    <p class="footer-desc small mb-3">@_localizer["securepaymentsub"]</p>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="buyora-pay-badge"><i class="bi bi-credit-card-2-front me-1"></i> Visa</span>
+                        <span class="buyora-pay-badge"><i class="bi bi-credit-card me-1"></i> MasterCard</span>
+                        <span class="buyora-pay-badge"><i class="bi bi-cash-stack me-1"></i> Cash</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gy-2 align-items-center justify-content-between pt-3 text-center text-md-start">
+                <div class="col-12 col-md-6">
+                    <p class="mb-0 footer-copy">
+                        &copy; 2026 <span class="text-white fw-bold">Buyora</span>. All Rights Reserved.
+                    </p>
                 </div>
                 <div class="col-12 col-md-6 text-center text-md-end">
                     <p class="mb-0 footer-copy">
-                        &copy; 2026 - <span class="text-white fw-semibold">Buyora</span> - By <span class="text-buyora-orange fw-semibold">Abdelrahman Mohamed</span>
+                        Developed by <span class="text-buyora-orange fw-bold">Abdelrahman Mohamed</span>
                     </p>
                 </div>
             </div>
@@ -134,7 +272,69 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+            $(function() {
+                const $cartBadges = $(".js-cart-count");
+                const loginUrl = '@Url.Action("Login", "Account", new { area = "Identity" })';
+
+                $(document).on("submit", ".js-add-to-cart-form, form[action*='AddToCart']", function(e) {
+                    e.preventDefault();
+
+                    const $form = $(this);
+                    const $btn = $form.find("button[type='submit']");
+                    const $icon = $btn.find(".cart-btn-icon");
+                    const addedCount = parseInt($form.find("input[name='count']").val()) || 1;
+
+                    if ($btn.prop("disabled")) return;
+                    $btn.prop("disabled", true);
+                    $icon.removeClass("bi-cart-plus-fill").addClass("spinner-border spinner-border-sm");
+
+                    $.ajax({
+                        url: $form.attr("action"),
+                        type: "POST",
+                        data: $form.serialize(),
+                        success: function(response) {
+                            if (response && response.success) {
+                                $cartBadges.each(function() {
+                                    const $badge = $(this);
+                                    const currentVal = parseInt($badge.text().trim()) || 0;
+                                    const nextVal = (response.cartCount !== undefined) ? response.cartCount : (currentVal + addedCount);
+                                    $badge.text(nextVal).removeClass("d-none").addClass("buyora-badge-pop");
+                                    setTimeout(function() {
+                                        $badge.removeClass("buyora-badge-pop");
+                                    }, 350);
+                                });
+
+                                if (typeof toastr !== "undefined") {
+                                    toastr.success(response.message || "Product added to cart successfully.");
+                                }
+                            }
+                        },
+                        error: function(xhr) {
+                            const errMsg = xhr.responseJSON?.message || "Failed to add product to cart.";
+                            if (xhr.status === 401) {
+                                if (typeof toastr !== "undefined") {
+                                    toastr.warning(errMsg);
+                                }
+                                setTimeout(function() {
+                                    window.location.href = loginUrl + "?ReturnUrl=" + encodeURIComponent(window.location.pathname + window.location.search);
+                                }, 900);
+                            } else {
+                                if (typeof toastr !== "undefined") {
+                                    toastr.error(errMsg);
+                                }
+                            }
+                        },
+                        complete: function() {
+                            $btn.prop("disabled", false);
+                            $icon.removeClass("spinner-border spinner-border-sm").addClass("bi-cart-plus-fill");
+                        }
+                    });
+                });
+            });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

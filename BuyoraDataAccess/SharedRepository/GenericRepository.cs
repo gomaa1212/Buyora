@@ -48,5 +48,9 @@ namespace BuyoraDataAccess.SharedRepository
         {
              _dbset.Update(entity);
         }
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            _dbset.RemoveRange(entities);
+        }
     }
 }

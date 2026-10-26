@@ -1708,3 +1708,306 @@ html[dir="rtl"] .buyora-sidebar-link:hover {
         transform: translateX(0) !important;
     }
 }
+
+.buyora-topbar {
+    background: linear-gradient(90deg, #071f4e 0%, #092c74 100%);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.buyora-topbar-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.buyora-topbar-divider {
+    color: rgba(255, 255, 255, 0.22);
+}
+
+.buyora-nav-link.active {
+    color: var(--buyora-blue) !important;
+    background-color: rgba(0, 56, 168, 0.08);
+    font-weight: 700;
+}
+
+.buyora-nav-search {
+    flex: 1;
+    max-width: 340px;
+}
+
+.buyora-nav-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.buyora-nav-search-icon {
+    position: absolute;
+    inset-inline-start: 0.9rem;
+    color: #64748b;
+    font-size: 0.92rem;
+    pointer-events: none;
+}
+
+.buyora-nav-search-input {
+    border-radius: 50rem;
+    border: 1.5px solid #e2e8f0;
+    background-color: #f8fafc;
+    padding: 0.45rem 1rem;
+    padding-inline-start: 2.35rem;
+    font-size: 0.86rem;
+    transition: all 0.25s ease;
+}
+
+    .buyora-nav-search-input:focus {
+        background-color: #ffffff;
+        border-color: var(--buyora-blue);
+        box-shadow: 0 0 0 3px rgba(0, 56, 168, 0.1);
+    }
+
+.buyora-cart-pill {
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 50rem;
+    padding: 0.32rem 0.9rem 0.32rem 0.4rem;
+    color: var(--buyora-blue-dark);
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+html[dir="rtl"] .buyora-cart-pill {
+    padding: 0.32rem 0.4rem 0.32rem 0.9rem;
+}
+
+.buyora-cart-icon-wrap {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: transform 0.25s ease;
+}
+
+.buyora-cart-pill:hover,
+.buyora-cart-pill.active {
+    background-color: #ffffff;
+    border-color: var(--buyora-orange);
+    color: var(--buyora-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 107, 0, 0.14);
+}
+
+    .buyora-cart-pill:hover .buyora-cart-icon-wrap {
+        transform: scale(1.08);
+    }
+
+.buyora-cart-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: rgba(255, 107, 0, 0.12);
+    color: var(--buyora-orange);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.footer-desc {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.86rem;
+    line-height: 1.65;
+}
+
+.buyora-footer-heading {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.buyora-footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+}
+
+    .buyora-footer-link:hover {
+        color: var(--buyora-orange-light);
+        padding-inline-start: 4px;
+    }
+
+.buyora-footer-info {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.86rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.buyora-social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+    .buyora-social-link:hover {
+        background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+        border-color: var(--buyora-orange);
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+.buyora-pay-badge {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+}
+
+@media (max-width: 991.98px) {
+    .buyora-nav-search {
+        max-width: 100%;
+    }
+}
+
+.buyora-empty-cart-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0, 56, 168, 0.08) 0%, rgba(255, 107, 0, 0.12) 100%);
+    color: var(--buyora-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+}
+
+.buyora-cart-item {
+    border-bottom: 1px solid #eef2f6;
+    transition: background-color 0.2s ease;
+}
+
+    .buyora-cart-item:last-child {
+        border-bottom: none;
+    }
+
+    .buyora-cart-item:hover {
+        background-color: #fafcff;
+    }
+
+.buyora-cart-item-img-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buyora-cart-item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.buyora-cart-item:hover .buyora-cart-item-img {
+    transform: scale(1.06);
+}
+
+.buyora-stock-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #10b981;
+    background-color: rgba(16, 185, 129, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 50rem;
+}
+
+.buyora-cart-qty-box {
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.2rem;
+}
+
+.buyora-cart-qty-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    color: var(--buyora-blue-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+    .buyora-cart-qty-btn:hover {
+        background-color: var(--buyora-blue);
+        color: #ffffff;
+    }
+
+.buyora-cart-qty-val {
+    min-width: 34px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--buyora-text);
+}
+
+.buyora-cart-remove-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+    .buyora-cart-remove-btn:hover {
+        background-color: #ef4444;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+.buyora-checkout-sticky {
+    position: sticky;
+    top: 90px;
+}
+
+.buyora-summary-box {
+    background: linear-gradient(135deg, rgba(0, 56, 168, 0.04) 0%, rgba(255, 107, 0, 0.06) 100%);
+    border: 1.5px solid rgba(0, 56, 168, 0.1);
+}

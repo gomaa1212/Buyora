@@ -20,12 +20,19 @@ namespace BuyoraModels
         [Range(typeof(decimal), "0.01", "999999999")]
         public decimal Price { get; set; }
         [Range(typeof(decimal), "0.01", "999999999")]
-        public decimal? DiscountPrice { get; set; }
+        public decimal? DiscountPrice { get; set; } 
         [Range(0, int.MaxValue)]
         public int Quantity { get; set; }
         public bool IsActive { get; set; } = false;
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = null;
+        public Category Category { get; set; } = new Category();
         public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+
+        [NotMapped]
+        public decimal FinalPrice =>
+                DiscountPrice.HasValue && DiscountPrice.Value > 0 && DiscountPrice.Value < Price
+                  ? DiscountPrice.Value
+                  : Price;
+
     }
 }

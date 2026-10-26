@@ -711,4 +711,70 @@
   <data name="administrator" xml:space="preserve">
     <value>مدير النظام</value>
   </data>
+  <data name="shoppingcart" xml:space="preserve">
+    <value>سلة التسوق</value>
+  </data>
+  <data name="items" xml:space="preserve">
+    <value>منتجات</value>
+  </data>
+  <data name="cartsubtitle" xml:space="preserve">
+    <value>راجع المنتجات المختارة وأكمل بيانات التوصيل لإتمام طلبك</value>
+  </data>
+  <data name="continueshopping" xml:space="preserve">
+    <value>متابعة التسوق</value>
+  </data>
+  <data name="emptycarttitle" xml:space="preserve">
+    <value>سلة التسوق فارغة حالياً</value>
+  </data>
+  <data name="emptycartsubtitle" xml:space="preserve">
+    <value>يبدو أنك لم تقم بإضافة أي منتجات إلى سلتك بعد. تصفح متجرنا واكتشف أقوى العروض!</value>
+  </data>
+  <data name="cartitems" xml:space="preserve">
+    <value>منتجات السلة</value>
+  </data>
+  <data name="unitprice" xml:space="preserve">
+    <value>سعر القطعة</value>
+  </data>
+  <data name="instock" xml:space="preserve">
+    <value>متوفر</value>
+  </data>
+  <data name="subtotal" xml:space="preserve">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="shippingandcheckout" xml:space="preserve">
+    <value>بيانات الشحن وإتمام الطلب</value>
+  </data>
+  <data name="enterdeliverydetails" xml:space="preserve">
+    <value>يرجى إدخال بيانات الاستلام والتوصيل</value>
+  </data>
+  <data name="recipientname" xml:space="preserve">
+    <value>اسم المستلم</value>
+  </data>
+  <data name="shippingaddress" xml:space="preserve">
+    <value>عنوان التوصيل بالتفصيل</value>
+  </data>
+  <data name="ordernotes" xml:space="preserve">
+    <value>ملاحظات الطلب (اختياري)</value>
+  </data>
+  <data name="ordernotesplaceholder" xml:space="preserve">
+    <value>أي تعليمات خاصة بالتوصيل...</value>
+  </data>
+  <data name="shipping" xml:space="preserve">
+    <value>الشحن</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>مجاني</value>
+  </data>
+  <data name="totalamount" xml:space="preserve">
+    <value>الإجمالي الكلي</value>
+  </data>
+  <data name="placeorder" xml:space="preserve">
+    <value>تأكيد وإتمام الطلب</value>
+  </data>
+  <data name="price" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>الاجمالي</value>
+  </data>
 </root>
