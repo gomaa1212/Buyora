@@ -74,22 +74,31 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-4 col-sm-3 col-md-2">
                                         <div class="buyora-cart-item-img-box">
-                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                            {
-                                                <img src="/@item.ImageUrl.TrimStart('/')" alt="@item.ProductName" class="buyora-cart-item-img" />
-                                            }
-                                            else
-                                            {
-                                                <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                                                    <i class="bi bi-image fs-3"></i>
-                                                </div>
-                                            }
+                                            <a asp-controller="Product" asp-area="Admin" asp-action="Details" asp-route-id="@item.ProductId" class="d-block w-100 h-100">
+                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                                {
+                                                    <img src="/@item.ImageUrl.TrimStart('/')" alt="@item.ProductName" class="buyora-cart-item-img" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                                                        <i class="bi bi-image fs-3"></i>
+                                                    </div>
+                                                }
+                                            </a>
                                         </div>
                                     </div>
 
                                     <div class="col-8 col-sm-9 col-md-5">
-                                        <h6 class="fw-extrabold text-dark mb-1 text-truncate" title="@item.ProductName">
-                                            @item.ProductName
+                                        <h6 class="fw-extrabold mb-1 text-truncate" title="@item.ProductName">
+                                            <a asp-controller="Product"
+                                               asp-area="Admin"
+                                               asp-action="Details"
+                                               asp-route-id="@item.ProductId"
+                                               class="buyora-cart-product-link">
+                                                <span>@item.ProductName</span>
+                                                <i class="bi bi-box-arrow-up-right buyora-cart-link-icon"></i>
+                                            </a>
                                         </h6>
                                         <div class="d-flex align-items-center gap-2 mb-2">
                                             <span class="text-muted small">@_localizer["unitprice"]:</span>

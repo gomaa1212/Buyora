@@ -2011,3 +2011,36 @@ html[dir="rtl"] .buyora-cart-pill {
     background: linear-gradient(135deg, rgba(0, 56, 168, 0.04) 0%, rgba(255, 107, 0, 0.06) 100%);
     border: 1.5px solid rgba(0, 56, 168, 0.1);
 }
+.buyora-cart-product-link {
+    color: var(--buyora-text);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 100%;
+    transition: color 0.22s ease, transform 0.22s ease;
+}
+
+    .buyora-cart-product-link span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.buyora-cart-link-icon {
+    font-size: 0.78rem;
+    color: var(--buyora-orange);
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    flex-shrink: 0;
+}
+
+.buyora-cart-product-link:hover {
+    color: var(--buyora-blue);
+}
+
+    .buyora-cart-product-link:hover .buyora-cart-link-icon {
+        opacity: 1;
+        transform: translateY(0);
+    }

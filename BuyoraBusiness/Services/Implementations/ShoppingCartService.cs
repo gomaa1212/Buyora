@@ -130,7 +130,7 @@ namespace BuyoraBusiness.Services.Implementations
                 {
                     _unitOfWork.Repository<ShoppingCart>().Delete(cart);
                 }
-                if(item.Product.Quantity < cart.Count)
+                else if(item.Product.Quantity < cart.Count)
                 {
                     return "Greater than stock";
                 }
