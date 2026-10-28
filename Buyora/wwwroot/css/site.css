@@ -1961,18 +1961,27 @@ html[dir="rtl"] .buyora-cart-pill {
     width: 30px;
     height: 30px;
     border-radius: 8px;
+    border: none;
+    background-color: transparent;
     color: var(--buyora-blue-dark);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     font-weight: 700;
+    padding: 0;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
     .buyora-cart-qty-btn:hover {
-        background-color: var(--buyora-blue);
-        color: #ffffff;
+        background-color: var(--buyora-blue) !important;
+        color: #ffffff !important;
+    }
+
+    .buyora-cart-qty-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
 .buyora-cart-qty-val {

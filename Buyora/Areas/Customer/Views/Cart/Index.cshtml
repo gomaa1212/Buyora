@@ -8,6 +8,10 @@
 }
 
 <div class="buyora-page-wrapper">
+    <form id="cartAntiForgeryForm" class="d-none">
+        @Html.AntiForgeryToken()
+    </form>
+
     <div class="buyora-card buyora-header-banner p-4 mb-4">
         <div class="row align-items-center gy-3">
             <div class="col-12 col-md-6 d-flex align-items-center gap-3">
@@ -17,12 +21,9 @@
                 <div>
                     <div class="d-flex align-items-center gap-2">
                         <h4 class="fw-extrabold mb-0 text-buyora-blue">@_localizer["shoppingcart"]</h4>
-                        @if (totalItemsCount > 0)
-                        {
-                            <span class="badge rounded-pill bg-warning text-dark fw-bold px-2 py-1">
-                                @totalItemsCount @_localizer["items"]
-                            </span>
-                        }
+                        <span id="headerCartItemsBadge" class="badge rounded-pill bg-warning text-dark fw-bold px-2 py-1 @(totalItemsCount > 0 ? "" : "d-none")">
+                            <span class="js-total-items-count">@totalItemsCount</span> @_localizer["items"]
+                        </span>
                     </div>
                     <p class="text-muted mb-0 small mt-1">@_localizer["cartsubtitle"]</p>
                 </div>
@@ -36,41 +37,42 @@
         </div>
     </div>
 
-    @if (!items.Any())
-    {
-        <div class="buyora-card p-5 text-center my-4">
-            <div class="buyora-empty-cart-icon mx-auto mb-3">
-                <i class="bi bi-cart-x"></i>
-            </div>
-            <h4 class="fw-extrabold text-buyora-blue mb-2">@_localizer["emptycarttitle"]</h4>
-            <p class="text-muted small mx-auto mb-4" style="max-width: 440px;">
-                @_localizer["emptycartsubtitle"]
-            </p>
-            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart px-5 py-3 d-inline-flex align-items-center gap-2">
-                <i class="bi bi-bag-plus-fill fs-5 cart-btn-icon"></i>
-                <span class="cart-btn-text">@_localizer["shopnow"]</span>
-            </a>
+    <div id="emptyCartContainer" class="buyora-card p-5 text-center my-4 @(items.Any() ? "d-none" : "")">
+        <div class="buyora-empty-cart-icon mx-auto mb-3">
+            <i class="bi bi-cart-x"></i>
         </div>
-    }
-    else
+        <h4 class="fw-extrabold text-buyora-blue mb-2">@_localizer["emptycarttitle"]</h4>
+        <p class="text-muted small mx-auto mb-4" style="max-width: 440px;">
+            @_localizer["emptycartsubtitle"]
+        </p>
+        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart px-5 py-3 d-inline-flex align-items-center gap-2">
+            <i class="bi bi-bag-plus-fill fs-5 cart-btn-icon"></i>
+            <span class="cart-btn-text">@_localizer["shopnow"]</span>
+        </a>
+    </div>
+
+    @if (items.Any())
     {
-        <div class="row g-4 align-items-start">
+        <div id="cartContentContainer" class="row g-4 align-items-start">
             <div class="col-12 col-lg-7 col-xl-8">
                 <div class="buyora-card overflow-hidden">
                     <div class="p-3 p-sm-4 border-bottom bg-light bg-opacity-50 d-flex align-items-center justify-content-between">
                         <h6 class="fw-extrabold text-buyora-blue mb-0 d-flex align-items-center gap-2">
                             <i class="bi bi-bag-heart-fill text-buyora-orange"></i>
-                            <span>@_localizer["cartitems"] (@items.Count)</span>
+                            <span>@_localizer["cartitems"] (<span id="distinctItemsCount">@items.Count</span>)</span>
                         </h6>
                         <span class="text-muted small">@_localizer["price"] / @_localizer["total"]</span>
                     </div>
 
-                    <div class="divide-y">
+                    <div class="divide-y" id="cartItemsList">
                         @foreach (var item in items)
                         {
                             var totalItemPrice = item.Count * item.UnitPrice;
 
-                            <div class="buyora-cart-item p-3 p-sm-4">
+                            <div class="buyora-cart-item p-3 p-sm-4 js-cart-item-row"
+                                 data-cart-id="@item.Id"
+                                 data-unit-price="@item.UnitPrice"
+                                 data-count="@item.Count">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-4 col-sm-3 col-md-2">
                                         <div class="buyora-cart-item-img-box">
@@ -114,25 +116,34 @@
                                     <div class="col-7 col-sm-6 col-md-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="buyora-cart-qty-box d-inline-flex align-items-center">
-                                                <a asp-action="Minus" asp-route-cartId="@item.Id" class="buyora-cart-qty-btn" title="@_localizer["decrease"]">
+                                                <button type="button"
+                                                        class="buyora-cart-qty-btn js-qty-change"
+                                                        data-step="-1"
+                                                        title="@_localizer["decrease"]">
                                                     <i class="bi bi-dash"></i>
-                                                </a>
-                                                <span class="buyora-cart-qty-val">@item.Count</span>
-                                                <a asp-action="Plus" asp-route-cartId="@item.Id" class="buyora-cart-qty-btn" title="@_localizer["increase"]">
+                                                </button>
+                                                <span class="buyora-cart-qty-val js-item-qty">@item.Count</span>
+                                                <button type="button"
+                                                        class="buyora-cart-qty-btn js-qty-change"
+                                                        data-step="1"
+                                                        title="@_localizer["increase"]">
                                                     <i class="bi bi-plus"></i>
-                                                </a>
+                                                </button>
                                             </div>
 
-                                            <a asp-action="Remove" asp-route-cartId="@item.Id" class="buyora-cart-remove-btn" title="@_localizer["delete"]">
+                                            <button type="button"
+                                                    class="buyora-cart-remove-btn border-0 js-remove-cart-item"
+                                                    title="@_localizer["delete"]">
                                                 <i class="bi bi-trash3"></i>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
 
                                     <div class="col-5 col-sm-6 col-md-2 text-end">
                                         <span class="text-muted d-block" style="font-size: 0.72rem;">@_localizer["subtotal"]</span>
                                         <span class="fw-extrabold text-buyora-orange fs-6">
-                                            @totalItemPrice.ToString("N2") <small class="fw-bold">@_localizer["currency"]</small>
+                                            <span class="js-item-subtotal">@totalItemPrice.ToString("N2")</span>
+                                            <small class="fw-bold">@_localizer["currency"]</small>
                                         </span>
                                     </div>
                                 </div>
@@ -155,7 +166,8 @@
                     </div>
 
                     <form asp-action="Summary" method="post" novalidate>
-                        <input type="hidden" asp-for="Order.TotalAmount" />
+                        <input type="hidden" asp-for="Order.TotalAmount" id="orderTotalAmountInput" />
+                        <input type="hidden" asp-for="Order.ApplicationUserId" />
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-3" role="alert"></div>
 
                         <div class="row g-3">
@@ -194,8 +206,10 @@
 
                         <div class="buyora-summary-box p-3 rounded-4 my-4">
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small">@_localizer["items"] (@totalItemsCount)</span>
-                                <span class="fw-bold text-dark small">@Model.Order.TotalAmount.ToString("N2") @_localizer["currency"]</span>
+                                <span class="text-muted small">@_localizer["items"] (<span class="js-total-items-count">@totalItemsCount</span>)</span>
+                                <span class="fw-bold text-dark small">
+                                    <span class="js-order-total">@Model.Order.TotalAmount.ToString("N2")</span> @_localizer["currency"]
+                                </span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="text-muted small">@_localizer["shipping"]</span>
@@ -205,7 +219,8 @@
                             <div class="d-flex align-items-center justify-content-between pt-1">
                                 <span class="fw-extrabold text-buyora-blue">@_localizer["totalamount"]</span>
                                 <span class="fw-extrabold text-buyora-orange fs-4">
-                                    @Model.Order.TotalAmount.ToString("N2") <small class="fs-6">@_localizer["currency"]</small>
+                                    <span class="js-order-total">@Model.Order.TotalAmount.ToString("N2")</span>
+                                    <small class="fs-6">@_localizer["currency"]</small>
                                 </span>
                             </div>
                         </div>
@@ -223,4 +238,145 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function() {
+            const updateUrl = '@Url.Action("UpdateCartItemCount", "Cart", new { area = "Customer" })';
+            const removeUrl = '@Url.Action("RemoveCartItem", "Cart", new { area = "Customer" })';
+            const antiForgeryToken = $('#cartAntiForgeryForm input[name="__RequestVerificationToken"]').val();
+
+            function formatCurrency(val) {
+                return Number(val).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            function recalculateCartTotals() {
+                let totalCount = 0;
+                let totalAmount = 0;
+                const $rows = $('.js-cart-item-row');
+
+                $rows.each(function() {
+                    const count = parseInt($(this).attr('data-count')) || 0;
+                    const unitPrice = parseFloat($(this).attr('data-unit-price')) || 0;
+                    totalCount += count;
+                    totalAmount += (count * unitPrice);
+                });
+
+                $('.js-total-items-count').text(totalCount);
+                $('#distinctItemsCount').text($rows.length);
+                $('.js-order-total').text(formatCurrency(totalAmount));
+                $('#orderTotalAmountInput').val(totalAmount);
+
+                const $navBadges = $('.js-cart-count');
+                if (totalCount > 0) {
+                    $navBadges.text(totalCount).removeClass('d-none').addClass('buyora-badge-pop');
+                    setTimeout(() => $navBadges.removeClass('buyora-badge-pop'), 300);
+                    $('#headerCartItemsBadge').removeClass('d-none');
+                } else {
+                    $navBadges.text(0).addClass('d-none');
+                    $('#headerCartItemsBadge').addClass('d-none');
+                }
+
+                if ($rows.length === 0) {
+                    $('#cartContentContainer').fadeOut(250, function() {
+                        $(this).remove();
+                        $('#emptyCartContainer').removeClass('d-none').hide().fadeIn(300);
+                    });
+                }
+            }
+
+            function executeRemoveItem($row, cartId) {
+                const $buttons = $row.find('button');
+                $buttons.prop('disabled', true);
+                $row.css('opacity', '0.5');
+
+                $.ajax({
+                    url: removeUrl,
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: antiForgeryToken,
+                        cartId: cartId
+                    },
+                    success: function(res) {
+                        if (res && res.success) {
+                            $row.slideUp(250, function() {
+                                $(this).remove();
+                                recalculateCartTotals();
+                            });
+                            if (typeof toastr !== 'undefined') {
+                                toastr.info(res.message || 'Cart item deleted successfully.');
+                            }
+                        }
+                    },
+                    error: function(xhr) {
+                        $buttons.prop('disabled', false);
+                        $row.css('opacity', '1');
+                        const errMsg = xhr.responseJSON?.message || 'Failed to delete.';
+                        if (typeof toastr !== 'undefined') {
+                            toastr.error(errMsg);
+                        }
+                    }
+                });
+            }
+
+            $(document).on('click', '.js-qty-change', function() {
+                const $btn = $(this);
+                const $row = $btn.closest('.js-cart-item-row');
+                const cartId = parseInt($row.attr('data-cart-id'));
+                const currentCount = parseInt($row.attr('data-count')) || 1;
+                const step = parseInt($btn.attr('data-step')) || 0;
+                const newCount = currentCount + step;
+
+                if (newCount <= 0) {
+                    executeRemoveItem($row, cartId);
+                    return;
+                }
+
+                const $rowButtons = $row.find('button');
+                $rowButtons.prop('disabled', true);
+
+                $.ajax({
+                    url: updateUrl,
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: antiForgeryToken,
+                        cartId: cartId,
+                        count: newCount
+                    },
+                    success: function(res) {
+                        if (res && res.success) {
+                            const unitPrice = parseFloat($row.attr('data-unit-price')) || 0;
+                            const newSubtotal = newCount * unitPrice;
+
+                            $row.attr('data-count', newCount);
+                            $row.find('.js-item-qty').text(newCount);
+                            $row.find('.js-item-subtotal').text(formatCurrency(newSubtotal));
+
+                            recalculateCartTotals();
+
+                            if (typeof toastr !== 'undefined') {
+                                toastr.success(res.message || 'Cart item updated successfully.');
+                            }
+                        }
+                    },
+                    error: function(xhr) {
+                        const errMsg = xhr.responseJSON?.message || 'Failed to update.';
+                        if (typeof toastr !== 'undefined') {
+                            toastr.warning(errMsg);
+                        }
+                    },
+                    complete: function() {
+                        $rowButtons.prop('disabled', false);
+                    }
+                });
+            });
+
+            $(document).on('click', '.js-remove-cart-item', function() {
+                const $row = $(this).closest('.js-cart-item-row');
+                const cartId = parseInt($row.attr('data-cart-id'));
+                executeRemoveItem($row, cartId);
+            });
+        });
+    </script>
 }

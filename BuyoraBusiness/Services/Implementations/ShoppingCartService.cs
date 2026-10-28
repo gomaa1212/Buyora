@@ -13,8 +13,8 @@ namespace BuyoraBusiness.Services.Implementations
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<ShoppingCart> _logger;
-        public ShoppingCartService(IUnitOfWork unitOfWork,ILogger<ShoppingCart> logger)
+        private readonly ILogger<ShoppingCartService> _logger;
+        public ShoppingCartService(IUnitOfWork unitOfWork,ILogger<ShoppingCartService> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
@@ -87,9 +87,9 @@ namespace BuyoraBusiness.Services.Implementations
             }
         }
 
-        public async Task<ShoppingCart?> GetCartByIdAsync(int cartId)
+        public async Task<ShoppingCart?> GetCartByIdAsync(int cartId , string userId)
         {
-            return await _unitOfWork.Repository<ShoppingCart>().GetAsQuerable().Include(p => p.Product).FirstOrDefaultAsync(c => c.Id == cartId);
+            return await _unitOfWork.Repository<ShoppingCart>().GetAsQuerable().Include(c => c.Product).FirstOrDefaultAsync(c => c.Id == cartId && c.ApplicationUserId == userId);
         }
 
         public async Task<int> GetUserCartCountAsync(string userId)
@@ -117,27 +117,17 @@ namespace BuyoraBusiness.Services.Implementations
             {
                 if (cart == null)
                 {
-                    throw new ArgumentException("cart is null");
-                }
-                var item = await GetCartByIdAsync(cart.Id);
-                
-                if(item==null)
-                {
-                    throw new ArgumentException("Not found cart");
-                }
-                                                           
+                    throw new ArgumentException("cart not found");
+                }                                                          
                 if(cart.Count<=0)
                 {
                     _unitOfWork.Repository<ShoppingCart>().Delete(cart);
                 }
-                else if(item.Product.Quantity < cart.Count)
+                else if(cart.Product.Quantity < cart.Count)
                 {
                     return "Greater than stock";
                 }
-                else
-                {
-                    _unitOfWork.Repository<ShoppingCart>().Update(cart);
-                }
+                
                 await _unitOfWork.SaveChangesAsync();
                 return "Succeeded";
             }
@@ -145,6 +135,24 @@ namespace BuyoraBusiness.Services.Implementations
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
+                _logger.LogError(ex, "Failed to update cart");
+                return "Failed";
+            }
+        }
+        public async Task<string> DeleteCartItemAsync(ShoppingCart cart)
+        {
+            try
+            {
+                if(cart == null)
+                {
+                    throw new ArgumentException("cart not found");
+                }
+                _unitOfWork.Repository<ShoppingCart>().Delete(cart);
+                await _unitOfWork.SaveChangesAsync();
+                return "Succeeded";
+            }
+            catch(Exception ex)
+            {
                 _logger.LogError(ex, "Failed to update cart");
                 return "Failed";
             }

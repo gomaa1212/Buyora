@@ -28,6 +28,11 @@ namespace Buyora.Areas.Customer.Controllers
             {
                 return Unauthorized();
             }
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                return Unauthorized();
+            }
 
             var userCartItems = await _shoppingCartService.GetUserCartItemsAsync(userId);
             var userCartItemsModel = _mapper.Map<List<DisplayShoppingCartViewModel>>(userCartItems);
@@ -37,6 +42,13 @@ namespace Buyora.Areas.Customer.Controllers
                 ShoppingCartItems = userCartItemsModel,
                 Order = new Order()
             };
+
+            model.Order.ApplicationUser = user;
+            model.Order.ApplicationUserId = userId;
+            model.Order.Name = user.Name;
+            model.Order.ShippingAddress = user.Address;
+            model.Order.PhoneNumber = user.PhoneNumber;
+
             foreach(var item in userCartItems)
             {
                 model.Order.TotalAmount += item.Count * item.UnitPrice;
@@ -97,5 +109,110 @@ namespace Buyora.Areas.Customer.Controllers
                 message = "Product added to cart successfully."
             });
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateCartItemCount(int cartId , int count)
+        {
+            if(cartId<=0 || count<0)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Invalid cart item or quantity."
+                });
+            }
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(new
+                {
+                    success = false,
+                    message = "Please login first."
+                });
+            }
+            var cartItem = await _shoppingCartService.GetCartByIdAsync(cartId,userId);
+            if(cartItem == null)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    message = "Cart item not found"
+                });
+            }
+            cartItem.Count = count;
+
+            var res = await _shoppingCartService.UpdateCartAsync(cartItem);
+            if(res == "Greater than stock")
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "You have exceeded the max count."
+                });
+            }
+            if (res != "Succeeded")
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Failed to update."
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = "Cart item updated successfully."
+            });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveCartItem(int cartId)
+        {
+            if (cartId <= 0)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Invalid cart item or quantity."
+                });
+            }
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(new
+                {
+                    success = false,
+                    message = "Please login first."
+                });
+            }
+
+            var cartItem = await _shoppingCartService.GetCartByIdAsync(cartId, userId);
+            if (cartItem == null)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    message = "Cart item not found"
+                });
+            }
+
+            var res = await _shoppingCartService.DeleteCartItemAsync(cartItem);
+            if (res != "Succeeded")
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Failed to delete."
+                });
+            }
+            return Ok(new
+            {
+                success = true,
+                message = "Cart item deleted successfully."
+            });
+        }
     }
+
+
 }
