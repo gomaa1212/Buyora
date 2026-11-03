@@ -360,6 +360,15 @@
   <data name="search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="useraccount" xml:space="preserve">
+    <value>User Account</value>
+  </data>
   <data name="shopnow" xml:space="preserve">
     <value>Shop Now</value>
   </data>
@@ -776,5 +785,128 @@
   </data>
   <data name="total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="orderconfirmation" xml:space="preserve">
+    <value>Order Confirmation</value>
+  </data>
+  <data name="orderconfirmedbadge" xml:space="preserve">
+    <value>Order Confirmed</value>
+  </data>
+  <data name="thankyoufororder" xml:space="preserve">
+    <value>Thank You for Your Order!</value>
+  </data>
+  <data name="orderconfirmedsidebarsub" xml:space="preserve">
+    <value>Your order has been received and is now being prepared for fast delivery.</value>
+  </data>
+  <data name="orderontheway" xml:space="preserve">
+    <value>Preparing your package for dispatch</value>
+  </data>
+  <data name="officialinvoice" xml:space="preserve">
+    <value>Order Invoice</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="ordernumber" xml:space="preserve">
+    <value>Invoice / Order No.</value>
+  </data>
+  <data name="customerdetails" xml:space="preserve">
+    <value>Customer Details</value>
+  </data>
+  <data name="product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="quantity" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="printinvoice" xml:space="preserve">
+    <value>Print Invoice</value>
+  </data>
+  <data name="orderssubtitle" xml:space="preserve">
+    <value>Review and manage customer orders.</value>
+  </data>
+  <data name="searchordersplaceholder" xml:space="preserve">
+    <value>Search by order # or customer email...</value>
+  </data>
+  <data name="noordersyet" xml:space="preserve">
+    <value>No orders yet</value>
+  </data>
+  <data name="noorderssubtitle" xml:space="preserve">
+    <value>Customer orders will appear here when they are placed.</value>
+  </data>
+  <data name="totalorders" xml:space="preserve">
+    <value>Total orders</value>
+  </data>
+  <data name="orderdetails" xml:space="preserve">
+    <value>Order details</value>
+  </data>
+  <data name="orderdate" xml:space="preserve">
+    <value>Order date</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="processing" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="shipped" xml:space="preserve">
+    <value>Shipped</value>
+  </data>
+  <data name="cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="refunded" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="orderstatusnotice" xml:space="preserve">
+    <value>This order is no longer moving through the standard delivery steps.</value>
+  </data>
+  <data name="shipmenttracking" xml:space="preserve">
+    <value>Shipment tracking</value>
+  </data>
+  <data name="carrier" xml:space="preserve">
+    <value>Carrier</value>
+  </data>
+  <data name="notassignedyet" xml:space="preserve">
+    <value>Not assigned yet</value>
+  </data>
+  <data name="shippingdate" xml:space="preserve">
+    <value>Shipping date</value>
+  </data>
+  <data name="notshippedyet" xml:space="preserve">
+    <value>Not shipped yet</value>
+  </data>
+  <data name="trackingnumber" xml:space="preserve">
+    <value>Tracking number</value>
+  </data>
+  <data name="orderitems" xml:space="preserve">
+    <value>Order items</value>
+  </data>
+  <data name="ordersummary" xml:space="preserve">
+    <value>Order summary</value>
+  </data>
+  <data name="copytrackingnumber" xml:space="preserve">
+    <value>Copy tracking number</value>
+  </data>
+  <data name="trackingnumbercopied" xml:space="preserve">
+    <value>Tracking number copied: {0}</value>
+  </data>
+  <data name="myorders" xml:space="preserve">
+    <value>My Orders</value>
+  </data>
+  <data name="updateorder" xml:space="preserve">
+    <value>Manage &amp; Update Order</value>
+  </data>
+  <data name="updateordersubtitle" xml:space="preserve">
+    <value>Update status, carrier, and tracking info</value>
+  </data>
+  <data name="current" xml:space="preserve">
+    <value>Current</value>
   </data>
 </root>

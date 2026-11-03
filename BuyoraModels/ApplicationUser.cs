@@ -10,6 +10,7 @@ namespace BuyoraModels
     {
         [Required]
         public string Name { get; set; } = string.Empty;
-        public string? Address { get; set; } = string.Empty; 
+        public string? Address { get; set; } = string.Empty;
+        public List<ShoppingCart> Items { get; set; } = new List<ShoppingCart>();
     }
 }

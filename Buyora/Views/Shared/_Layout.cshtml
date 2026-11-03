@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.Extensions.Localization
 @inject UserManager<ApplicationUser> _userManager
+@inject SignInManager<ApplicationUser> _signInManager
 @inject IShoppingCartService _shoppingCartService
 @inject IStringLocalizer<SharedResource> _localizer
 @inject SignInManager<ApplicationUser> _sinInManager
@@ -104,6 +105,15 @@
                                 <i class="bi bi-bag-check me-1"></i> @_localizer["products"]
                             </a>
                         </li>
+                        @if (_signInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                <a class="nav-link buyora-nav-link @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                                   asp-area="Customer" asp-controller="Order" asp-action="Index">
+                                    <i class="bi bi-receipt-cutoff me-1"></i> @_localizer["myorders"]
+                                </a>
+                            </li>         
+                            }
                     </ul>
 
                     <form asp-area="Admin" asp-controller="Product" asp-action="Index" method="get" class="buyora-nav-search my-2 my-lg-0 mx-lg-3">
@@ -129,7 +139,8 @@
                                 @initialCartCount
                             </span>
                         </a>
-
+                    </div>
+                </div>
                         @if (_sinInManager.IsSignedIn(User))
                         {
                             <div class="d-flex align-items-center justify-content-between gap-2">
@@ -219,10 +230,16 @@
                             </a>
                         </li>
                         <li>
+                            <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="buyora-footer-link">
+                                @_localizer["myorders"]
+                            </a>
+                        </li>
+                        <li>
                             <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="buyora-footer-link">
                                 @_localizer["shoppingcart"]
                             </a>
                         </li>
+                        
                     </ul>
                 </div>
 

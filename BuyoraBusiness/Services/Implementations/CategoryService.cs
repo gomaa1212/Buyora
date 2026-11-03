@@ -29,14 +29,21 @@ namespace BuyoraBusiness.Services.Implementations
 
         public async Task<string> DeleteCategoryAsync(int Id)
         {
-            var category = await GetCategoryByIdAsync(Id);
-            if (category is null)
+            try
             {
-                throw new ArgumentException("Failed");
+                var category = await GetCategoryByIdAsync(Id);
+                if (category is null)
+                {
+                    throw new ArgumentException("Failed");
+                }
+                _unitOfWork.Repository<Category>().Delete(category);
+                await _unitOfWork.SaveChangesAsync();
+                return "Succeeded";
             }
-            _unitOfWork.Repository<Category>().Delete(category);
-            await _unitOfWork.SaveChangesAsync();
-            return "Succeeded";
+            catch(Exception ex)
+            {
+                return $"Failed";
+            }
         }
 
         public async Task<List<Category>> GetCategoriesListAsync()

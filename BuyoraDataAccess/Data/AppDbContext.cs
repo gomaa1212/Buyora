@@ -31,6 +31,12 @@ namespace BuyoraDataAccess.Data
                 .HasPrecision(18, 2);
 
             modelBuilder.Entity<Product>()
+                .HasOne(c=>c.Category)
+                .WithMany(p=>p.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Product>()
                 .Property(x => x.DiscountPrice)
                 .HasPrecision(18, 2);
 

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Buyora.Areas.Customer.ViewModel;
+using Buyora.SharedViewModel;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
+using BuyoraUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +15,13 @@ namespace Buyora.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
-        public CartController(IShoppingCartService shoppingCartService,IMapper mapper,UserManager<ApplicationUser> userManager)
+        public CartController(IShoppingCartService shoppingCartService,IOrderService orderService,IMapper mapper,UserManager<ApplicationUser> userManager)
         {
             _shoppingCartService = shoppingCartService;
+            _orderService = orderService;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -53,6 +57,58 @@ namespace Buyora.Areas.Customer.Controllers
             {
                 model.Order.TotalAmount += item.Count * item.UnitPrice;
             }
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(ShoppingCartViewModel model)
+        {
+           
+            var userId = _userManager.GetUserId(User);
+            if(string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+            model.Order.TotalAmount = 0;
+            var userCartItems =await _shoppingCartService.GetUserCartItemsAsync(userId);
+            foreach(var item in userCartItems)
+            {
+                model.Order.TotalAmount += item.UnitPrice * item.Count;
+            }
+            model.Order.ApplicationUserId = userId;
+            model.Order.OrderDate = DateTime.Now;
+            model.Order.Status = SD.StatusPending;
+
+            model.Order.OrderDetails = userCartItems.Select(x => new OrderDetail()
+            {
+                ProductId = x.ProductId,
+                Count = x.Count,
+                UnitPrice = x.UnitPrice
+            }).ToList();
+
+            var res = await _orderService.CreateOrderAsync(model.Order);
+            if(res != "Succeeded")
+            {
+                ModelState.AddModelError(string.Empty, "Un defined error");
+                return View(model);
+            }
+            await _shoppingCartService.ClearCartAsync(userId);
+            return RedirectToAction(nameof(OrderConfirmation), new { orderId = model.Order.Id });
+        }
+        public async Task<IActionResult> OrderConfirmation(int orderId)
+        {
+            var userId = _userManager.GetUserId(User);
+            if(string.IsNullOrEmpty(userId))
+            {
+                return NotFound();
+            }
+            var order = await _orderService.GetOrderByIdAsync(orderId, userId, includeUser: false, includeDetails: true);
+            if(order == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<DisplayOrderViewModel>(order);
+
             return View(model);
         }
         [HttpPost]

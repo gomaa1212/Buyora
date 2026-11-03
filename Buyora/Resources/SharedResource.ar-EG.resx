@@ -360,6 +360,15 @@
   <data name="search" xml:space="preserve">
     <value>بحث</value>
   </data>
+  <data name="reset" xml:space="preserve">
+    <value>إعادة تعيين</value>
+  </data>
+  <data name="page" xml:space="preserve">
+    <value>صفحة</value>
+  </data>
+  <data name="useraccount" xml:space="preserve">
+    <value>حساب المستخدم</value>
+  </data>
   <data name="shopnow" xml:space="preserve">
     <value>تسوق الآن</value>
   </data>
@@ -776,5 +785,128 @@
   </data>
   <data name="total" xml:space="preserve">
     <value>الاجمالي</value>
+  </data>
+  <data name="orderconfirmation" xml:space="preserve">
+    <value>تأكيد الطلب والفاتورة</value>
+  </data>
+  <data name="orderconfirmedbadge" xml:space="preserve">
+    <value>تم تأكيد الطلب</value>
+  </data>
+  <data name="thankyoufororder" xml:space="preserve">
+    <value>شكراً لطلبك من Buyora!</value>
+  </data>
+  <data name="orderconfirmedsidebarsub" xml:space="preserve">
+    <value>تم استلام طلبك بنجاح وجارٍ تجهيزه الآن للتوصيل السريع.</value>
+  </data>
+  <data name="orderontheway" xml:space="preserve">
+    <value>جارٍ تجهيز شحنتك للانطلاق</value>
+  </data>
+  <data name="officialinvoice" xml:space="preserve">
+    <value>فاتورة الطلب</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>قيد التجهيز</value>
+  </data>
+  <data name="ordernumber" xml:space="preserve">
+    <value>رقم الفاتورة / الطلب</value>
+  </data>
+  <data name="customerdetails" xml:space="preserve">
+    <value>بيانات العميل</value>
+  </data>
+  <data name="product" xml:space="preserve">
+    <value>المنتج</value>
+  </data>
+  <data name="quantity" xml:space="preserve">
+    <value>الكمية</value>
+  </data>
+  <data name="printinvoice" xml:space="preserve">
+    <value>طباعة الفاتورة</value>
+  </data>
+  <data name="orderssubtitle" xml:space="preserve">
+    <value>راجع طلبات العملاء وقم بإدارتها.</value>
+  </data>
+  <data name="searchordersplaceholder" xml:space="preserve">
+    <value>البحث برقم الطلب أو إيميل العميل...</value>
+  </data>
+  <data name="noordersyet" xml:space="preserve">
+    <value>لا توجد طلبات بعد</value>
+  </data>
+  <data name="noorderssubtitle" xml:space="preserve">
+    <value>ستظهر طلبات العملاء هنا عند تقديمها.</value>
+  </data>
+  <data name="totalorders" xml:space="preserve">
+    <value>إجمالي الطلبات</value>
+  </data>
+  <data name="orderdetails" xml:space="preserve">
+    <value>تفاصيل الطلب</value>
+  </data>
+  <data name="orderdate" xml:space="preserve">
+    <value>تاريخ الطلب</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="approved" xml:space="preserve">
+    <value>تمت الموافقة</value>
+  </data>
+  <data name="processing" xml:space="preserve">
+    <value>قيد المعالجة</value>
+  </data>
+  <data name="shipped" xml:space="preserve">
+    <value>تم الشحن</value>
+  </data>
+  <data name="cancelled" xml:space="preserve">
+    <value>ملغي</value>
+  </data>
+  <data name="refunded" xml:space="preserve">
+    <value>تم رد المبلغ</value>
+  </data>
+  <data name="orderstatusnotice" xml:space="preserve">
+    <value>لم يعد هذا الطلب يمر بمراحل التوصيل المعتادة.</value>
+  </data>
+  <data name="shipmenttracking" xml:space="preserve">
+    <value>تتبع الشحنة</value>
+  </data>
+  <data name="carrier" xml:space="preserve">
+    <value>شركة الشحن</value>
+  </data>
+  <data name="notassignedyet" xml:space="preserve">
+    <value>لم يتم التعيين بعد</value>
+  </data>
+  <data name="shippingdate" xml:space="preserve">
+    <value>تاريخ الشحن</value>
+  </data>
+  <data name="notshippedyet" xml:space="preserve">
+    <value>لم يتم الشحن بعد</value>
+  </data>
+  <data name="trackingnumber" xml:space="preserve">
+    <value>رقم التتبع</value>
+  </data>
+  <data name="orderitems" xml:space="preserve">
+    <value>منتجات الطلب</value>
+  </data>
+  <data name="ordersummary" xml:space="preserve">
+    <value>ملخص الطلب</value>
+  </data>
+  <data name="copytrackingnumber" xml:space="preserve">
+    <value>نسخ رقم التتبع</value>
+  </data>
+  <data name="trackingnumbercopied" xml:space="preserve">
+    <value>تم نسخ رقم التتبع: {0}</value>
+  </data>
+  <data name="myorders" xml:space="preserve">
+    <value>طلباتي</value>
+  </data>
+  <data name="updateorder" xml:space="preserve">
+    <value>إدارة وتحديث الطلب</value>
+  </data>
+  <data name="updateordersubtitle" xml:space="preserve">
+    <value>تحديث الحالة وشركة الشحن ورقم التتبع</value>
+  </data>
+  <data name="current" xml:space="preserve">
+    <value>الحالة الحالية</value>
   </data>
 </root>
