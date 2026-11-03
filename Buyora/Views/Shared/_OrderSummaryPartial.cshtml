@@ -1,0 +1,328 @@
+﻿@using Buyora.SharedViewModel
+@model List<DisplayOrderViewModel>
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["orders"];
+    var orders = Model ?? new List<DisplayOrderViewModel>();
+    var totalRevenue = orders.Sum(x => x.TotalAmount);
+
+    string? currentSearch = ViewBag.Search as string;
+    string? currentStatus = ViewBag.Status as string;
+    int totalCount = ViewBag.TotalCount as int? ?? orders.Count;
+    int currentPage = ViewBag.CurrentPage as int? ?? 1;
+    int pageSize = ViewBag.PageSize as int? ?? 10;
+    int totalPages = pageSize > 0 ? (int)Math.Ceiling((double)totalCount / pageSize) : 1;
+
+    bool isStaff = User.IsInRole("Admin") || User.IsInRole("Employee");
+
+    var statuses = new (string Value, string Key, string Icon)[]
+    {
+        ("Pending", "pending", "bi-hourglass-split"),
+        ("Approved", "approved", "bi-check-circle-fill"),
+        ("Processing", "processing", "bi-gear-wide-connected"),
+        ("Shipped", "shipped", "bi-truck"),
+        ("Cancelled", "cancelled", "bi-x-circle-fill"),
+        ("Refunded", "refunded", "bi-arrow-counterclockwise")
+    };
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-lg-5 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-receipt-cutoff"></i>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h4 class="fw-extrabold mb-0 text-buyora-blue">@_localizer["orders"]</h4>
+                        <span class="badge rounded-pill bg-warning text-dark fw-bold px-2 py-1">
+                            @totalCount
+                        </span>
+                    </div>
+                    <p class="text-muted mb-0 small mt-1">@_localizer["orderssubtitle"]</p>
+                </div>
+            </div>
+
+            @if (isStaff)
+            {
+                <div class="col-12 col-lg-7">
+                    <form asp-action="Index" method="get" class="d-flex flex-wrap align-items-center justify-content-lg-end gap-2">
+                        @if (!string.IsNullOrWhiteSpace(currentStatus))
+                        {
+                            <input type="hidden" name="status" value="@currentStatus" />
+                        }
+
+                        <div class="buyora-nav-search-box flex-grow-1" style="max-width: 360px;">
+                            <i class="bi bi-search buyora-nav-search-icon"></i>
+                            <input type="search"
+                                   id="ordersSearchInput"
+                                   name="search"
+                                   value="@currentSearch"
+                                   class="form-control buyora-nav-search-input bg-white"
+                                   placeholder="@_localizer["searchordersplaceholder"]"
+                                   autocomplete="off" />
+                        </div>
+
+                        <button type="submit" class="btn btn-buyora-accent btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
+                            <i class="bi bi-search"></i>
+                            <span>@_localizer["search"]</span>
+                        </button>
+
+                        @if (!string.IsNullOrWhiteSpace(currentSearch) || !string.IsNullOrWhiteSpace(currentStatus))
+                        {
+                            <a asp-action="Index" class="btn buyora-btn-outline btn-sm px-3 py-2 d-inline-flex align-items-center gap-1" title="@_localizer["reset"]">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </a>
+                        }
+                    </form>
+                </div>
+            }
+        </div>
+
+        <div class="buyora-status-filter-bar d-flex flex-wrap align-items-center gap-2 pt-3 mt-3 border-top">
+            <a asp-action="Index"
+               asp-route-search="@currentSearch"
+               asp-route-status=""
+               asp-route-page="1"
+               class="buyora-filter-chip @(string.IsNullOrWhiteSpace(currentStatus) ? "active" : "")">
+                <i class="bi bi-grid-fill"></i>
+                <span>@_localizer["viewall"]</span>
+            </a>
+
+            @foreach (var st in statuses)
+            {
+                bool isActive = string.Equals(currentStatus, st.Value, StringComparison.OrdinalIgnoreCase);
+                <a asp-action="Index"
+                   asp-route-search="@currentSearch"
+                   asp-route-status="@st.Value"
+                   asp-route-page="1"
+                   class="buyora-filter-chip chip-@st.Key @(isActive ? "active" : "")">
+                    <i class="bi @st.Icon"></i>
+                    <span>@_localizer[st.Key]</span>
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (!orders.Any())
+    {
+        <div class="buyora-card p-5 text-center my-4">
+            <div class="buyora-empty-cart-icon mx-auto mb-3">
+                <i class="bi bi-inbox"></i>
+            </div>
+            <h4 class="fw-extrabold text-buyora-blue mb-2">@_localizer["noordersyet"]</h4>
+            <p class="text-muted small mx-auto mb-3" style="max-width: 420px;">
+                @_localizer["noorderssubtitle"]
+            </p>
+            @if (!string.IsNullOrWhiteSpace(currentSearch) || !string.IsNullOrWhiteSpace(currentStatus))
+            {
+                <a asp-action="Index" class="btn buyora-btn-outline px-4 py-2 d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    <span>@_localizer["viewall"]</span>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-6 col-xl-4">
+                <div class="buyora-card p-3 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-blue">
+                        <i class="bi bi-bag-check-fill"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">@_localizer["totalorders"]</span>
+                        <h5 class="fw-extrabold text-buyora-blue mb-0">@totalCount</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-4">
+                <div class="buyora-card p-3 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-orange">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">@_localizer["totalamount"]</span>
+                        <h5 class="fw-extrabold text-buyora-orange mb-0">
+                            @totalRevenue.ToString("N2") <small class="fs-6">@_localizer["currency"]</small>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="buyora-card overflow-hidden">
+            <div class="table-responsive">
+                <table class="table buyora-orders-table align-middle mb-0" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">@_localizer["ordernumber"]</th>
+                            <th>@_localizer["recipientname"]</th>
+                            @if (isStaff)
+                            {
+                                <th>@_localizer["useraccount"]</th>
+                            }
+                            <th>@_localizer["phonenumber"]</th>
+                            <th>@_localizer["shippingaddress"]</th>
+                            <th class="text-center">@_localizer["status"]</th>
+                            <th class="text-end">@_localizer["totalamount"]</th>
+                            <th class="text-end pe-4">@_localizer["details"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in orders)
+                        {
+                            var rawStatus = string.IsNullOrWhiteSpace(order.Status) ? "Pending" : order.Status.Trim();
+                            var statusNorm = rawStatus.ToLowerInvariant();
+
+                            string statusClass = "status-pending";
+                            string statusIcon = "bi-hourglass-split";
+
+                            if (statusNorm == "approved")
+                            {
+                                statusClass = "status-approved";
+                                statusIcon = "bi-check-circle-fill";
+                            }
+                            else if (statusNorm == "processing")
+                            {
+                                statusClass = "status-processing";
+                                statusIcon = "bi-gear-wide-connected";
+                            }
+                            else if (statusNorm == "shipped")
+                            {
+                                statusClass = "status-shipped";
+                                statusIcon = "bi-truck";
+                            }
+                            else if (statusNorm == "cancelled")
+                            {
+                                statusClass = "status-cancelled";
+                                statusIcon = "bi-x-circle-fill";
+                            }
+                            else if (statusNorm == "refunded")
+                            {
+                                statusClass = "status-refunded";
+                                statusIcon = "bi-arrow-counterclockwise";
+                            }
+
+                            var digitsOnly = new string((order.PhoneNumber ?? "").Where(char.IsDigit).ToArray());
+                            var whatsAppPhone = digitsOnly.StartsWith("0") ? "2" + digitsOnly : digitsOnly;
+
+                            <tr class="buyora-order-row">
+                                <td class="ps-4">
+                                    <a asp-action="Details" asp-route-id="@order.Id" class="buyora-order-id-link" dir="ltr">
+                                        <span>@order.Id.ToString("D5")</span>
+                                        <i class="bi bi-box-arrow-up-right"></i>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="buyora-customer-avatar">
+                                            @(string.IsNullOrWhiteSpace(order.Name) ? "U" : order.Name.Trim().Substring(0, 1).ToUpper())
+                                        </div>
+                                        <span class="fw-bold text-dark">@order.Name</span>
+                                    </div>
+                                </td>
+
+                                @if (isStaff)
+                                {
+                                    <td>
+                                        <span class="text-muted fw-semibold small" dir="ltr">
+                                            <i class="bi bi-envelope text-buyora-blue me-1"></i>@order.UserEmail
+                                        </span>
+                                    </td>
+                                }
+
+                                <td>
+                                    <div class="d-inline-flex align-items-center gap-2" dir="ltr">
+                                        <span class="text-muted fw-semibold small">
+                                            <i class="bi bi-telephone text-buyora-blue me-1"></i>@order.PhoneNumber
+                                        </span>
+                                        @if (isStaff && !string.IsNullOrEmpty(whatsAppPhone))
+                                        {
+                                            <a href="https://wa.me/@whatsAppPhone"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                               class="buyora-whatsapp-btn"
+                                               title="WhatsApp">
+                                                <i class="bi bi-whatsapp"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="text-muted small d-inline-block text-truncate" style="max-width: 220px;" title="@order.ShippingAddress">
+                                        <i class="bi bi-geo-alt text-buyora-orange me-1"></i>@order.ShippingAddress
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <span class="buyora-order-status @statusClass">
+                                        <i class="bi @statusIcon"></i>
+                                        <span>@_localizer[statusNorm]</span>
+                                    </span>
+                                </td>
+
+                                <td class="text-end">
+                                    <span class="fw-extrabold text-buyora-orange fs-6">
+                                        @order.TotalAmount.ToString("N2") <small class="fw-bold">@_localizer["currency"]</small>
+                                    </span>
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <a asp-action="Details" asp-route-id="@order.Id" class="buyora-details-btn">
+                                        <span>@_localizer["details"]</span>
+                                        <i class="bi bi-arrow-right-short fs-5 buyora-rtl-flip"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="buyora-pagination-bar p-3 p-sm-4 border-top d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+                    <span class="text-muted small">
+                        @_localizer["page"] <strong class="text-buyora-blue">@currentPage</strong> / <strong>@totalPages</strong>
+                    </span>
+
+                    <div class="d-flex flex-wrap align-items-center justify-content-center gap-1">
+                        <a asp-action="Index"
+                           asp-route-page="@(currentPage - 1)"
+                           asp-route-search="@currentSearch"
+                           asp-route-status="@currentStatus"
+                           class="buyora-page-btn @(currentPage <= 1 ? "disabled" : "")">
+                            <i class="bi bi-chevron-left buyora-rtl-flip"></i>
+                        </a>
+
+                        @foreach (var pageNum in Enumerable.Range(1, totalPages))
+                        {
+                            <a asp-action="Index"
+                               asp-route-page="@pageNum"
+                               asp-route-search="@currentSearch"
+                               asp-route-status="@currentStatus"
+                               class="buyora-page-btn @(pageNum == currentPage ? "active" : "")">
+                                @pageNum
+                            </a>
+                        }
+
+                        <a asp-action="Index"
+                           asp-route-page="@(currentPage + 1)"
+                           asp-route-search="@currentSearch"
+                           asp-route-status="@currentStatus"
+                           class="buyora-page-btn @(currentPage >= totalPages ? "disabled" : "")">
+                            <i class="bi bi-chevron-right buyora-rtl-flip"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

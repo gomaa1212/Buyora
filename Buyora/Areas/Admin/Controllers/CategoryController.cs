@@ -136,9 +136,12 @@ namespace Buyora.Areas.Admin.Controllers
             if (res == "Succeeded")
             {
                 TempData["SuccessMessage"] = "Category Deleted Successfully";
-                return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            else
+            {
+                TempData["ErrorMessage"] = "Can't delete category";
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

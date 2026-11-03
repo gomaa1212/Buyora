@@ -1,0 +1,186 @@
+﻿@using Buyora.SharedViewModel
+@model DisplayOrderViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["orderconfirmation"];
+    var items = Model?.Items ?? new List<DisplayOrderDetailsViewModel>();
+    var totalItemsCount = items.Sum(x => x.Count);
+}
+
+<div class="buyora-page-wrapper py-3 py-md-4">
+    <div class="buyora-card buyora-auth-card buyora-invoice-card overflow-hidden">
+        <div class="row g-0">
+            <div class="col-12 col-lg-4 buyora-auth-visual d-flex flex-column justify-content-between p-4 p-xl-5 text-white position-relative d-print-none">
+                <div class="position-relative z-2 text-center text-lg-start">
+                    <span class="buyora-auth-badge d-inline-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-check-circle-fill text-buyora-orange"></i>
+                        <span>@_localizer["orderconfirmedbadge"]</span>
+                    </span>
+                    <h3 class="fw-extrabold mb-2">@_localizer["thankyoufororder"]</h3>
+                    <p class="text-white-50 small mb-0">@_localizer["orderconfirmedsidebarsub"]</p>
+                </div>
+
+                <div class="buyora-auth-img-stage my-3 position-relative z-2 text-center">
+                    <img src="/OrderConfirmation.png" alt="Order On The Way" class="buyora-auth-img img-fluid" />
+                </div>
+
+                <div class="position-relative z-2">
+                    <div class="d-flex align-items-center gap-3 p-3 rounded-4 buyora-auth-perks">
+                        <div class="buyora-perk-icon">
+                            <i class="bi bi-box-seam-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 small text-white">@_localizer["fastdelivery"]</h6>
+                            <span class="text-white-50" style="font-size: 0.78rem;">@_localizer["orderontheway"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-8 p-4 p-sm-5 bg-white">
+                <div class="buyora-invoice-header d-flex flex-wrap align-items-center justify-content-between gap-3 pb-4 mb-4 border-bottom">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="~/Logo.png" alt="Buyora" class="buyora-invoice-logo" />
+                        <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <h4 class="fw-extrabold text-buyora-blue mb-0">@_localizer["officialinvoice"]</h4>
+                                <span class="buyora-status-badge">
+                                    <i class="bi bi-dot fs-5"></i>
+                                    @(string.IsNullOrWhiteSpace(Model.Status) ? _localizer["pending"] : Model.Status)
+                                </span>
+                            </div>
+                            <span class="text-muted small">Buyora E-Commerce Platform</span>
+                        </div>
+                    </div>
+
+                    <div class="text-sm-end">
+                        <span class="text-muted d-block small">@_localizer["ordernumber"]</span>
+                        <span class="fw-extrabold text-buyora-orange fs-5" dir="ltr">#BUY-@Model.Id.ToString("D5")</span>
+                        <span class="text-muted d-block" style="font-size: 0.78rem;" dir="ltr">
+                            <i class="bi bi-calendar3 me-1"></i> @Model.OrderDate.ToString("dd MMM yyyy - hh:mm tt")
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-6">
+                        <div class="buyora-invoice-info-box p-3 rounded-4 h-100">
+                            <h6 class="fw-bold text-buyora-blue small text-uppercase mb-2 d-flex align-items-center gap-2">
+                                <i class="bi bi-person-badge-fill text-buyora-orange"></i>
+                                <span>@_localizer["customerdetails"]</span>
+                            </h6>
+                            <div class="small">
+                                <div class="mb-1">
+                                    <span class="text-muted">@_localizer["recipientname"]:</span>
+                                    <strong class="text-dark ms-1">@Model.Name</strong>
+                                </div>
+                                <div>
+                                    <span class="text-muted">@_localizer["phonenumber"]:</span>
+                                    <strong class="text-dark ms-1" dir="ltr">@Model.PhoneNumber</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="buyora-invoice-info-box p-3 rounded-4 h-100">
+                            <h6 class="fw-bold text-buyora-blue small text-uppercase mb-2 d-flex align-items-center gap-2">
+                                <i class="bi bi-geo-alt-fill text-buyora-orange"></i>
+                                <span>@_localizer["shippingaddress"]</span>
+                            </h6>
+                            <p class="text-dark fw-semibold small mb-1">@Model.ShippingAddress</p>
+                            @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                            {
+                                <div class="mt-2 pt-2 border-top small">
+                                    <span class="text-muted"><i class="bi bi-chat-left-text text-buyora-orange me-1"></i> @_localizer["ordernotes"]:</span>
+                                    <span class="text-muted fst-italic ms-1">@Model.Notes</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buyora-invoice-table-wrapper rounded-4 overflow-hidden border mb-4">
+                    <div class="table-responsive">
+                        <table class="table buyora-invoice-table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-3">#</th>
+                                    <th>@_localizer["product"]</th>
+                                    <th class="text-center">@_localizer["quantity"]</th>
+                                    <th class="text-end">@_localizer["unitprice"]</th>
+                                    <th class="text-end pe-3">@_localizer["subtotal"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int index = 1;
+                                }
+                                @foreach (var item in items)
+                                {
+                                    var lineTotal = item.Count * item.UnitPrice;
+                                    <tr>
+                                        <td class="ps-3 text-muted fw-semibold small">@(index++)</td>
+                                        <td>
+                                            <span class="fw-bold text-dark">@item.ProductName</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="buyora-invoice-qty-pill">@item.Count</span>
+                                        </td>
+                                        <td class="text-end text-muted fw-semibold">
+                                            @item.UnitPrice.ToString("N2") <small>@_localizer["currency"]</small>
+                                        </td>
+                                        <td class="text-end pe-3 fw-extrabold text-buyora-blue">
+                                            @lineTotal.ToString("N2") <small>@_localizer["currency"]</small>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row justify-content-end mb-4">
+                    <div class="col-12 col-sm-8 col-md-6">
+                        <div class="buyora-summary-box p-3 rounded-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small">@_localizer["items"] (@totalItemsCount)</span>
+                                <span class="fw-bold text-dark small">@Model.TotalAmount.ToString("N2") @_localizer["currency"]</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small">@_localizer["shipping"]</span>
+                                <span class="badge bg-success-subtle text-success fw-bold">@_localizer["free"]</span>
+                            </div>
+                            <hr class="my-2 opacity-10" />
+                            <div class="d-flex align-items-center justify-content-between pt-1">
+                                <span class="fw-extrabold text-buyora-blue">@_localizer["totalamount"]</span>
+                                <span class="fw-extrabold text-buyora-orange fs-4">
+                                    @Model.TotalAmount.ToString("N2") <small class="fs-6">@_localizer["currency"]</small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top d-print-none">
+                    <button type="button" onclick="window.print()" class="btn buyora-btn-outline px-4 py-2 d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-printer-fill"></i>
+                        <span>@_localizer["printinvoice"]</span>
+                    </button>
+
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn buyora-btn-outline px-4 py-2 d-inline-flex align-items-center gap-2">
+                            <i class="bi bi-house-door"></i>
+                            <span>@_localizer["returntohome"]</span>
+                        </a>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart px-4 py-2 d-inline-flex align-items-center gap-2">
+                            <i class="bi bi-bag-check-fill cart-btn-icon"></i>
+                            <span class="cart-btn-text">@_localizer["continueshopping"]</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

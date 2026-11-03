@@ -501,7 +501,7 @@ namespace BuyoraDataAccess.Migrations
                     b.HasOne("BuyoraModels.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -521,7 +521,7 @@ namespace BuyoraDataAccess.Migrations
             modelBuilder.Entity("BuyoraModels.ShoppingCart", b =>
                 {
                     b.HasOne("BuyoraModels.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -601,6 +601,11 @@ namespace BuyoraDataAccess.Migrations
             modelBuilder.Entity("BuyoraModels.Product", b =>
                 {
                     b.Navigation("ProductImages");
+                });
+
+            modelBuilder.Entity("BuyoraModels.ApplicationUser", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

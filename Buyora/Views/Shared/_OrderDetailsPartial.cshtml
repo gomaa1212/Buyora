@@ -1,0 +1,414 @@
+﻿@model DisplayOrderViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["orderdetails"];
+    var items = Model?.Items ?? new List<DisplayOrderDetailsViewModel>();
+    var totalItemsCount = items.Sum(x => x.Count);
+
+    var rawStatus = string.IsNullOrWhiteSpace(Model?.Status) ? "Pending" : Model.Status.Trim();
+    var statusNorm = rawStatus.ToLowerInvariant();
+
+    string statusClass = "status-pending";
+    string statusIcon = "bi-hourglass-split";
+    int currentStep = 1;
+
+    var currentStatus = string.IsNullOrWhiteSpace(Model.Status) ? "Pending" : Model.Status.Trim();
+
+    if (statusNorm == "approved")
+    {
+        statusClass = "status-approved";
+        statusIcon = "bi-check-circle-fill";
+        currentStep = 2;
+    }
+    else if (statusNorm == "processing")
+    {
+        statusClass = "status-processing";
+        statusIcon = "bi-gear-wide-connected";
+        currentStep = 3;
+    }
+    else if (statusNorm == "shipped")
+    {
+        statusClass = "status-shipped";
+        statusIcon = "bi-truck";
+        currentStep = 4;
+    }
+    else if (statusNorm == "cancelled")
+    {
+        statusClass = "status-cancelled";
+        statusIcon = "bi-x-circle-fill";
+        currentStep = -1;
+    }
+    else if (statusNorm == "refunded")
+    {
+        statusClass = "status-refunded";
+        statusIcon = "bi-arrow-counterclockwise";
+        currentStep = -2;
+    }
+}
+
+<div class="buyora-page-wrapper" id="printableOrderArea">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-lg-7 d-flex flex-wrap align-items-center gap-3">
+                <div class="buyora-icon-box d-print-none">
+                    <i class="bi bi-file-earmark-text-fill"></i>
+                </div>
+                <div>
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                        <h4 class="fw-extrabold mb-0 text-buyora-blue">@_localizer["orderdetails"]</h4>
+                        <span class="buyora-order-id-badge" dir="ltr">
+                            @Model.Id.ToString("D5")
+                        </span>
+                        <span class="buyora-order-status @statusClass">
+                            <i class="bi @statusIcon"></i>
+                            <span>@_localizer[statusNorm]</span>
+                        </span>
+                    </div>
+                    <p class="text-muted mb-0 small">
+                        <i class="bi bi-calendar3 text-buyora-orange me-1"></i>
+                        <span>@_localizer["orderdate"]:</span>
+                        <strong class="text-dark ms-1" dir="ltr">@Model.OrderDate.ToString("dd MMM yyyy - hh:mm tt")</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-5 text-lg-end d-print-none">
+                <div class="d-flex flex-wrap align-items-center justify-content-lg-end gap-2">
+                    <button type="button" onclick="window.print()" class="btn buyora-btn-outline d-inline-flex align-items-center gap-2 px-3 py-2">
+                        <i class="bi bi-printer-fill"></i>
+                        <span>@_localizer["printinvoice"]</span>
+                    </button>
+                    <a asp-action="Index" class="btn btn-buyora-accent d-inline-flex align-items-center gap-2 px-3 py-2">
+                        <i class="bi bi-arrow-left buyora-rtl-flip"></i>
+                        <span>@_localizer["back"]</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buyora-card p-4 mb-4 d-print-none">
+        @if (currentStep > 0)
+        {
+            <div class="buyora-stepper">
+                <div class="buyora-step-item @(currentStep > 1 ? "completed" : currentStep == 1 ? "current" : "")">
+                    <div class="buyora-step-circle">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <span class="buyora-step-label">@_localizer["pending"]</span>
+                </div>
+
+                <div class="buyora-step-item @(currentStep > 2 ? "completed" : currentStep == 2 ? "current" : "")">
+                    <div class="buyora-step-circle">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <span class="buyora-step-label">@_localizer["approved"]</span>
+                </div>
+
+                <div class="buyora-step-item @(currentStep > 3 ? "completed" : currentStep == 3 ? "current" : "")">
+                    <div class="buyora-step-circle">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <span class="buyora-step-label">@_localizer["processing"]</span>
+                </div>
+
+                <div class="buyora-step-item @(currentStep == 4 ? "current" : "")">
+                    <div class="buyora-step-circle">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <span class="buyora-step-label">@_localizer["shipped"]</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex align-items-center gap-3">
+                <span class="buyora-order-status @statusClass">
+                    <i class="bi @statusIcon"></i>
+                    <span>@_localizer[statusNorm]</span>
+                </span>
+                <span class="text-muted small">@_localizer["orderstatusnotice"]</span>
+            </div>
+        }
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                    <div class="buyora-detail-icon">
+                        <i class="bi bi-person-vcard-fill"></i>
+                    </div>
+                    <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["customerdetails"]</h6>
+                </div>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">@_localizer["recipientname"]:</span>
+                        <strong class="text-dark">@Model.Name</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">@_localizer["phonenumber"]:</span>
+                        <strong class="text-buyora-blue" dir="ltr">
+                            <i class="bi bi-telephone-fill text-buyora-orange me-1"></i>@Model.PhoneNumber
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                    <div class="buyora-detail-icon">
+                        <i class="bi bi-geo-alt-fill text-buyora-orange"></i>
+                    </div>
+                    <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["shippingaddress"]</h6>
+                </div>
+
+                <p class="fw-semibold text-dark small mb-2">@Model.ShippingAddress</p>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                {
+                    <div class="mt-2 pt-2 border-top small">
+                        <span class="text-muted fw-bold d-block mb-1">
+                            <i class="bi bi-chat-left-text-fill text-buyora-orange me-1"></i>@_localizer["ordernotes"]:
+                        </span>
+                        <span class="text-muted fst-italic">@Model.Notes</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                    <div class="buyora-detail-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["shipmenttracking"]</h6>
+                </div>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted">@_localizer["carrier"]:</span>
+                        @if (!string.IsNullOrWhiteSpace(Model.Carrier))
+                        {
+                            <span class="badge bg-primary-subtle text-buyora-blue fw-bold px-2 py-1">@Model.Carrier</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted fst-italic">@_localizer["notassignedyet"]</span>
+                        }
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted">@_localizer["shippingdate"]:</span>
+                        @if (Model.ShippingDate.HasValue)
+                        {
+                            <strong class="text-dark" dir="ltr">@Model.ShippingDate.Value.ToString("dd MMM yyyy")</strong>
+                        }
+                        else
+                        {
+                            <span class="text-muted fst-italic">@_localizer["notshippedyet"]</span>
+                        }
+                    </div>
+
+                    <div class="mt-2">
+                        <span class="text-muted d-block mb-1">@_localizer["trackingnumber"]:</span>
+                        @if (!string.IsNullOrWhiteSpace(Model.TrackingNumber))
+                        {
+                            <div class="d-flex align-items-center justify-content-between buyora-tracking-pill">
+                                <span dir="ltr">@Model.TrackingNumber</span>
+                                <button type="button"
+                                        class="btn btn-sm p-0 border-0 text-buyora-orange d-print-none"
+                                        data-copy-tracking-number="@Model.TrackingNumber"
+                                        data-copy-success-message="@string.Format(_localizer["trackingnumbercopied"].Value, "{0}")"
+                                        title="@_localizer["copytrackingnumber"]"
+                                        aria-label="@_localizer["copytrackingnumber"]">
+                                    <i class="bi bi-copy fs-6"></i>
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="text-muted fst-italic">@_localizer["notassignedyet"]</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 align-items-start">
+        <div class="col-12 col-lg-8">
+            <div class="buyora-card overflow-hidden">
+                <div class="p-3 p-sm-4 border-bottom bg-light bg-opacity-50 d-flex align-items-center justify-content-between">
+                    <h6 class="fw-extrabold text-buyora-blue mb-0 d-flex align-items-center gap-2">
+                        <i class="bi bi-bag-check-fill text-buyora-orange"></i>
+                        <span>@_localizer["orderitems"] (@items.Count)</span>
+                    </h6>
+                    <span class="badge rounded-pill bg-warning text-dark fw-bold">
+                        @totalItemsCount @_localizer["items"]
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table buyora-orders-table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">#</th>
+                                <th>@_localizer["product"]</th>
+                                <th class="text-center">@_localizer["quantity"]</th>
+                                <th class="text-end">@_localizer["unitprice"]</th>
+                                <th class="text-end pe-4">@_localizer["subtotal"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowNum = 1;
+                            }
+                            @foreach (var item in items)
+                            {
+                                var itemTotal = item.Count * item.UnitPrice;
+                                <tr class="buyora-order-row">
+                                    <td class="ps-4 text-muted fw-bold small">@(rowNum++)</td>
+                                    <td>
+                                        <span class="fw-extrabold text-dark">@item.ProductName</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="buyora-invoice-qty-pill">@item.Count</span>
+                                    </td>
+                                    <td class="text-end text-muted fw-semibold">
+                                        @item.UnitPrice.ToString("N2") <small>@_localizer["currency"]</small>
+                                    </td>
+                                    <td class="text-end pe-4 fw-extrabold text-buyora-blue">
+                                        @itemTotal.ToString("N2") <small>@_localizer["currency"]</small>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4 d-flex flex-column gap-4">
+            <div class="buyora-card p-4">
+                <h6 class="fw-extrabold text-buyora-blue pb-3 mb-3 border-bottom d-flex align-items-center gap-2">
+                    <i class="bi bi-receipt text-buyora-orange"></i>
+                    <span>@_localizer["ordersummary"]</span>
+                </h6>
+
+                <div class="buyora-summary-box p-3 rounded-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-muted small">@_localizer["items"] (@totalItemsCount)</span>
+                        <span class="fw-bold text-dark small">@Model.TotalAmount.ToString("N2") @_localizer["currency"]</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-muted small">@_localizer["shipping"]</span>
+                        <span class="badge bg-success-subtle text-success fw-bold">@_localizer["free"]</span>
+                    </div>
+                    <hr class="my-2 opacity-10" />
+                    <div class="d-flex align-items-center justify-content-between pt-1">
+                        <span class="fw-extrabold text-buyora-blue">@_localizer["totalamount"]</span>
+                        <span class="fw-extrabold text-buyora-orange fs-4">
+                            @Model.TotalAmount.ToString("N2") <small class="fs-6">@_localizer["currency"]</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <div class="buyora-card p-4 d-print-none">
+                    <div class="d-flex align-items-center gap-2 pb-3 mb-3 border-bottom">
+                        <div class="buyora-detail-icon">
+                            <i class="bi bi-sliders2-vertical text-buyora-orange"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["updateorder"]</h6>
+                            <span class="text-muted" style="font-size: 0.76rem;">@_localizer["updateordersubtitle"]</span>
+                        </div>
+                    </div>
+
+                    <form asp-action="UpdateOrder" asp-area="Admin" method="post" novalidate>
+                        <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-3" role="alert"></div>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="Status" class="form-label buyora-label">
+                                    <i class="bi bi-flag-fill text-buyora-orange me-1"></i> @_localizer["status"]
+                                </label>
+
+                                <select asp-for="Status" class="form-select buyora-input">
+                                    <option value="@currentStatus" selected>
+                                        @_localizer[currentStatus.ToLowerInvariant()] (@_localizer["current"])
+                                    </option>
+
+                                    @if (string.Equals(currentStatus, "Pending", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <option value="Approved">➔ @_localizer["approved"]</option>
+                                        <option value="Cancelled">✖ @_localizer["cancelled"]</option>
+                                    }
+                                    else if (string.Equals(currentStatus, "Approved", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <option value="Processing">➔ @_localizer["processing"]</option>
+                                        <option value="Cancelled">✖ @_localizer["cancelled"]</option>
+                                        <option value="Refunded">↺ @_localizer["refunded"]</option>
+                                    }
+                                    else if (string.Equals(currentStatus, "Processing", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <option value="Shipped">➔ @_localizer["shipped"]</option>
+                                        <option value="Cancelled">✖ @_localizer["cancelled"]</option>
+                                        <option value="Refunded">↺ @_localizer["refunded"]</option>
+                                    }
+                                    else if (string.Equals(currentStatus, "Shipped", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <option value="Refunded">↺ @_localizer["refunded"]</option>
+                                    }
+                                </select>
+
+                                <span asp-validation-for="Status" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Carrier" class="form-label buyora-label">
+                                    <i class="bi bi-truck text-buyora-blue me-1"></i> @_localizer["carrier"]
+                                </label>
+                                <input asp-for="Carrier" class="form-control buyora-input" placeholder="Aramex, Bosta, DHL..." />
+                                <span asp-validation-for="Carrier" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="TrackingNumber" class="form-label buyora-label">
+                                    <i class="bi bi-upc-scan text-buyora-orange me-1"></i> @_localizer["trackingnumber"]
+                                </label>
+                                <input asp-for="TrackingNumber" class="form-control buyora-input" placeholder="TRK-123456789" dir="ltr" />
+                                <span asp-validation-for="TrackingNumber" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="ShippingDate" class="form-label buyora-label">
+                                    <i class="bi bi-calendar-event-fill text-buyora-blue me-1"></i> @_localizer["shippingdate"]
+                                </label>
+                                <input asp-for="ShippingDate" type="date" class="form-control buyora-input" dir="ltr" />
+                                <span asp-validation-for="ShippingDate" class="text-danger small mt-1 d-block fw-medium"></span>
+                            </div>
+
+                            <div class="col-12 pt-2">
+                                <button type="submit" class="btn btn-buyora-accent btn-add-to-cart w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-check2-circle fs-5 cart-btn-icon"></i>
+                                    <span class="cart-btn-text">@_localizer["savechanges"]</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

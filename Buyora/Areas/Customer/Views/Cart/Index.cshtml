@@ -165,9 +165,7 @@
                         </div>
                     </div>
 
-                    <form asp-action="Summary" method="post" novalidate>
-                        <input type="hidden" asp-for="Order.TotalAmount" id="orderTotalAmountInput" />
-                        <input type="hidden" asp-for="Order.ApplicationUserId" />
+                    <form asp-action="Index" method="post" novalidate>
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-3" role="alert"></div>
 
                         <div class="row g-3">

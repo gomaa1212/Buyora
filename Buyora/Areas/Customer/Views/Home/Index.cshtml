@@ -130,7 +130,7 @@
         @if (categories != null && categories.Any())
         {
             <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
-                @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder).Take(6))
+                @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder))
                 {
                     <div class="col">
                         <a asp-controller="Product" asp-area="Admin" asp-action="Index" asp-route-categoryName="@cat.Name" class="buyora-card buyora-cat-tile p-4 text-center text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
