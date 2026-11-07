@@ -1,0 +1,311 @@
+﻿@model List<DisplayUsersViewModel>
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["users"];
+    var users = Model ?? new List<DisplayUsersViewModel>();
+
+    string? currentSearch = ViewBag.SearchTerm as string ?? Context.Request.Query["searchTerm"];
+    int totalCount = ViewBag.TotalCount as int? ?? ViewBag.Count as int? ?? users.Count;
+    int currentPage = ViewBag.CurrentPage as int? ?? (int.TryParse(Context.Request.Query["page"], out var p) ? p : 1);
+    int pageSize = ViewBag.PageSize as int? ?? 10;
+    int totalPages = pageSize > 0 ? (int)Math.Ceiling((double)totalCount / pageSize) : 1;
+
+    var lockedUsersCount = users.Count(u => u.IsLocked);
+    var activeUsersCount = users.Count - lockedUsersCount;
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-lg-5 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h4 class="fw-extrabold mb-0 text-buyora-blue">@_localizer["users"]</h4>
+                        <span class="badge rounded-pill bg-warning text-dark fw-bold px-2 py-1">
+                            @totalCount
+                        </span>
+                    </div>
+                    <p class="text-muted mb-0 small mt-1">@_localizer["userssubtitle"]</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-7">
+                <form asp-action="Index" method="get" class="d-flex flex-wrap align-items-center justify-content-lg-end gap-2">
+                    <div class="buyora-nav-search-box flex-grow-1" style="max-width: 360px;">
+                        <i class="bi bi-search buyora-nav-search-icon"></i>
+                        <input type="search"
+                               name="searchTerm"
+                               value="@currentSearch"
+                               class="form-control buyora-nav-search-input bg-white"
+                               placeholder="@_localizer["searchusersplaceholder"]"
+                               autocomplete="off" />
+                    </div>
+
+                    <button type="submit" class="btn btn-buyora-accent btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-search"></i>
+                        <span>@_localizer["search"]</span>
+                    </button>
+
+                    @if (!string.IsNullOrWhiteSpace(currentSearch))
+                    {
+                        <a asp-action="Index" class="btn buyora-btn-outline btn-sm px-3 py-2 d-inline-flex align-items-center gap-1" title="@_localizer["reset"]">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                        </a>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if (!users.Any())
+    {
+        <div class="buyora-card p-5 text-center my-4">
+            <div class="buyora-empty-cart-icon mx-auto mb-3">
+                <i class="bi bi-people"></i>
+            </div>
+            <h4 class="fw-extrabold text-buyora-blue mb-2">@_localizer["nousersfound"]</h4>
+            <p class="text-muted small mx-auto mb-3" style="max-width: 420px;">
+                @_localizer["nouserssubtitle"]
+            </p>
+            @if (!string.IsNullOrWhiteSpace(currentSearch))
+            {
+                <a asp-action="Index" class="btn buyora-btn-outline px-4 py-2 d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    <span>@_localizer["viewall"]</span>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-6 col-xl-4">
+                <div class="buyora-card p-3 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-blue">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">@_localizer["totalusers"]</span>
+                        <h5 class="fw-extrabold text-buyora-blue mb-0">@totalCount</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-4">
+                <div class="buyora-card p-3 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-orange">
+                        <i class="bi bi-person-check-fill"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">@_localizer["activeaccounts"]</span>
+                        <h5 class="fw-extrabold text-success mb-0">@activeUsersCount</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-4">
+                <div class="buyora-card p-3 d-flex align-items-center gap-3">
+                    <div class="buyora-feature-icon icon-blue">
+                        <i class="bi bi-person-fill-lock"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">@_localizer["lockedaccounts"]</span>
+                        <h5 class="fw-extrabold text-danger mb-0">@lockedUsersCount</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="buyora-card overflow-hidden">
+            <div class="table-responsive">
+                <table class="table buyora-orders-table align-middle mb-0" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">@_localizer["user"]</th>
+                            <th>@_localizer["email"]</th>
+                            <th>@_localizer["phonenumber"]</th>
+                            <th>@_localizer["roles"]</th>
+                            <th class="text-center">@_localizer["status"]</th>
+                            <th class="text-end pe-4">@_localizer["actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in users)
+                        {
+                            var userRoles = user.Roles ?? new List<string>();
+                            var digitsOnly = new string((user.PhoneNumber ?? "").Where(char.IsDigit).ToArray());
+                            var whatsAppPhone = digitsOnly.StartsWith("0") ? "2" + digitsOnly : digitsOnly;
+
+                            <tr class="buyora-order-row">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="buyora-customer-avatar @(user.IsLocked ? "avatar-locked" : "")">
+                                            @(string.IsNullOrWhiteSpace(user.Name) ? "U" : user.Name.Trim().Substring(0, 1).ToUpper())
+                                        </div>
+                                        <div>
+                                            <span class="fw-extrabold text-dark d-block">@user.Name</span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="text-muted fw-semibold small" dir="ltr">
+                                        <i class="bi bi-envelope text-buyora-blue me-1"></i>@user.Email
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+                                    {
+                                        <div class="d-inline-flex align-items-center gap-2" dir="ltr">
+                                            <span class="text-muted fw-semibold small">
+                                                <i class="bi bi-telephone text-buyora-orange me-1"></i>@user.PhoneNumber
+                                            </span>
+                                            @if (!string.IsNullOrEmpty(whatsAppPhone))
+                                            {
+                                                <a href="https://wa.me/@whatsAppPhone"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   class="buyora-whatsapp-btn"
+                                                   title="WhatsApp">
+                                                    <i class="bi bi-whatsapp"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fst-italic small">—</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="d-flex flex-wrap align-items-center gap-1">
+                                        @if (userRoles.Any())
+                                        {
+                                            @foreach (var role in userRoles)
+                                            {
+                                                var roleNorm = role.Trim().ToLowerInvariant();
+                                                var roleClass = roleNorm == "admin"
+                                                    ? "role-admin"
+                                                    : roleNorm == "employee"
+                                                        ? "role-employee"
+                                                        : "role-customer";
+                                                var roleIcon = roleNorm == "admin"
+                                                    ? "bi-shield-lock-fill"
+                                                    : roleNorm == "employee"
+                                                        ? "bi-person-workspace"
+                                                        : "bi-person-fill";
+
+                                                <span class="buyora-role-badge @roleClass">
+                                                    <i class="bi @roleIcon"></i>
+                                                    <span>@role</span>
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="buyora-role-badge role-customer">
+                                                <i class="bi bi-person-fill"></i>
+                                                <span>Customer</span>
+                                            </span>
+                                        }
+                                    </div>
+                                </td>
+
+                                <td class="text-center">
+                                    @if (user.IsLocked)
+                                    {
+                                        <span class="buyora-order-status status-cancelled">
+                                            <i class="bi bi-lock-fill"></i>
+                                            <span>@_localizer["locked"]</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="buyora-order-status status-approved">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            <span>@_localizer["active"]</span>
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <div class="d-inline-flex align-items-center justify-content-end gap-2">
+                                        <a asp-action="ManageRoles"
+                                           asp-route-userId="@user.Id"
+                                           class="buyora-user-action-btn btn-manage-role"
+                                           title="@_localizer["managerole"]">
+                                            <i class="bi bi-person-gear"></i>
+                                            <span>@_localizer["managerole"]</span>
+                                        </a>
+
+                                        @if (user.IsLocked)
+                                        {
+                                            <form asp-action="LockUnlockUser" method="post" class="d-inline m-0">
+                                                <input type="hidden" name="userId" value="@user.Id" />
+                                                <button type="submit" class="buyora-user-action-btn btn-unlock-user">
+                                                    <i class="bi bi-unlock-fill"></i>
+                                                    <span>@_localizer["unlockuser"]</span>
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="LockUnlockUser" method="post" class="d-inline m-0">
+                                                <input type="hidden" name="userId" value="@user.Id" />
+                                                <button type="submit" class="buyora-user-action-btn btn-lock-user">
+                                                    <i class="bi bi-lock-fill"></i>
+                                                    <span>@_localizer["lockuser"]</span>
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="buyora-pagination-bar p-3 p-sm-4 border-top d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+                    <span class="text-muted small">
+                        @_localizer["page"] <strong class="text-buyora-blue">@currentPage</strong> / <strong>@totalPages</strong>
+                    </span>
+
+                    <div class="d-flex flex-wrap align-items-center justify-content-center gap-1">
+                        <a asp-action="Index"
+                           asp-route-page="@(currentPage - 1)"
+                           asp-route-searchTerm="@currentSearch"
+                           class="buyora-page-btn @(currentPage <= 1 ? "disabled" : "")">
+                            <i class="bi bi-chevron-left buyora-rtl-flip"></i>
+                        </a>
+
+                        @foreach (var pageNum in Enumerable.Range(1, totalPages))
+                        {
+                            <a asp-action="Index"
+                               asp-route-page="@pageNum"
+                               asp-route-searchTerm="@currentSearch"
+                               class="buyora-page-btn @(pageNum == currentPage ? "active" : "")">
+                                @pageNum
+                            </a>
+                        }
+
+                        <a asp-action="Index"
+                           asp-route-page="@(currentPage + 1)"
+                           asp-route-searchTerm="@currentSearch"
+                           class="buyora-page-btn @(currentPage >= totalPages ? "disabled" : "")">
+                            <i class="bi bi-chevron-right buyora-rtl-flip"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

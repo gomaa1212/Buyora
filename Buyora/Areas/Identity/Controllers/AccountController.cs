@@ -133,7 +133,7 @@ namespace Buyora.Areas.Identity.Controllers
             }
             if (res.IsLockedOut)
             {
-                ModelState.AddModelError(string.Empty, "Account locked, try again later.");
+                ModelState.AddModelError(string.Empty, "Account locked, try again later or contact us.");
                 return View(model);
             }
             if (res.IsNotAllowed)
@@ -304,7 +304,7 @@ namespace Buyora.Areas.Identity.Controllers
 
             if (signIn.IsLockedOut)
             {
-                TempData["ErrorMessage"] = "Account locked, try again later.";
+                TempData["SuccessMessage"] = "Account locked, try again later or contact us.";
                 return RedirectToAction(nameof(Login));
             }
 
@@ -312,7 +312,7 @@ namespace Buyora.Areas.Identity.Controllers
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             if (string.IsNullOrWhiteSpace(email))
             {
-                TempData["ErrorMessage"] = "We could not get your email from Google.";
+                TempData["SuccessMessage"] = "We could not get your email from Google.";
                 return RedirectToAction(nameof(Login));
             }
 

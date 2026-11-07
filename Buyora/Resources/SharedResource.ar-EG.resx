@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="actions" xml:space="preserve">
-    <value>اجراءات</value>
+    <value>الإجراءات</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>رجوع</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>الغاء</value>
+    <value>إلغاء</value>
   </data>
   <data name="categories" xml:space="preserve">
     <value>الاقسام</value>
@@ -908,5 +908,71 @@
   </data>
   <data name="current" xml:space="preserve">
     <value>الحالة الحالية</value>
+  </data>
+  <data name="userssubtitle" xml:space="preserve">
+    <value>إدارة حسابات المستخدمين والصلاحيات وحالة الحظر</value>
+  </data>
+  <data name="searchusersplaceholder" xml:space="preserve">
+    <value>البحث باسم المستخدم أو البريد الإلكتروني...</value>
+  </data>
+  <data name="nousersfound" xml:space="preserve">
+    <value>لا يوجد مستخدمين</value>
+  </data>
+  <data name="nouserssubtitle" xml:space="preserve">
+    <value>ستظهر حسابات المستخدمين المسجلين هنا.</value>
+  </data>
+  <data name="totalusers" xml:space="preserve">
+    <value>إجمالي المستخدمين</value>
+  </data>
+  <data name="activeaccounts" xml:space="preserve">
+    <value>الحسابات النشطة</value>
+  </data>
+  <data name="lockedaccounts" xml:space="preserve">
+    <value>الحسابات المحظورة</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>المستخدم</value>
+  </data>
+  <data name="roles" xml:space="preserve">
+    <value>الصلاحيات</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>نشط</value>
+  </data>
+  <data name="locked" xml:space="preserve">
+    <value>محظور</value>
+  </data>
+  <data name="managerole" xml:space="preserve">
+    <value>إدارة الصلاحيات</value>
+  </data>
+  <data name="lockuser" xml:space="preserve">
+    <value>حظر الحساب</value>
+  </data>
+  <data name="unlockuser" xml:space="preserve">
+    <value>فك الحظر</value>
+  </data>
+  <data name="manageroles" xml:space="preserve">
+    <value>إدارة صلاحيات المستخدم</value>
+  </data>
+  <data name="managerolessubtitle" xml:space="preserve">
+    <value>منح أو سحب الأدوار وصلاحيات الوصول الخاصة بهذا المستخدم</value>
+  </data>
+  <data name="availablepermissions" xml:space="preserve">
+    <value>أدوار وصلاحيات النظام</value>
+  </data>
+  <data name="selectrolesinstruction" xml:space="preserve">
+    <value>قم بتفعيل أو إلغاء الأدوار المطلوبة ثم اضغط حفظ التعديلات</value>
+  </data>
+  <data name="selected" xml:space="preserve">
+    <value>محدد</value>
+  </data>
+  <data name="roledesc_admin" xml:space="preserve">
+    <value>صلاحية كاملة للوحة التحكم والمنتجات والأقسام والطلبات وإدارة المستخدمين.</value>
+  </data>
+  <data name="roledesc_employee" xml:space="preserve">
+    <value>صلاحية إدارة المنتجات والأقسام ومتابعة وتحديث طلبات العملاء.</value>
+  </data>
+  <data name="roledesc_customer" xml:space="preserve">
+    <value>صلاحية التسوق العادية لتصفح المنتجات وإدارة السلة وإتمام الطلبات.</value>
   </data>
 </root>

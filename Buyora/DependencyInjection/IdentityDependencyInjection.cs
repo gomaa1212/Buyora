@@ -20,6 +20,7 @@ namespace Buyora.DependencyInjection
                 //Lock out setting
                 opt.Lockout.MaxFailedAccessAttempts = 6;
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                
 
                 //user setting
                 opt.User.RequireUniqueEmail = true;

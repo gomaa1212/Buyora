@@ -805,7 +805,7 @@
     <value>Order Invoice</value>
   </data>
   <data name="pending" xml:space="preserve">
-    <value>Processing</value>
+    <value>Pending</value>
   </data>
   <data name="ordernumber" xml:space="preserve">
     <value>Invoice / Order No.</value>
@@ -908,5 +908,71 @@
   </data>
   <data name="current" xml:space="preserve">
     <value>Current</value>
+  </data>
+  <data name="userssubtitle" xml:space="preserve">
+    <value>Manage user accounts, permissions, and security lock status</value>
+  </data>
+  <data name="searchusersplaceholder" xml:space="preserve">
+    <value>Search by user name or email...</value>
+  </data>
+  <data name="nousersfound" xml:space="preserve">
+    <value>No Users Found</value>
+  </data>
+  <data name="nouserssubtitle" xml:space="preserve">
+    <value>Registered users will appear in this list.</value>
+  </data>
+  <data name="totalusers" xml:space="preserve">
+    <value>Total Users</value>
+  </data>
+  <data name="activeaccounts" xml:space="preserve">
+    <value>Active Accounts</value>
+  </data>
+  <data name="lockedaccounts" xml:space="preserve">
+    <value>Locked Accounts</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="managerole" xml:space="preserve">
+    <value>Manage Role</value>
+  </data>
+  <data name="lockuser" xml:space="preserve">
+    <value>Lock User</value>
+  </data>
+  <data name="unlockuser" xml:space="preserve">
+    <value>Unlock User</value>
+  </data>
+  <data name="manageroles" xml:space="preserve">
+    <value>Manage User Roles</value>
+  </data>
+  <data name="managerolessubtitle" xml:space="preserve">
+    <value>Assign or revoke system roles and access permissions for this user</value>
+  </data>
+  <data name="availablepermissions" xml:space="preserve">
+    <value>System Roles &amp; Permissions</value>
+  </data>
+  <data name="selectrolesinstruction" xml:space="preserve">
+    <value>Toggle the switches below to update user access</value>
+  </data>
+  <data name="selected" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="roledesc_admin" xml:space="preserve">
+    <value>Full access to dashboard, products, categories, orders, and users management.</value>
+  </data>
+  <data name="roledesc_employee" xml:space="preserve">
+    <value>Access to manage store catalog, products, categories, and customer orders.</value>
+  </data>
+  <data name="roledesc_customer" xml:space="preserve">
+    <value>Standard shopping access to browse products, manage cart, and place orders.</value>
   </data>
 </root>

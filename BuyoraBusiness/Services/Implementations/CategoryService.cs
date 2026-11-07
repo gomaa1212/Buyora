@@ -69,7 +69,7 @@ namespace BuyoraBusiness.Services.Implementations
 
         public async Task<bool> IsCategoryNameEnExistAsync(string NameEn)
         {
-            return await _unitOfWork.Repository<Category>().GetAsQuerable().AnyAsync(x => x.NameAr.ToLower() == NameEn.ToLower());
+            return await _unitOfWork.Repository<Category>().GetAsQuerable().AnyAsync(x => x.NameEn.ToLower() == NameEn.ToLower());
         }
 
         public async Task<bool> IsCategoryNameEnExistForUpdateAsync(string NameEn,int Id)

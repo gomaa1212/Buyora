@@ -1,0 +1,134 @@
+﻿@model List<ManageUserRolesViewModel>
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["manageroles"];
+    var userId = ViewBag.UserId as string ?? Context.Request.Query["userId"].ToString();
+    var userName = ViewBag.UserName as string;
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <div>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <h4 class="fw-extrabold mb-0 text-buyora-blue">@_localizer["manageroles"]</h4>
+                        @if (!string.IsNullOrWhiteSpace(userName))
+                        {
+                            <span class="badge rounded-pill bg-warning text-dark fw-bold px-3 py-1">
+                                <i class="bi bi-person-fill me-1"></i>@userName
+                            </span>
+                        }
+                    </div>
+                    <p class="text-muted mb-0 small mt-1">@_localizer["managerolessubtitle"]</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-5 text-md-end">
+                <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-2 px-3 py-2">
+                    <i class="bi bi-arrow-left buyora-rtl-flip"></i>
+                    <span>@_localizer["back"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
+            <div class="buyora-card p-4 p-sm-5">
+                <div class="d-flex align-items-center justify-content-between pb-3 mb-4 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="buyora-detail-icon">
+                            <i class="bi bi-person-gear text-buyora-orange"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["availablepermissions"]</h6>
+                            <span class="text-muted" style="font-size: 0.78rem;">@_localizer["selectrolesinstruction"]</span>
+                        </div>
+                    </div>
+
+                    <span class="badge bg-primary-subtle text-buyora-blue fw-bold px-3 py-2 rounded-pill">
+                        <span id="selectedRolesCounter">@(Model?.Count(r => r.IsSelected) ?? 0)</span> / @(Model?.Count ?? 0) @_localizer["selected"]
+                    </span>
+                </div>
+
+                <form asp-action="ManageRoles" asp-route-userId="@userId" method="post" novalidate>
+                    <input type="hidden" name="userId" value="@userId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 small mb-3" role="alert"></div>
+
+                    <div class="d-flex flex-column gap-3">
+                        @if (Model != null && Model.Any())
+                        {
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var roleNorm = (Model[i].RoleName ?? "").Trim().ToLowerInvariant();
+
+                                var (roleIcon, iconClass, roleDescKey) = roleNorm switch
+                                {
+                                    "admin" => ("bi-shield-shaded", "role-icon-admin", "roledesc_admin"),
+                                    "employee" => ("bi-person-workspace", "role-icon-employee", "roledesc_employee"),
+                                    _ => ("bi-person-check-fill", "role-icon-customer", "roledesc_customer")
+                                };
+
+                                <label class="buyora-role-select-card js-role-card @(Model[i].IsSelected ? "is-selected" : "")">
+                                    <input asp-for="@Model[i].RoleName" type="hidden" />
+
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="buyora-role-select-icon @iconClass">
+                                            <i class="bi @roleIcon"></i>
+                                        </div>
+                                        <div>
+                                            <span class="fw-extrabold text-dark d-block fs-6">@Model[i].RoleName</span>
+                                            <span class="text-muted small d-block">@_localizer[roleDescKey]</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check form-switch m-0">
+                                        <input asp-for="@Model[i].IsSelected"
+                                               type="checkbox"
+                                               role="switch"
+                                               class="form-check-input buyora-switch js-role-checkbox" />
+                                    </div>
+                                </label>
+                            }
+                        }
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center justify-content-end gap-2 pt-4 mt-4 border-top">
+                        <a asp-action="Index" class="btn buyora-btn-outline px-4 py-3 d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-x-lg"></i>
+                            <span>@_localizer["cancel"]</span>
+                        </a>
+
+                        <button type="submit" class="btn btn-buyora-accent btn-add-to-cart px-5 py-3 d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-check2-circle fs-5 cart-btn-icon"></i>
+                            <span class="cart-btn-text">@_localizer["savechanges"]</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            function updateRoleCardsState() {
+                let selectedCount = 0;
+                $(".js-role-checkbox").each(function() {
+                    const isChecked = $(this).is(":checked");
+                    $(this).closest(".js-role-card").toggleClass("is-selected", isChecked);
+                    if (isChecked) selectedCount++;
+                });
+                $("#selectedRolesCounter").text(selectedCount);
+            }
+
+            $(document).on("change", ".js-role-checkbox", updateRoleCardsState);
+        });
+    </script>
+}
