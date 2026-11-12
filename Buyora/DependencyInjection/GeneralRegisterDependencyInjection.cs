@@ -14,6 +14,14 @@ namespace Buyora.DependencyInjection
                 cfg => { },
                 typeof(Program).Assembly
             );
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(300);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             return services;
         }
     }

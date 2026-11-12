@@ -159,6 +159,8 @@ namespace Buyora.Areas.Customer.Controllers
                 });
             }
 
+            await UpdateCartSessionCount(userId);
+
             return Ok(new
             {
                 success = true,
@@ -215,6 +217,8 @@ namespace Buyora.Areas.Customer.Controllers
                 });
             }
 
+            await UpdateCartSessionCount(userId);
+
             return Ok(new
             {
                 success = true,
@@ -262,13 +266,20 @@ namespace Buyora.Areas.Customer.Controllers
                     message = "Failed to delete."
                 });
             }
+            await UpdateCartSessionCount(userId);
             return Ok(new
             {
                 success = true,
                 message = "Cart item deleted successfully."
             });
         }
+        private async Task UpdateCartSessionCount(string userId)
+        {
+            var cartCount = await _shoppingCartService.GetUserCartCountAsync(userId);
+            HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
+        }
     }
+    
 
 
 }

@@ -2,6 +2,7 @@
 using Buyora.Areas.Identity.ViewModels;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
+using BuyoraUtility;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,10 @@ namespace Buyora.Areas.Identity.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IEmailTemplateService _emailTemplateService;
+        private readonly IShoppingCartService _shoppingCartService;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public AccountController(UserManager<ApplicationUser> userManger, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService, IEmailTemplateService emailTemplateService, IConfiguration config)
+        public AccountController(UserManager<ApplicationUser> userManger, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService, IEmailTemplateService emailTemplateService, IConfiguration config, IShoppingCartService shoppingCartService  )
         {
             _userManager = userManger;
             _signInManager = signInManager;
@@ -29,6 +31,7 @@ namespace Buyora.Areas.Identity.Controllers
             _emailService = emailService;
             _emailTemplateService = emailTemplateService;
             _config = config;
+            _shoppingCartService = shoppingCartService;
         }
 
         private string AbsoluteUrl(string? path)
@@ -125,6 +128,9 @@ namespace Buyora.Areas.Identity.Controllers
             var res = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: true);
             if (res.Succeeded)
             {
+                var cartCount = await _shoppingCartService.GetUserCartCountAsync(user.Id);
+                HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
+
                 if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                 {
                     return LocalRedirect(model.ReturnUrl);
@@ -164,6 +170,7 @@ namespace Buyora.Areas.Identity.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            HttpContext.Session.SetInt32(SD.SessionCartCount, 0);
             return RedirectToAction("Index", "Home", new { Area = "Customer" });
         }
         public IActionResult ForgetPassword()
@@ -300,11 +307,18 @@ namespace Buyora.Areas.Identity.Controllers
                 info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
             if (signIn.Succeeded)
+            {
+                var appUser = await _userManager.FindByLoginAsync(
+                                                                info.LoginProvider,
+                                                                info.ProviderKey);
+                var cartCount = await _shoppingCartService.GetUserCartCountAsync(appUser.Id);
+                HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
                 return RedirectAfterLogin(returnUrl);
+            }
 
             if (signIn.IsLockedOut)
             {
-                TempData["SuccessMessage"] = "Account locked, try again later or contact us.";
+                TempData["ErrorMessage"] = "Account locked, try again later or contact us.";
                 return RedirectToAction(nameof(Login));
             }
 
@@ -312,7 +326,7 @@ namespace Buyora.Areas.Identity.Controllers
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             if (string.IsNullOrWhiteSpace(email))
             {
-                TempData["SuccessMessage"] = "We could not get your email from Google.";
+                TempData["ErrorMessage"] = "We could not get your email from Google.";
                 return RedirectToAction(nameof(Login));
             }
 

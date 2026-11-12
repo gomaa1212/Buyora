@@ -1,6 +1,7 @@
 ﻿@using Buyora.Helper
 @using Buyora.Resources
 @using BuyoraBusiness.Services.Interfaces
+@using BuyoraUtility
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.Extensions.Localization
 @inject UserManager<ApplicationUser> _userManager
@@ -14,15 +15,8 @@
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
 
-    int initialCartCount = 0;
-    if (_sinInManager.IsSignedIn(User))
-    {
-        var userId = _userManager.GetUserId(User);
-        if (!string.IsNullOrEmpty(userId))
-        {
-            initialCartCount = await _shoppingCartService.GetUserCartCountAsync(userId);
-        }
-    }
+    var initialCartCount = Context.Session.GetInt32(SD.SessionCartCount) ?? 0;
+    
 }
 <!DOCTYPE html>
 <html lang="@(IsRightToLift ? "ar" : "en")" dir="@(IsRightToLift ? "rtl" : "ltr")">
