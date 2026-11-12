@@ -1,0 +1,47 @@
+﻿@inject IStringLocalizer<SharedResource> _localizer
+@model int
+
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+
+    var isCartPage = string.Equals(
+        currentController,
+        "Cart",
+        StringComparison.OrdinalIgnoreCase
+    );
+
+    var countClass = Model > 0 ? "" : "d-none";
+}
+
+<!-- Desktop Cart -->
+<a class="buyora-cart-pill d-none d-lg-inline-flex align-items-center gap-2 position-relative @(isCartPage ? "active" : "")"
+   asp-area="Customer"
+   asp-controller="Cart"
+   asp-action="Index">
+
+    <span class="buyora-cart-icon-wrap">
+        <i class="bi bi-cart3"></i>
+    </span>
+
+    <span class="fw-bold small">
+        @_localizer["shoppingcart"]
+    </span>
+
+    <span class="buyora-cart-pill-count js-cart-count @countClass">
+        @Model
+    </span>
+</a>
+
+<!-- Mobile Cart -->
+<a class="buyora-cart-btn d-lg-none position-relative"
+   asp-area="Customer"
+   asp-controller="Cart"
+   asp-action="Index"
+   title="@_localizer["shoppingcart"]">
+
+    <i class="bi bi-cart3 fs-5"></i>
+
+    <span class="buyora-cart-count-badge js-cart-count @countClass">
+        @Model
+    </span>
+</a>

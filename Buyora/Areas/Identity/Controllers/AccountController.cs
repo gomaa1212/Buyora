@@ -19,10 +19,9 @@ namespace Buyora.Areas.Identity.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IEmailTemplateService _emailTemplateService;
-        private readonly IShoppingCartService _shoppingCartService;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public AccountController(UserManager<ApplicationUser> userManger, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService, IEmailTemplateService emailTemplateService, IConfiguration config, IShoppingCartService shoppingCartService  )
+        public AccountController(UserManager<ApplicationUser> userManger, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService, IEmailTemplateService emailTemplateService, IConfiguration config)
         {
             _userManager = userManger;
             _signInManager = signInManager;
@@ -31,7 +30,6 @@ namespace Buyora.Areas.Identity.Controllers
             _emailService = emailService;
             _emailTemplateService = emailTemplateService;
             _config = config;
-            _shoppingCartService = shoppingCartService;
         }
 
         private string AbsoluteUrl(string? path)
@@ -128,9 +126,6 @@ namespace Buyora.Areas.Identity.Controllers
             var res = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: true);
             if (res.Succeeded)
             {
-                var cartCount = await _shoppingCartService.GetUserCartCountAsync(user.Id);
-                HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
-
                 if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                 {
                     return LocalRedirect(model.ReturnUrl);
@@ -308,11 +303,6 @@ namespace Buyora.Areas.Identity.Controllers
 
             if (signIn.Succeeded)
             {
-                var appUser = await _userManager.FindByLoginAsync(
-                                                                info.LoginProvider,
-                                                                info.ProviderKey);
-                var cartCount = await _shoppingCartService.GetUserCartCountAsync(appUser.Id);
-                HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
                 return RedirectAfterLogin(returnUrl);
             }
 
