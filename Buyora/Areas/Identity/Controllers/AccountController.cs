@@ -130,6 +130,10 @@ namespace Buyora.Areas.Identity.Controllers
                 {
                     return LocalRedirect(model.ReturnUrl);
                 }
+                if(User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    return RedirectToAction("Index", "Dashboard", new { Area = "Admin" });
+                }   
                 return RedirectToAction("Index", "Home", new { Area = "Customer" });
             }
             if (res.IsLockedOut)
@@ -303,6 +307,10 @@ namespace Buyora.Areas.Identity.Controllers
 
             if (signIn.Succeeded)
             {
+                if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    return RedirectToAction("Index", "Dashboard", new { Area = "Admin" });
+                }
                 return RedirectAfterLogin(returnUrl);
             }
 

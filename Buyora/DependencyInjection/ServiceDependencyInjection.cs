@@ -15,6 +15,7 @@ namespace Buyora.DependencyInjection
             services.AddScoped<IEmailTemplateService, EmailTemplateService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             return services;
         }
     }

@@ -12,5 +12,6 @@ namespace BuyoraBusiness.Services.Interfaces
         public Task<string> AddProductAsync(Product product,List<IFormFile> files, IFormFile mainFile);
         public Task<string> DeleteProductAsync(int Id);
         public Task<string> UpdateProductAsync(Product product, List<IFormFile>? files, IFormFile? mainFile);
+        public Task<int> GetTotalProductsAsync();
     }
 }

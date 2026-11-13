@@ -12,6 +12,8 @@ namespace BuyoraBusiness.Services.Interfaces
         public Task<Order?> GetOrderByIdAsync(int id, string? userId = null, bool includeUser = false, bool includeDetails = false, bool withTracking = false);
         public Task<(IEnumerable<Order> Orders, int TotalCount)> GetAllOrderAsync(int page, int pageSize,string? userId = null, string? status = null, string? search = null, bool includeUser = false, bool includeDetails = false);
         public Task<string> UpdateOrderAsync(Order order);
+        public Task<decimal> GetTotalRevenueAsync();
+        public Task<int> GetTotalOrdersAsync();
 
     }
 }

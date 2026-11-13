@@ -1,0 +1,10 @@
+﻿namespace Buyora.Areas.Admin.ViewModels.Dashboard
+{
+    public class DashboardViewModel
+    {
+        public decimal TotalRevenue { get; set; }
+        public int TotalOrders { get; set; }
+        public int TotalProducts { get; set; }
+        public int TotalUsers { get; set; }
+    }
+}

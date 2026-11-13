@@ -1,0 +1,439 @@
+﻿@using Buyora.Helper
+@model DashboardViewModel
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["dashboard"];
+    bool isRtl = CultureHelper.IsRightToLeft();
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+                <div>
+                    <h4 class="fw-extrabold mb-1 text-buyora-blue">@_localizer["dashboard"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["dashboardsubtitle"]</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-buyora-accent btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        <span>@_localizer["addnewproduct"]</span>
+                    </a>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn buyora-btn-outline btn-sm px-3 py-2 d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-receipt-cutoff"></i>
+                        <span>@_localizer["orders"]</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 g-xl-4 mb-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="buyora-card buyora-kpi-card kpi-orange p-4 h-100 d-flex flex-column justify-content-between">
+                <div class="d-flex align-items-start justify-content-between gap-3">
+                    <div>
+                        <span class="buyora-kpi-label d-block mb-1">@_localizer["totalrevenue"]</span>
+                        <h3 class="buyora-kpi-value text-buyora-orange mb-0">
+                            @Model.TotalRevenue.ToString("N2")
+                            <small class="fs-6 fw-bold">@_localizer["currency"]</small>
+                        </h3>
+                    </div>
+                    <div class="buyora-kpi-icon icon-orange">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between small">
+                    <span class="text-muted">
+                        <i class="bi bi-graph-up-arrow text-success me-1"></i>@_localizer["shippedordersrevenue"]
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="buyora-card buyora-kpi-card buyora-kpi-link kpi-blue p-4 h-100 d-flex flex-column justify-content-between text-decoration-none">
+                <div class="d-flex align-items-start justify-content-between gap-3">
+                    <div>
+                        <span class="buyora-kpi-label d-block mb-1">@_localizer["totalorders"]</span>
+                        <h3 class="buyora-kpi-value text-buyora-blue mb-0">@Model.TotalOrders</h3>
+                    </div>
+                    <div class="buyora-kpi-icon icon-blue">
+                        <i class="bi bi-receipt-cutoff"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between small">
+                    <span class="fw-bold text-buyora-blue">@_localizer["viewall"]</span>
+                    <i class="bi bi-arrow-right-circle-fill text-buyora-orange fs-6 buyora-rtl-flip"></i>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="buyora-card buyora-kpi-card buyora-kpi-link kpi-orange p-4 h-100 d-flex flex-column justify-content-between text-decoration-none">
+                <div class="d-flex align-items-start justify-content-between gap-3">
+                    <div>
+                        <span class="buyora-kpi-label d-block mb-1">@_localizer["totalproducts"]</span>
+                        <h3 class="buyora-kpi-value text-dark mb-0">@Model.TotalProducts</h3>
+                    </div>
+                    <div class="buyora-kpi-icon icon-orange">
+                        <i class="bi bi-bag-check-fill"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between small">
+                    <span class="fw-bold text-buyora-blue">@_localizer["manageproducts"]</span>
+                    <i class="bi bi-arrow-right-circle-fill text-buyora-orange fs-6 buyora-rtl-flip"></i>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <a asp-area="Admin" asp-controller="User" asp-action="Index" class="buyora-card buyora-kpi-card buyora-kpi-link kpi-blue p-4 h-100 d-flex flex-column justify-content-between text-decoration-none">
+                <div class="d-flex align-items-start justify-content-between gap-3">
+                    <div>
+                        <span class="buyora-kpi-label d-block mb-1">@_localizer["totalusers"]</span>
+                        <h3 class="buyora-kpi-value text-buyora-blue mb-0">@Model.TotalUsers</h3>
+                    </div>
+                    <div class="buyora-kpi-icon icon-blue">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between small">
+                    <span class="fw-bold text-buyora-blue">@_localizer["manageusers"]</span>
+                    <i class="bi bi-arrow-right-circle-fill text-buyora-orange fs-6 buyora-rtl-flip"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-xl-6">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pb-3 mb-3 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="buyora-detail-icon">
+                            <i class="bi bi-bar-chart-line-fill text-buyora-blue"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["revenueoverview"]</h6>
+                            <span class="text-muted" style="font-size: 0.76rem;">@_localizer["last6monthsperformance"]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="buyora-chart-stage">
+                    <canvas id="revenueByMonthChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-6">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pb-3 mb-3 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="buyora-detail-icon">
+                            <i class="bi bi-graph-up-arrow text-buyora-orange"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["ordersbymonth"]</h6>
+                            <span class="text-muted" style="font-size: 0.76rem;">@_localizer["monthlyorderscount"]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="buyora-chart-stage">
+                    <canvas id="ordersByMonthChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-xl-4">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex align-items-center gap-2 pb-3 mb-3 border-bottom">
+                    <div class="buyora-detail-icon">
+                        <i class="bi bi-pie-chart-fill text-buyora-blue"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["orderstatusdistribution"]</h6>
+                        <span class="text-muted" style="font-size: 0.76rem;">@_localizer["ordersbystatus"]</span>
+                    </div>
+                </div>
+                <div class="buyora-chart-stage d-flex align-items-center justify-content-center">
+                    <canvas id="orderStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex align-items-center justify-content-between gap-2 pb-3 mb-3 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="buyora-detail-icon">
+                            <i class="bi bi-grid-fill text-buyora-blue"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["productsbycategory"]</h6>
+                            <span class="text-muted" style="font-size: 0.76rem;">@_localizer["categorydistribution"]</span>
+                        </div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn buyora-btn-outline btn-sm px-3 py-1">
+                        @_localizer["categories"]
+                    </a>
+                </div>
+                <div class="buyora-chart-stage">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="buyora-card p-4 h-100">
+                <div class="d-flex align-items-center justify-content-between gap-2 pb-3 mb-3 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="buyora-detail-icon" style="background-color: rgba(239, 68, 68, 0.1); color: #dc2626;">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-extrabold text-buyora-blue mb-0">@_localizer["lowstockproducts"]</h6>
+                            <span class="text-muted" style="font-size: 0.76rem;">@_localizer["lowstocksubtitle"]</span>
+                        </div>
+                    </div>
+                    <span id="lowStockCounterBadge" class="badge rounded-pill bg-danger text-white fw-bold px-3 py-1">0</span>
+                </div>
+                <div class="buyora-chart-stage">
+                    <canvas id="lowStockChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(function() {
+            const isEnglish = @((!isRtl).ToString().ToLowerInvariant());
+            const chartDataUrl = '@Url.Action("GetChartData", "Dashboard", new { area = "Admin" })';
+
+            const labelsText = {
+                revenue: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(_localizer["revenue"].Value)),
+                orders: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(_localizer["orders"].Value)),
+                products: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(_localizer["products"].Value)),
+                stockQty: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(_localizer["quantity"].Value))
+                    };
+
+            function extractName(item) {
+                if (!item) return "";
+                if (typeof item === "string") return item;
+                if (isEnglish) {
+                    return item.nameEn || item.NameEn || item.name || item.Name || item.nameAr || item.NameAr || "";
+                } else {
+                    return item.nameAr || item.NameAr || item.name || item.Name || item.nameEn || item.NameEn || "";
+                }
+            }
+
+            $.getJSON(chartDataUrl, function(data) {
+                if (!data) return;
+
+                // 1. Revenue by Month Chart (منفصلة)
+                const revObj = data.revenueByMonth || data.RevenueByMonth || {};
+                const revLabels = Object.keys(revObj);
+                const revValues = Object.values(revObj);
+
+                const revCtx = document.getElementById('revenueByMonthChart');
+                if (revCtx) {
+                    new Chart(revCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: revLabels,
+                            datasets: [{
+                                label: labelsText.revenue,
+                                data: revValues,
+                                backgroundColor: 'rgba(0, 56, 168, 0.82)',
+                                borderColor: '#0038A8',
+                                borderWidth: 1,
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 2. Orders by Month Chart (منفصلة)
+                const ordObj = data.ordersByMonth || data.OrdersByMonth || {};
+                const ordLabels = Object.keys(ordObj);
+                const ordValues = Object.values(ordObj);
+
+                const ordCtx = document.getElementById('ordersByMonthChart');
+                if (ordCtx) {
+                    new Chart(ordCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ordLabels,
+                            datasets: [{
+                                label: labelsText.orders,
+                                data: ordValues,
+                                borderColor: '#FF6B00',
+                                backgroundColor: 'rgba(255, 107, 0, 0.14)',
+                                borderWidth: 3,
+                                pointBackgroundColor: '#FF6B00',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                fill: true,
+                                tension: 0.35
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: { precision: 0 }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 3. Order Status Distribution Chart
+                const statusObj = data.orderStatusCount || data.OrderStatusCount || {};
+                const statusLabels = Object.keys(statusObj);
+                const statusValues = Object.values(statusObj);
+
+                const statusCtx = document.getElementById('orderStatusChart');
+                if (statusCtx) {
+                    new Chart(statusCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: statusLabels,
+                            datasets: [{
+                                data: statusValues,
+                                backgroundColor: [
+                                    '#f59e0b',
+                                    '#10b981',
+                                    '#0038A8',
+                                    '#6d28d9',
+                                    '#ef4444',
+                                    '#0f766e'
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#ffffff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '64%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 4. Product Category Count Chart (NameAr / NameEn)
+                const rawCategories = data.productCategoryCount || data.ProductCategoryCount || [];
+                let categoryLabels = [];
+                let categoryValues = [];
+
+                if (Array.isArray(rawCategories)) {
+                    categoryLabels = rawCategories.map(item => extractName(item.category || item.Category || item.key || item.Key || item));
+                    categoryValues = rawCategories.map(item => item.count ?? item.Count ?? item.value ?? item.Value ?? 0);
+                } else {
+                    categoryLabels = Object.keys(rawCategories);
+                    categoryValues = Object.values(rawCategories);
+                }
+
+                const catCtx = document.getElementById('categoryChart');
+                if (catCtx) {
+                    new Chart(catCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: categoryLabels,
+                            datasets: [{
+                                label: labelsText.products,
+                                data: categoryValues,
+                                backgroundColor: 'rgba(255, 107, 0, 0.82)',
+                                borderColor: '#FF6B00',
+                                borderWidth: 1,
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: { precision: 0 }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 5. Low Stock Products Chart (NameAr / NameEn)
+                const rawLowStock = data.lowStockProducts || data.LowStockProducts || [];
+                let lowStockLabels = [];
+                let lowStockValues = [];
+
+                if (Array.isArray(rawLowStock)) {
+                    lowStockLabels = rawLowStock.map(item => extractName(item.product || item.Product || item.key || item.Key || item));
+                    lowStockValues = rawLowStock.map(item => item.count ?? item.Count ?? item.value ?? item.Value ?? 0);
+                } else {
+                    lowStockLabels = Object.keys(rawLowStock);
+                    lowStockValues = Object.values(rawLowStock);
+                }
+
+                $('#lowStockCounterBadge').text(lowStockLabels.length);
+
+                const lowStockCtx = document.getElementById('lowStockChart');
+                if (lowStockCtx) {
+                    new Chart(lowStockCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: lowStockLabels,
+                            datasets: [{
+                                label: labelsText.stockQty,
+                                data: lowStockValues,
+                                backgroundColor: 'rgba(239, 68, 68, 0.82)',
+                                borderColor: '#dc2626',
+                                borderWidth: 1,
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    ticks: { precision: 0 }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

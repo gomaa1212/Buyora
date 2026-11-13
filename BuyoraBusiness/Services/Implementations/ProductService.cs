@@ -228,7 +228,9 @@ namespace BuyoraBusiness.Services.Implementations
                 }
             }
         }
-        
-
+        public async Task<int> GetTotalProductsAsync()
+        {
+            return await _unitOfWork.Repository<Product>().GetAsQuerable().CountAsync();
+        }
     }
 }

@@ -172,7 +172,58 @@
     <value>عرض مفعل</value>
   </data>
   <data name="addnewproduct" xml:space="preserve">
-    <value>أضف منتج جديد</value>
+    <value>إضافة منتج</value>
+  </data>
+  <data name="dashboardsubtitle" xml:space="preserve">
+    <value>نظرة عامة لحظية على إيرادات المتجر والطلبات والمخزون والعملاء</value>
+  </data>
+  <data name="totalrevenue" xml:space="preserve">
+    <value>إجمالي الإيرادات</value>
+  </data>
+  <data name="shippedordersrevenue" xml:space="preserve">
+    <value>من الطلبات المشحونة والمكتملة</value>
+  </data>
+  <data name="totalproducts" xml:space="preserve">
+    <value>إجمالي المنتجات</value>
+  </data>
+  <data name="manageproducts" xml:space="preserve">
+    <value>إدارة المنتجات</value>
+  </data>
+  <data name="manageusers" xml:space="preserve">
+    <value>إدارة المستخدمين</value>
+  </data>
+  <data name="revenueoverview" xml:space="preserve">
+    <value>نظرة عامة على الإيرادات والطلبات</value>
+  </data>
+  <data name="last6monthsperformance" xml:space="preserve">
+    <value>الأداء الشهري خلال آخر 6 أشهر</value>
+  </data>
+  <data name="revenue" xml:space="preserve">
+    <value>الإيرادات</value>
+  </data>
+  <data name="orderstatusdistribution" xml:space="preserve">
+    <value>توزيع حالات الطلبات</value>
+  </data>
+  <data name="ordersbystatus" xml:space="preserve">
+    <value>الطلبات الحالية مقسمة حسب الحالة</value>
+  </data>
+  <data name="productsbycategory" xml:space="preserve">
+    <value>المنتجات حسب القسم</value>
+  </data>
+  <data name="categorydistribution" xml:space="preserve">
+    <value>عدد المنتجات المدرجة في كل قسم</value>
+  </data>
+  <data name="lowstockproducts" xml:space="preserve">
+    <value>تنبيه المخزون المنخفض</value>
+  </data>
+  <data name="lowstocksubtitle" xml:space="preserve">
+    <value>المنتجات المتبقي منها أقل من 5 قطع في المخزون</value>
+  </data>
+  <data name="ordersbymonth" xml:space="preserve">
+    <value>الطلبات الشهرية</value>
+  </data>
+  <data name="monthlyorderscount" xml:space="preserve">
+    <value>حجم الطلبات المشحونة خلال آخر 6 أشهر</value>
   </data>
   <data name="addtocart" xml:space="preserve">
     <value>أضف إلى السلة</value>

@@ -144,5 +144,17 @@ namespace BuyoraBusiness.Services.Implementations
                 return "Failed";
             }
         }
+        public async Task<decimal> GetTotalRevenueAsync()
+        {
+            var totalRevenue = await _unitOfWork.Repository<Order>().GetAsQuerable()
+                .Where(o => o.Status == SD.StatusShipped)
+                .SumAsync(o => o.TotalAmount);
+            return totalRevenue;
+        }
+        public async Task<int> GetTotalOrdersAsync()
+        {
+            var totalOrders = await _unitOfWork.Repository<Order>().GetAsQuerable().CountAsync();
+            return totalOrders;
+        }
     }
 }
