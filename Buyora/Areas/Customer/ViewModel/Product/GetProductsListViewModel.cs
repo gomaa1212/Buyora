@@ -1,4 +1,4 @@
-﻿namespace Buyora.Areas.Admin.ViewModels.Product
+﻿namespace Buyora.Areas.Customer.ViewModel.Product
 {
     public class GetProductsListViewModel
     {

@@ -30,7 +30,7 @@
                     </p>
 
                     <div class="d-flex flex-wrap align-items-center gap-3">
-                        <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-buyora-accent btn-lg px-5 py-3 d-inline-flex align-items-center gap-2">
+                        <a asp-controller="Product" asp-area="Customer" asp-action="Index" class="btn btn-buyora-accent btn-lg px-5 py-3 d-inline-flex align-items-center gap-2">
                             <span>@_localizer["shopnow"]</span>
                             <i class="bi bi-arrow-right buyora-rtl-flip"></i>
                         </a>
@@ -133,7 +133,7 @@
                 @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder))
                 {
                     <div class="col">
-                        <a asp-controller="Product" asp-area="Admin" asp-action="Index" asp-route-categoryName="@cat.Name" class="buyora-card buyora-cat-tile p-4 text-center text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
+                        <a asp-controller="Product" asp-area="Customer" asp-action="Index" asp-route-categoryName="@cat.Name" class="buyora-card buyora-cat-tile p-4 text-center text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
                             <div class="buyora-cat-tile-avatar mb-3">
                                 @(string.IsNullOrEmpty(cat.Name) ? "B" : cat.Name.Substring(0, 1).ToUpper())
                             </div>
@@ -153,7 +153,7 @@
                     <span class="text-buyora-orange fw-bold small text-uppercase">@_localizer["toppicks"]</span>
                     <h3 class="fw-extrabold text-buyora-blue mb-0">@_localizer["featuredproducts"]</h3>
                 </div>
-                <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn buyora-btn-outline btn-sm d-inline-flex align-items-center gap-1">
+                <a asp-controller="Product" asp-area="Customer" asp-action="Index" class="btn buyora-btn-outline btn-sm d-inline-flex align-items-center gap-1">
                     <span>@_localizer["viewall"]</span>
                     <i class="bi bi-arrow-right-short fs-5 buyora-rtl-flip"></i>
                 </a>
@@ -194,7 +194,7 @@
 
                             <div class="p-3 d-flex flex-column flex-grow-1">
                                 <h6 class="buyora-product-title fw-bold mb-2">
-                                    <a asp-controller="Product" asp-area="Admin" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-dark">
+                                    <a asp-controller="Product" asp-area="Customer" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-dark">
                                         @product.Name
                                     </a>
                                 </h6>
@@ -239,7 +239,7 @@
                 <p class="mb-0 text-white-50 fs-6">@_localizer["promosubtitle"]</p>
             </div>
             <div class="col-12 col-lg-4 text-lg-end">
-                <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-buyora-accent btn-lg px-5 py-3 d-inline-flex align-items-center gap-2">
+                <a asp-controller="Product" asp-area="Customer" asp-action="Index" class="btn btn-buyora-accent btn-lg px-5 py-3 d-inline-flex align-items-center gap-2">
                     <span>@_localizer["shopnow"]</span>
                     <i class="bi bi-arrow-right buyora-rtl-flip"></i>
                 </a>

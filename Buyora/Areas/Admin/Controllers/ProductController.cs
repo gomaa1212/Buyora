@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Buyora.Areas.Admin.ViewModels.Category;
 using Buyora.Areas.Admin.ViewModels.Product;
+using Buyora.Areas.Customer.ViewModel.Product;
 using Buyora.Helper;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
@@ -13,29 +14,32 @@ namespace Buyora.Areas.Admin.Controllers
     [Authorize(Roles = "Admin,Employee")]
     public class ProductController : Controller
     {
-        
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        private readonly int pageSize = 4;
+        private readonly int pageSize = 20;
         public ProductController(IProductService productService,IMapper mapper,ICategoryService categoryService)
         {
             _productService = productService;
             _mapper = mapper;
             _categoryService = categoryService;
         }
-        [AllowAnonymous]
-        public async Task<IActionResult> Index(string? search = null,string? categoryName = null,int page = 1)
+        public async Task<IActionResult> Create()
+        {
+            await LoadCategoriesAsync();
+            return View();
+        }
+        public async Task<IActionResult> Index(string? search = null, string? categoryName = null,bool? withActive = null, int page = 1)
         {
             var categories = await _categoryService.GetCategoriesListAsync();
-            var products = await _productService.GetProductsListAsync(page, pageSize,categoryName,search);
+            var products = await _productService.GetProductsListAsync(page, pageSize, categoryName, search, withActive: withActive);
             var model = new PageResult<GetProductsListViewModel>()
             {
                 Items = _mapper.Map<List<GetProductsListViewModel>>(products.Items),
                 TotalCount = products.TotalCount,
-                Page=page,
-                PageSize= pageSize,
-                CategoryName= categoryName,
+                Page = page,
+                PageSize = pageSize,
+                CategoryName = categoryName,
                 Search = search
             };
             ViewBag.Categories = _mapper.Map<List<GetCategoriesListViewModel>>(categories);
@@ -45,11 +49,7 @@ namespace Buyora.Areas.Admin.Controllers
             }
             return View(model);
         }
-        public async Task<IActionResult> Create()
-        {
-            await LoadCategoriesAsync();
-            return View();
-        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddProductViewModel model)
@@ -78,17 +78,7 @@ namespace Buyora.Areas.Admin.Controllers
                 CultureHelper.IsEnglish() ? "NameEn" : "NameAr" ,
                 selectedCategoryId);
         }
-        [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
-        {
-            var product = await _productService.GetProductByIdWithIncludeAsync(id);
-            if(product ==null)
-            {
-                return NotFound();
-            }
-            var productDisplay = _mapper.Map<GetProductByIdViewModel>(product);
-            return View(productDisplay);
-        }
+       
         public async Task<IActionResult> Edit(int Id)
         {
             var product = await _productService.GetProductByIdWithIncludeAsync(Id);

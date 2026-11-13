@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<GetCategoriesListViewModel>
 @inject IStringLocalizer<SharedResource> _localizer
 
+@{
+    ViewData["Title"] = _localizer["categories"];
+}
+
 <div class="buyora-page-wrapper">
     <div class="buyora-card buyora-header-banner p-4 mb-4">
         <div class="row align-items-center gy-3">
@@ -29,9 +33,9 @@
                 <table class="table buyora-table align-middle mb-0">
                     <thead>
                         <tr>
-                            <th scope="col" class="ps-4">Name</th>
-                            <th scope="col" class="text-center">Is Active</th>
-                            <th scope="col" class="text-center">Display Order</th>
+                            <th scope="col" class="ps-4">@_localizer["name"]</th>
+                            <th scope="col" class="text-center">@_localizer["isactive"]</th>
+                            <th scope="col" class="text-center">@_localizer["displayorder"]</th>
                             <th scope="col" class="text-end pe-4">@_localizer["actions"]</th>
                         </tr>
                     </thead>
@@ -50,13 +54,13 @@
                                 <td class="text-center">
                                     @if (category.IsActive)
                                     {
-                                        <span class="buyora-status-badge status-active">
+                                        <span class="buyora-status-badge status-active" title="@_localizer["active"]">
                                             <i class="bi bi-check-circle-fill"></i>
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="buyora-status-badge status-inactive">
+                                        <span class="buyora-status-badge status-inactive" title="@_localizer["inactive"]">
                                             <i class="bi bi-x-circle-fill"></i>
                                         </span>
                                     }
@@ -88,8 +92,8 @@
                 <div class="buyora-empty-icon mx-auto mb-3">
                     <i class="bi bi-folder-x"></i>
                 </div>
-                <h5 class="fw-bold text-dark mb-2">No Categories Found</h5>
-                <p class="text-muted small mb-4">Start building your catalog by creating your first product category.</p>
+                <h5 class="fw-bold text-dark mb-2">@_localizer["nocategoriesfound"]</h5>
+                <p class="text-muted small mb-4">@_localizer["nocategoriessubtitle"]</p>
                 <a asp-action="Create" class="btn btn-buyora-primary d-inline-flex align-items-center gap-2">
                     <i class="bi bi-plus-lg"></i>
                     <span>@_localizer["createcategory"]</span>
@@ -98,4 +102,3 @@
         }
     </div>
 </div>
-

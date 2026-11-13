@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Buyora.Areas.Admin.ViewModels.Product;
+using Buyora.Areas.Customer.ViewModel.Product;
 using Buyora.Helper;
 using BuyoraModels;
 

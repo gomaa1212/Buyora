@@ -1,4 +1,4 @@
-﻿using Buyora.Areas.Customer.ViewModel;
+﻿using Buyora.Areas.Customer.ViewModel.ShoppingCart;
 
 namespace Buyora.SharedViewModel
 {

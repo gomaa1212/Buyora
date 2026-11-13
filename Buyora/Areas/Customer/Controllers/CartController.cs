@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Buyora.Areas.Customer.ViewModel;
+using Buyora.Areas.Customer.ViewModel.ShoppingCart;
 using Buyora.SharedViewModel;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
@@ -93,6 +93,7 @@ namespace Buyora.Areas.Customer.Controllers
                 return View(model);
             }
             await _shoppingCartService.ClearCartAsync(userId);
+            HttpContext.Session.Remove(SD.SessionCartCount);
             return RedirectToAction(nameof(OrderConfirmation), new { orderId = model.Order.Id });
         }
         public async Task<IActionResult> OrderConfirmation(int orderId)
@@ -159,7 +160,8 @@ namespace Buyora.Areas.Customer.Controllers
                 });
             }
 
-
+            var cartCount = await _shoppingCartService.GetUserCartCountAsync(userId);
+            HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
             return Ok(new
             {
                 success = true,
@@ -215,7 +217,8 @@ namespace Buyora.Areas.Customer.Controllers
                     message = "Failed to update."
                 });
             }
-
+            var cartCount = await _shoppingCartService.GetUserCartCountAsync(userId);
+            HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
             return Ok(new
             {
                 success = true,
@@ -263,6 +266,8 @@ namespace Buyora.Areas.Customer.Controllers
                     message = "Failed to delete."
                 });
             }
+            var cartCount = await _shoppingCartService.GetUserCartCountAsync(userId);
+            HttpContext.Session.SetInt32(SD.SessionCartCount, cartCount);
             return Ok(new
             {
                 success = true,

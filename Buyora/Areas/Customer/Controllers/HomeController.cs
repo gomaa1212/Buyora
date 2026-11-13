@@ -1,7 +1,7 @@
 using AspNetCoreGeneratedDocument;
 using AutoMapper;
 using Buyora.Areas.Admin.ViewModels.Category;
-using Buyora.Areas.Admin.ViewModels.Product;
+using Buyora.Areas.Customer.ViewModel.Product;
 using Buyora.Resources;
 using BuyoraBusiness.Services.Interfaces;
 using BuyoraModels;
@@ -33,9 +33,9 @@ namespace Buyora.Areas.Customer.Controllers
     
         public async Task<IActionResult> Index()
         {
-            var products = await _productService.GetProductsListAsync(1, 8);
+            var products = await _productService.GetProductsWithDiscountAsync();
             var categories = await _categoryService.GetCategoriesListAsync();
-            ViewBag.FeaturedProducts = _mapper.Map<List<GetProductsListViewModel>>(products.Items);
+            ViewBag.FeaturedProducts = _mapper.Map<List<GetProductsListViewModel>>(products);
             ViewBag.Categories = _mapper.Map<List<GetCategoriesListViewModel>>(categories);
             return View();
         }

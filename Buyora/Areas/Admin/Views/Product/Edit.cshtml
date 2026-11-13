@@ -27,11 +27,11 @@
             </div>
             <div class="col-12 col-md-5 text-md-end">
                 <div class="d-flex flex-wrap align-items-center justify-content-md-end gap-2">
-                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn buyora-action-btn btn-edit d-inline-flex align-items-center gap-1 px-3 py-2">
+                    <a asp-area="Customer" asp-action="Details" asp-route-id="@Model.Id" class="btn buyora-action-btn btn-edit d-inline-flex align-items-center gap-1 px-3 py-2">
                         <i class="bi bi-eye"></i>
                         <span>@_localizer["productdetails"]</span>
                     </a>
-                    <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-1 px-3 py-2">
+                    <a  asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-1 px-3 py-2">
                         <i class="bi bi-arrow-left-short fs-5 buyora-rtl-flip"></i>
                         <span>@_localizer["back"]</span>
                     </a>
@@ -269,7 +269,7 @@
                             <i class="bi bi-check2-circle fs-5"></i>
                             <span>@_localizer["savechanges"]</span>
                         </button>
-                        <a asp-action="Index" class="btn buyora-btn-light py-2 text-center">
+                        <a  asp-action="Index" class="btn buyora-btn-light py-2 text-center">
                             @_localizer["cancel"]
                         </a>
                     </div>

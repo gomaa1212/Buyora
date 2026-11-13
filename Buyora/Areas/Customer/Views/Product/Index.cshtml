@@ -1,0 +1,212 @@
+﻿@model PageResult<GetProductsListViewModel>
+@inject IStringLocalizer<SharedResource> _localizer
+
+@{
+    ViewData["Title"] = _localizer["products"];
+    var categories = ViewBag.Categories as IEnumerable<GetCategoriesListViewModel>;
+    var selectedCategory = Context.Request.Query["categoryName"].ToString();
+    bool isStaff = User.IsInRole("Admin") || User.IsInRole("Employee");
+}
+
+<div class="buyora-page-wrapper">
+    <div class="buyora-card buyora-header-banner p-4 mb-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-12 col-md-7 d-flex align-items-center gap-3">
+                <div class="buyora-icon-box">
+                    <i class="bi bi-bag-check-fill"></i>
+                </div>
+                <div>
+                    <h4 class="fw-extrabold mb-1 text-buyora-blue">@_localizer["products"]</h4>
+                    <p class="text-muted mb-0 small">@_localizer["productssubtitle"]</p>
+                </div>
+            </div>
+            @if (isStaff)
+            {
+                <div class="col-12 col-md-5 text-md-end">
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-buyora-accent d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto px-4 py-2">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        <span>@_localizer["createproduct"]</span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="buyora-card p-3 p-md-4 mb-4">
+        <div class="buyora-search-wrapper position-relative">
+            <span class="buyora-search-icon">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="search"
+                   id="searchInput"
+                   class="form-control buyora-search-input"
+                   asp-for="@Model.Search"
+                   placeholder="@_localizer["searchproductsplaceholder"]"
+                   autocomplete="on" />
+            <div id="searchSpinner" class="buyora-search-spinner d-none">
+                <div class="spinner-border spinner-border-sm text-buyora-orange" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <button type="button" id="clearSearchBtn" class="buyora-search-clear @(string.IsNullOrWhiteSpace(Model?.Search) ? "d-none" : "")" aria-label="Clear">
+                <i class="bi bi-x-circle-fill"></i>
+            </button>
+        </div>
+
+        @if (categories != null && categories.Any())
+        {
+            <div class="buyora-category-filter-bar mt-3 pt-3 border-top">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="text-muted small fw-bold text-uppercase d-flex align-items-center gap-1">
+                        <i class="bi bi-funnel-fill text-buyora-orange"></i>
+                        <span>@_localizer["categories"]</span>
+                    </span>
+                </div>
+
+                <div class="buyora-cat-scroll d-flex align-items-center gap-2 overflow-auto py-2 px-1">
+                    <a href="#"
+                       data-category=""
+                       class="buyora-cat-pill js-category-filter @(string.IsNullOrEmpty(selectedCategory) ? "active" : "")">
+                        <span class="buyora-cat-pill-avatar">
+                            <i class="bi bi-grid-fill"></i>
+                        </span>
+                        <span class="buyora-cat-pill-name">@_localizer["viewall"]</span>
+                    </a>
+
+                    @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder))
+                    {
+                        var isActiveCat = string.Equals(selectedCategory, cat.Name, StringComparison.OrdinalIgnoreCase);
+                        <a href="#"
+                           data-category="@cat.Name"
+                           class="buyora-cat-pill js-category-filter @(isActiveCat ? "active" : "")">
+                            <span class="buyora-cat-pill-avatar">
+                                @(string.IsNullOrEmpty(cat.Name) ? "B" : cat.Name.Substring(0, 1).ToUpper())
+                            </span>
+                            <span class="buyora-cat-pill-name">@cat.Name</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="productList" class="buyora-products-container">
+        <partial name="_DisplayProductsPartial" model="Model" />
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            let timer;
+            let currentRequest;
+            let currentCategory = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(selectedCategory));
+            const searchUrl = '@Url.Action("Index", "Product", new { area = "Customer" })';
+            const $searchInput = $("#searchInput");
+            const $spinner = $("#searchSpinner");
+            const $clearBtn = $("#clearSearchBtn");
+            const $productList = $("#productList");
+
+            function updateBrowserUrl(searchTerm, pageNumber) {
+                const params = new URLSearchParams();
+                if (currentCategory) params.set("categoryName", currentCategory);
+                if (searchTerm) params.set("search", searchTerm);
+                if (pageNumber && pageNumber > 1) params.set("page", pageNumber);
+
+                const queryString = params.toString();
+                const newUrl = window.location.pathname + (queryString ? "?" + queryString : "");
+                window.history.replaceState({}, "", newUrl);
+            }
+
+            function loadProducts(pageNumber = 1) {
+                if (currentRequest) currentRequest.abort();
+
+                const searchTerm = ($searchInput.val() || "").trim();
+
+                $spinner.removeClass("d-none");
+                $clearBtn.addClass("d-none");
+                $productList.addClass("buyora-loading-fade");
+
+                updateBrowserUrl(searchTerm, pageNumber);
+
+                currentRequest = $.ajax({
+                    url: searchUrl,
+                    type: "GET",
+                    data: {
+                        categoryName: currentCategory,
+                        search: searchTerm,
+                        page: pageNumber
+                    },
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                    success: function(result) {
+                        $productList.html(result);
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort")
+                            console.error("AJAX Error: " + status + " - " + error);
+                    },
+                    complete: function(xhr, status) {
+                        if (status !== "abort") {
+                            $spinner.addClass("d-none");
+                            $productList.removeClass("buyora-loading-fade");
+                            if (($searchInput.val() || "").trim().length > 0) {
+                                $clearBtn.removeClass("d-none");
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 1. البحث الحي بدون Reload
+            $searchInput.on("input", function() {
+                const searchTerm = $(this).val().trim();
+
+                if (searchTerm.length > 0) {
+                    $clearBtn.removeClass("d-none");
+                } else {
+                    $clearBtn.addClass("d-none");
+                }
+
+                clearTimeout(timer);
+                timer = setTimeout(function() {
+                    loadProducts(1);
+                }, 350);
+            });
+
+            // 2. مسح البحث بدون Reload
+            $clearBtn.on("click", function() {
+                $searchInput.val("").trigger("focus");
+                $clearBtn.addClass("d-none");
+                clearTimeout(timer);
+                loadProducts(1);
+            });
+
+            // 3. فلترة الأقسام بدون Reload
+            $(document).on("click", ".js-category-filter", function(e) {
+                e.preventDefault();
+                const $btn = $(this);
+                if ($btn.hasClass("active")) return;
+
+                $(".js-category-filter").removeClass("active");
+                $btn.addClass("active");
+                currentCategory = $btn.attr("data-category") || "";
+                loadProducts(1);
+            });
+
+            // 4. دعم الـ Pagination داخل _DisplayProductsPartial بدون Reload
+            $(document).on("click", "#productList .pagination a, #productList .buyora-page-btn", function(e) {
+                const href = $(this).attr("href");
+                if (!href || href === "#" || $(this).closest(".page-item").hasClass("disabled")) return;
+
+                e.preventDefault();
+                const urlParams = new URLSearchParams(href.split("?")[1] || "");
+                const page = parseInt(urlParams.get("pageNumber") || urlParams.get("page") || "1");
+                loadProducts(page);
+
+                $("html, body").animate({
+                    scrollTop: $productList.offset().top - 100
+                }, 250);
+            });
+        });
+    </script>
+}

@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 text-md-end">
-                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-2 px-3 py-2">
+                <a asp-area="Customer" asp-controller="Product" asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-2 px-3 py-2">
                     <i class="bi bi-arrow-left buyora-rtl-flip"></i>
                     <span>@_localizer["continueshopping"]</span>
                 </a>
@@ -45,7 +45,7 @@
         <p class="text-muted small mx-auto mb-4" style="max-width: 440px;">
             @_localizer["emptycartsubtitle"]
         </p>
-        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart px-5 py-3 d-inline-flex align-items-center gap-2">
+        <a asp-area="Customer" asp-controller="Product" asp-action="Index" class="btn btn-buyora-accent btn-add-to-cart px-5 py-3 d-inline-flex align-items-center gap-2">
             <i class="bi bi-bag-plus-fill fs-5 cart-btn-icon"></i>
             <span class="cart-btn-text">@_localizer["shopnow"]</span>
         </a>
@@ -94,7 +94,7 @@
                                     <div class="col-8 col-sm-9 col-md-5">
                                         <h6 class="fw-extrabold mb-1 text-truncate" title="@item.ProductName">
                                             <a asp-controller="Product"
-                                               asp-area="Admin"
+                                               asp-area="Customer"
                                                asp-action="Details"
                                                asp-route-id="@item.ProductId"
                                                class="buyora-cart-product-link">

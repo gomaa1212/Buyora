@@ -1,6 +1,10 @@
 ﻿@model EditCategoryViewModel
 @inject IStringLocalizer<SharedResource> _localizer
 
+@{
+    ViewData["Title"] = _localizer["editcategory"];
+}
+
 <div class="buyora-page-wrapper">
     <div class="buyora-card buyora-header-banner p-4 mb-4">
         <div class="row align-items-center gy-3">
@@ -32,27 +36,27 @@
                     <div class="row g-4">
                         <div class="col-12 col-md-6">
                             <label asp-for="NameEn" class="form-label buyora-label">
-                                <i class="bi bi-translate text-buyora-orange me-1"></i> Name (English)
+                                <i class="bi bi-translate text-buyora-orange me-1"></i> @_localizer["nameen"]
                             </label>
                             <div class="buyora-input-group">
-                                <input asp-for="NameEn" class="form-control buyora-input" placeholder="e.g. Electronics" dir="ltr" />
+                                <input asp-for="NameEn" class="form-control buyora-input" placeholder="@_localizer["nameenplaceholder"]" dir="ltr" />
                             </div>
                             <span asp-validation-for="NameEn" class="text-danger small mt-1 d-block fw-medium"></span>
                         </div>
 
                         <div class="col-12 col-md-6">
                             <label asp-for="NameAr" class="form-label buyora-label">
-                                <i class="bi bi-translate text-buyora-blue me-1"></i> Name (Arabic)
+                                <i class="bi bi-translate text-buyora-blue me-1"></i> @_localizer["namear"]
                             </label>
                             <div class="buyora-input-group">
-                                <input asp-for="NameAr" class="form-control buyora-input" placeholder="مثال: إلكترونيات" dir="rtl" />
+                                <input asp-for="NameAr" class="form-control buyora-input" placeholder="@_localizer["namearplaceholder"]" dir="rtl" />
                             </div>
                             <span asp-validation-for="NameAr" class="text-danger small mt-1 d-block fw-medium"></span>
                         </div>
 
                         <div class="col-12 col-md-6">
                             <label asp-for="DisplayOrder" class="form-label buyora-label">
-                                <i class="bi bi-sort-numeric-down text-buyora-blue me-1"></i> Display Order
+                                <i class="bi bi-sort-numeric-down text-buyora-blue me-1"></i> @_localizer["displayorder"]
                             </label>
                             <input type="number" asp-for="DisplayOrder" class="form-control buyora-input" placeholder="1" min="1" />
                             <span asp-validation-for="DisplayOrder" class="text-danger small mt-1 d-block fw-medium"></span>
@@ -62,9 +66,9 @@
                             <div class="buyora-switch-card w-100 d-flex align-items-center justify-content-between">
                                 <div>
                                     <label asp-for="IsActive" class="form-check-label fw-bold text-dark d-block cursor-pointer mb-0">
-                                        Is Active?
+                                        @_localizer["isactive"]
                                     </label>
-                                    <span class="text-muted" style="font-size: 0.78rem;">Show this category on store</span>
+                                    <span class="text-muted" style="font-size: 0.78rem;">@_localizer["showcategoryonstore"]</span>
                                 </div>
                                 <div class="form-check form-switch m-0">
                                     <input class="form-check-input buyora-switch" type="checkbox" role="switch" asp-for="IsActive" />
@@ -79,7 +83,7 @@
                                 </a>
                                 <button type="submit" class="btn btn-buyora-primary d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto px-5">
                                     <i class="bi bi-check2-circle fs-5"></i>
-                                    <span>@_localizer["edit"]</span>
+                                    <span>@_localizer["savechanges"]</span>
                                 </button>
                             </div>
                         </div>

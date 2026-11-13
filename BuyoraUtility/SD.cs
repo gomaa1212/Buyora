@@ -16,6 +16,7 @@ namespace BuyoraUtility
 
         //Session
         public const string SessionCartCount = "SessionShoppingCartCount";
+        public const string AppUserName = "AppUserName";
 
 
     }

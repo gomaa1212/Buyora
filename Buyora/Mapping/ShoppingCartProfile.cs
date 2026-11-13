@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Buyora.Areas.Customer.ViewModel;
+using Buyora.Areas.Customer.ViewModel.ShoppingCart;
 using Buyora.Helper;
 using Buyora.SharedViewModel;
 using BuyoraModels;

@@ -1,6 +1,10 @@
 ﻿@model GetCategoryByIdViewModel
 @inject IStringLocalizer<SharedResource> _localizer
 
+@{
+    ViewData["Title"] = _localizer["deletecategory"];
+}
+
 <div class="buyora-page-wrapper">
     <div class="buyora-card buyora-header-banner buyora-danger-banner p-4 mb-4">
         <div class="row align-items-center gy-3">
@@ -36,22 +40,22 @@
 
                 <div class="buyora-delete-summary text-start p-3 rounded-3 mb-4">
                     <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
-                        <span class="text-muted small fw-semibold">Category Name</span>
+                        <span class="text-muted small fw-semibold">@_localizer["categoryname"]</span>
                         <span class="fw-bold text-buyora-blue">@Model.Name</span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
-                        <span class="text-muted small fw-semibold">Display Order</span>
+                        <span class="text-muted small fw-semibold">@_localizer["displayorder"]</span>
                         <span class="buyora-order-pill">@Model.DisplayOrder</span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between pt-2">
-                        <span class="text-muted small fw-semibold">Status</span>
+                        <span class="text-muted small fw-semibold">@_localizer["status"]</span>
                         @if (Model.IsActive)
                         {
-                            <span class="badge rounded-pill bg-success-subtle text-success px-3 py-1">Active</span>
+                            <span class="badge rounded-pill bg-success-subtle text-success px-3 py-1">@_localizer["active"]</span>
                         }
                         else
                         {
-                            <span class="badge rounded-pill bg-danger-subtle text-danger px-3 py-1">Inactive</span>
+                            <span class="badge rounded-pill bg-danger-subtle text-danger px-3 py-1">@_localizer["inactive"]</span>
                         }
                     </div>
                 </div>

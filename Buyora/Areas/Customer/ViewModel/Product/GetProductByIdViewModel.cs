@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Buyora.Areas.Admin.ViewModels.Product;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Buyora.Areas.Admin.ViewModels.Product
+namespace Buyora.Areas.Customer.ViewModel.Product
 {
     public class GetProductByIdViewModel
     {

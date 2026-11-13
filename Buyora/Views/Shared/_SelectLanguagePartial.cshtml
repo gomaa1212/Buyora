@@ -9,35 +9,37 @@
 
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentCulture = requestCulture?.RequestCulture.UICulture.Name ?? "en-US";
+    bool isArabic = currentCulture.StartsWith("ar", StringComparison.OrdinalIgnoreCase);
 
-    var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem
-        {
-            Value = c.Name,
-            Text = c.NativeName
-        })
-        .ToList();
+    var supportedCultures = LocOptions.Value.SupportedUICultures?.ToList() ?? new List<System.Globalization.CultureInfo>();
+    var targetCultureObj = supportedCultures.FirstOrDefault(c =>
+        isArabic
+            ? !c.Name.StartsWith("ar", StringComparison.OrdinalIgnoreCase)
+            : c.Name.StartsWith("ar", StringComparison.OrdinalIgnoreCase)
+    );
+
+    var targetCultureName = targetCultureObj?.Name ?? (isArabic ? "en-US" : "ar-EG");
+    var switchLabel = isArabic ? "EN" : "عربي";
+    var switchTitle = isArabic ? "Switch to English" : "التبديل إلى العربية";
 
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path)
         ? "~/"
         : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
 }
 
-<form id="selectLanguage"
-      asp-controller="Home"
+<form asp-controller="Home"
       asp-action="SetLanguage"
       asp-area="Customer"
       asp-route-returnUrl="@returnUrl"
       method="post"
-      class="buyora-lang-form m-0">
-    <div class="buyora-lang-pill d-inline-flex align-items-center">
-        <i class="bi bi-globe2 buyora-lang-icon"></i>
-        <select name="culture"
-                onchange="this.form.submit();"
-                asp-for="@requestCulture.RequestCulture.UICulture.Name"
-                asp-items="cultureItems"
-                class="form-select form-select-sm buyora-lang-select"
-                aria-label="Select Language">
-        </select>
-    </div>
+      class="buyora-lang-form m-0 d-inline-block">
+    <input type="hidden" name="culture" value="@targetCultureName" />
+    <button type="submit"
+            class="buyora-lang-switch-btn"
+            title="@switchTitle"
+            aria-label="@switchTitle">
+        <i class="bi bi-globe2"></i>
+        <span>@switchLabel</span>
+    </button>
 </form>

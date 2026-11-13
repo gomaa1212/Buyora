@@ -1,10 +1,13 @@
-﻿@model PageResult<GetProductsListViewModel>
+﻿@using Buyora.Areas.Customer.ViewModel.Product
+@model PageResult<GetProductsListViewModel>
 @inject IStringLocalizer<SharedResource> _localizer
 
 @{
     ViewData["Title"] = _localizer["products"];
     var categories = ViewBag.Categories as IEnumerable<GetCategoriesListViewModel>;
     var selectedCategory = Context.Request.Query["categoryName"].ToString();
+    var withActiveParam = Context.Request.Query["withActive"].ToString();
+    bool isStaff = User.IsInRole("Admin") || User.IsInRole("Employee");
 }
 
 <div class="buyora-page-wrapper">
@@ -15,18 +18,18 @@
                     <i class="bi bi-bag-check-fill"></i>
                 </div>
                 <div>
-                    <h4 class="fw-bold mb-1 text-buyora-blue">@_localizer["products"]</h4>
+                    <h4 class="fw-extrabold mb-1 text-buyora-blue">@_localizer["products"]</h4>
                     <p class="text-muted mb-0 small">@_localizer["productssubtitle"]</p>
                 </div>
             </div>
-            @if(User.IsInRole("Admin"))
+            @if (isStaff)
             {
                 <div class="col-12 col-md-5 text-md-end">
-                    <a asp-action="Create" class="btn btn-buyora-accent d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto">
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-buyora-accent d-inline-flex align-items-center justify-content-center gap-2 w-100 w-md-auto px-4 py-2">
                         <i class="bi bi-plus-circle-fill"></i>
                         <span>@_localizer["createproduct"]</span>
                     </a>
-                </div>      
+                </div>
             }
         </div>
     </div>
@@ -41,7 +44,7 @@
                    class="form-control buyora-search-input"
                    asp-for="@Model.Search"
                    placeholder="@_localizer["searchproductsplaceholder"]"
-                   autocomplete="off" />
+                   autocomplete="on" />
             <div id="searchSpinner" class="buyora-search-spinner d-none">
                 <div class="spinner-border spinner-border-sm text-buyora-orange" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -63,12 +66,9 @@
                 </div>
 
                 <div class="buyora-cat-scroll d-flex align-items-center gap-2 overflow-auto py-2 px-1">
-                    <a asp-controller="Product"
-                       asp-area="Admin"
-                       asp-action="Index"
-                       asp-route-categoryName=""
-                       asp-route-search="@Model.Search"
-                       class="buyora-cat-pill @(string.IsNullOrEmpty(selectedCategory) ? "active" : "")">
+                    <a href="#"
+                       data-category=""
+                       class="buyora-cat-pill js-category-filter @(string.IsNullOrEmpty(selectedCategory) ? "active" : "")">
                         <span class="buyora-cat-pill-avatar">
                             <i class="bi bi-grid-fill"></i>
                         </span>
@@ -78,18 +78,48 @@
                     @foreach (var cat in categories.Where(c => c.IsActive).OrderBy(c => c.DisplayOrder))
                     {
                         var isActiveCat = string.Equals(selectedCategory, cat.Name, StringComparison.OrdinalIgnoreCase);
-                        <a asp-controller="Product"
-                           asp-area="Admin"
-                           asp-action="Index"
-                           asp-route-categoryName="@cat.Name"
-                           asp-route-search="@Model.Search"
-                           class="buyora-cat-pill @(isActiveCat ? "active" : "")">
+                        <a href="#"
+                           data-category="@cat.Name"
+                           class="buyora-cat-pill js-category-filter @(isActiveCat ? "active" : "")">
                             <span class="buyora-cat-pill-avatar">
                                 @(string.IsNullOrEmpty(cat.Name) ? "B" : cat.Name.Substring(0, 1).ToUpper())
                             </span>
                             <span class="buyora-cat-pill-name">@cat.Name</span>
                         </a>
                     }
+                </div>
+            </div>
+        }
+
+        @if (isStaff)
+        {
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3 pt-3 border-top">
+                <span class="text-muted small fw-bold text-uppercase d-flex align-items-center gap-1">
+                    <i class="bi bi-sliders2 text-buyora-blue"></i>
+                    <span>@_localizer["productvisibility"]</span>
+                </span>
+
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <a href="#"
+                       data-with-active=""
+                       class="buyora-filter-chip js-visibility-filter @(string.IsNullOrEmpty(withActiveParam) ? "active" : "")">
+                        <i class="bi bi-collection-fill"></i>
+                        <span>@_localizer["allproducts"]</span>
+                    </a>
+
+                    <a href="#"
+                       data-with-active="true"
+                       class="buyora-filter-chip js-visibility-filter @(string.Equals(withActiveParam, "true", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                        <i class="bi bi-eye-fill text-success"></i>
+                        <span>@_localizer["activeproducts"]</span>
+                    </a>
+
+                    <a href="#"
+                       data-with-active="false"
+                       class="buyora-filter-chip js-visibility-filter @(string.Equals(withActiveParam, "false", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                        <i class="bi bi-eye-slash-fill text-danger"></i>
+                        <span>@_localizer["inactiveproducts"]</span>
+                    </a>
                 </div>
             </div>
         }
@@ -102,39 +132,67 @@
 
 @section Scripts {
     <script>
-        $(function() {
+        $(function () {
             let timer;
             let currentRequest;
-            const currentCategory = '@Html.Raw(selectedCategory)';
+            let currentCategory = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(selectedCategory));
+            let currentWithActive = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(withActiveParam));
             const searchUrl = '@Url.Action("Index", "Product")';
             const $searchInput = $("#searchInput");
             const $spinner = $("#searchSpinner");
             const $clearBtn = $("#clearSearchBtn");
             const $productList = $("#productList");
 
-            function triggerSearch(searchTerm) {
+            function updateBrowserUrl(searchTerm, pageNumber) {
+                const params = new URLSearchParams();
+                if (currentCategory) params.set("categoryName", currentCategory);
+                if (searchTerm) params.set("search", searchTerm);
+                if (currentWithActive !== "") params.set("withActive", currentWithActive);
+                if (pageNumber && pageNumber > 1) params.set("page", pageNumber);
+
+                const queryString = params.toString();
+                const newUrl = window.location.pathname + (queryString ? "?" + queryString : "");
+                window.history.replaceState({}, "", newUrl);
+            }
+
+            function loadProducts(pageNumber = 1) {
                 if (currentRequest) currentRequest.abort();
+
+                const searchTerm = ($searchInput.val() || "").trim();
 
                 $spinner.removeClass("d-none");
                 $clearBtn.addClass("d-none");
                 $productList.addClass("buyora-loading-fade");
 
+                const requestData = {
+                    categoryName: currentCategory,
+                    search: searchTerm,
+                    page: pageNumber
+                };
+
+                if (currentWithActive !== "") {
+                    requestData.withActive = currentWithActive;
+                }
+
+                updateBrowserUrl(searchTerm, pageNumber);
+
                 currentRequest = $.ajax({
                     url: searchUrl,
                     type: "GET",
-                    data: { categoryName: currentCategory, search: searchTerm },
-                    success: function(result) {
+                    data: requestData,
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                    success: function (result) {
                         $productList.html(result);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         if (status !== "abort")
                             console.error("AJAX Error: " + status + " - " + error);
                     },
-                    complete: function(xhr, status) {
+                    complete: function (xhr, status) {
                         if (status !== "abort") {
                             $spinner.addClass("d-none");
                             $productList.removeClass("buyora-loading-fade");
-                            if ($searchInput.val().trim().length > 0) {
+                            if (($searchInput.val() || "").trim().length > 0) {
                                 $clearBtn.removeClass("d-none");
                             }
                         }
@@ -142,7 +200,8 @@
                 });
             }
 
-            $searchInput.on("input", function() {
+            // 1. البحث الحي بدون Reload
+            $searchInput.on("input", function () {
                 const searchTerm = $(this).val().trim();
 
                 if (searchTerm.length > 0) {
@@ -152,16 +211,56 @@
                 }
 
                 clearTimeout(timer);
-                timer = setTimeout(function() {
-                    triggerSearch(searchTerm);
-                }, 400);
+                timer = setTimeout(function () {
+                    loadProducts(1);
+                }, 350);
             });
 
-            $clearBtn.on("click", function() {
+            // 2. مسح البحث بدون Reload
+            $clearBtn.on("click", function () {
                 $searchInput.val("").trigger("focus");
                 $clearBtn.addClass("d-none");
                 clearTimeout(timer);
-                triggerSearch("");
+                loadProducts(1);
+            });
+
+            // 3. فلترة الأقسام بدون Reload
+            $(document).on("click", ".js-category-filter", function (e) {
+                e.preventDefault();
+                const $btn = $(this);
+                if ($btn.hasClass("active")) return;
+
+                $(".js-category-filter").removeClass("active");
+                $btn.addClass("active");
+                currentCategory = $btn.attr("data-category") || "";
+                loadProducts(1);
+            });
+
+            // 4. فلترة المنتجات النشطة / غير النشطة بدون Reload
+            $(document).on("click", ".js-visibility-filter", function (e) {
+                e.preventDefault();
+                const $btn = $(this);
+                if ($btn.hasClass("active")) return;
+
+                $(".js-visibility-filter").removeClass("active");
+                $btn.addClass("active");
+                currentWithActive = $btn.attr("data-with-active") || "";
+                loadProducts(1);
+            });
+
+            // 5. دعم الـ Pagination داخل _DisplayProductsPartial بدون Reload
+            $(document).on("click", "#productList .pagination a, #productList .buyora-page-btn", function (e) {
+                const href = $(this).attr("href");
+                if (!href || href === "#" || $(this).closest(".page-item").hasClass("disabled")) return;
+
+                e.preventDefault();
+                const urlParams = new URLSearchParams(href.split("?")[1] || "");
+                const page = parseInt(urlParams.get("pageNumber") || urlParams.get("page") || "1");
+                loadProducts(page);
+
+                $("html, body").animate({
+                    scrollTop: $productList.offset().top - 100
+                }, 250);
             });
         });
     </script>

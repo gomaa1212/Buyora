@@ -31,9 +31,17 @@ namespace BuyoraBusiness.Services.Implementations
             return await _unitOfWork.Repository<Product>().GetAsQuerable().Include(x => x.ProductImages).FirstOrDefaultAsync(x => x.Id == Id);
         }
 
-        public async Task<(List<Product> Items, int TotalCount)> GetProductsListAsync(int page,int pageSize, string? categoryName = null, string? search = null)
+        public async Task<(List<Product> Items, int TotalCount)> GetProductsListAsync(int page,int pageSize, string? categoryName = null, string? search = null , bool? withActive = null)
         {
             IQueryable<Product> products = _unitOfWork.Repository<Product>().GetAsQuerable().AsNoTracking().Include(x => x.ProductImages);
+            if(withActive == true)
+            {
+                products = products.Where(x => x.IsActive == true);
+            }
+            else if (withActive == false)
+            {
+                products = products.Where(x => x.IsActive == false);
+            }
             var totalCount = 0;
             if(!string.IsNullOrWhiteSpace(categoryName))
             {
@@ -231,6 +239,10 @@ namespace BuyoraBusiness.Services.Implementations
         public async Task<int> GetTotalProductsAsync()
         {
             return await _unitOfWork.Repository<Product>().GetAsQuerable().CountAsync();
+        }
+        public async Task<List<Product>> GetProductsWithDiscountAsync()
+        {
+            return await _unitOfWork.Repository<Product>().GetAsQuerable().Where(x => x.DiscountPrice != null && x.IsActive == true).Include(x => x.ProductImages).Take(20).ToListAsync();
         }
     }
 }

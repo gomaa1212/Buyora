@@ -8,10 +8,12 @@ namespace BuyoraBusiness.Services.Interfaces
     {
         public Task<Product> GetProductByIdAsync(int Id);
         public Task<Product> GetProductByIdWithIncludeAsync(int Id);
-        public Task<(List<Product> Items,int TotalCount)> GetProductsListAsync(int page,int pageSize, string? categoryName = null,string ? search = null);
+        public Task<(List<Product> Items,int TotalCount)> GetProductsListAsync(int page,int pageSize, string? categoryName = null,string ? search = null, bool? withActive = null);
         public Task<string> AddProductAsync(Product product,List<IFormFile> files, IFormFile mainFile);
         public Task<string> DeleteProductAsync(int Id);
         public Task<string> UpdateProductAsync(Product product, List<IFormFile>? files, IFormFile? mainFile);
         public Task<int> GetTotalProductsAsync();
+        public  Task<List<Product>> GetProductsWithDiscountAsync();
+
     }
 }

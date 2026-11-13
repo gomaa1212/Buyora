@@ -2668,6 +2668,195 @@ html[dir="rtl"] .buyora-cart-pill {
     color: #059669;
 }
 
+/* Mobile navigation */
+.buyora-mobile-bottom-nav {
+    display: none;
+}
+
+.buyora-mobile-menu-toggle {
+    width: 42px;
+    height: 42px;
+    padding: 0.45rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 10px rgba(7, 31, 78, 0.07);
+}
+
+.buyora-mobile-menu-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 56, 168, 0.14);
+}
+
+@media (max-width: 991.98px) {
+    .buyora-navbar > .container {
+        flex-wrap: wrap;
+        row-gap: 0.35rem;
+    }
+
+    .buyora-navbar .navbar-brand {
+        min-width: 0;
+    }
+
+    .buyora-navbar .navbar-collapse {
+        flex-basis: 100%;
+        padding: 0.65rem 0 0.25rem;
+        border-top: 1px solid #eef2f6;
+        margin-top: 0.5rem;
+    }
+
+    .buyora-navbar .navbar-nav {
+        gap: 0.15rem;
+    }
+
+    .buyora-navbar .buyora-nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        padding-inline: 0.8rem !important;
+    }
+
+    .buyora-nav-auth > .btn {
+        min-height: 44px;
+    }
+
+    .buyora-nav-account {
+        min-height: 44px;
+    }
+
+    .buyora-store-body {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .buyora-mobile-bottom-nav {
+        position: fixed;
+        inset-inline: 0;
+        bottom: 0;
+        z-index: 1030;
+        display: flex;
+        align-items: stretch;
+        justify-content: space-around;
+        min-height: 64px;
+        padding: 0.35rem 0.35rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(255, 255, 255, 0.97);
+        border-top: 1px solid rgba(7, 31, 78, 0.1);
+        box-shadow: 0 -6px 22px rgba(7, 31, 78, 0.09);
+        backdrop-filter: blur(14px);
+    }
+
+    .buyora-mobile-nav-item {
+        position: relative;
+        flex: 1 1 0;
+        min-width: 0;
+        min-height: 54px;
+        padding: 0.3rem 0.1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.15rem;
+        border-radius: 12px;
+        color: #64748b;
+        font-size: 0.68rem;
+        font-weight: 700;
+        line-height: 1.1;
+        text-decoration: none;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .buyora-mobile-nav-item i {
+        font-size: 1.12rem;
+        line-height: 1;
+    }
+
+    .buyora-mobile-nav-item.active {
+        color: var(--buyora-blue);
+        background: rgba(0, 56, 168, 0.07);
+    }
+
+    .buyora-mobile-nav-item.active::before {
+        position: absolute;
+        top: 0;
+        inset-inline: 30%;
+        height: 3px;
+        content: "";
+        border-radius: 0 0 4px 4px;
+        background: var(--buyora-orange);
+    }
+
+    .buyora-mobile-nav-item:focus-visible {
+        outline: 2px solid var(--buyora-orange);
+        outline-offset: -2px;
+    }
+
+    .buyora-admin-body {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .buyora-admin-content {
+        padding-bottom: 1.5rem !important;
+    }
+
+    .buyora-admin-topbar {
+        min-height: 64px;
+        padding: 0.6rem 0.75rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .buyora-admin-topbar > div:first-child {
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 0.55rem !important;
+    }
+
+    .buyora-admin-topbar > div:first-child > div {
+        min-width: 0;
+    }
+
+    .buyora-admin-topbar h5 {
+        max-width: min(52vw, 220px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1rem;
+    }
+
+    .buyora-admin-topbar > div:first-child > div > span {
+        display: none;
+    }
+
+    .buyora-admin-topbar > div:nth-child(2) {
+        flex: 0 0 auto;
+        gap: 0.45rem !important;
+    }
+
+    .buyora-admin-mobile-nav {
+        z-index: 1030;
+        background: rgba(7, 31, 78, 0.98);
+        border-top-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 -8px 24px rgba(7, 31, 78, 0.22);
+    }
+
+    .buyora-admin-mobile-nav .buyora-mobile-nav-item {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.62rem;
+    }
+
+    .buyora-admin-mobile-nav .buyora-mobile-nav-item i {
+        font-size: 1.08rem;
+    }
+
+    .buyora-admin-mobile-nav .buyora-mobile-nav-item.active {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .buyora-admin-mobile-nav .buyora-mobile-nav-item.active::before {
+        background: var(--buyora-orange-light);
+    }
+}
+
 /* ==========================================
    Admin Dashboard KPI Cards & Charts
    ========================================== */
@@ -2732,3 +2921,448 @@ html[dir="rtl"] .buyora-cart-pill {
     width: 100%;
 }
 
+/* ==========================================
+   Enhanced Navbar, Balanced Search, Compact Language & Mobile Bottom Bar
+   ========================================== */
+.buyora-navbar .buyora-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 0.48rem 0.78rem !important;
+}
+
+/* ضبط حجم ومساحة شريط البحث في النافبار للعربي والإنجليزي */
+.buyora-nav-search {
+    min-width: 200px;
+    max-width: 340px;
+    width: 100%;
+}
+
+@media (max-width: 1199.98px) {
+    .buyora-nav-search {
+        max-width: 240px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .buyora-nav-search {
+        max-width: 100%;
+    }
+}
+
+.buyora-nav-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.buyora-nav-search-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 50rem;
+    padding-inline-start: 2.35rem;
+    padding-inline-end: 2.35rem;
+    font-size: 0.85rem;
+    background-color: #f4f7fb;
+    border: 1.5px solid #e2e8f0;
+    transition: all 0.22s ease;
+}
+
+    .buyora-nav-search-input:focus {
+        background-color: #ffffff;
+        border-color: var(--buyora-blue);
+        box-shadow: 0 0 0 3px rgba(0, 56, 168, 0.12);
+    }
+
+.buyora-nav-search-icon {
+    position: absolute;
+    inset-inline-start: 0.85rem;
+    color: #64748b;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.buyora-nav-search-submit {
+    position: absolute;
+    inset-inline-end: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(0, 56, 168, 0.08);
+    color: var(--buyora-blue);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+
+    .buyora-nav-search-submit:hover {
+        background-color: var(--buyora-orange);
+        color: #ffffff;
+    }
+
+/* زر لوحة التحكم وزر اللغة المدمج */
+.buyora-nav-admin-btn {
+    background: linear-gradient(135deg, rgba(0, 56, 168, 0.1) 0%, rgba(255, 107, 0, 0.12) 100%);
+    border: 1.5px solid rgba(0, 56, 168, 0.22);
+    color: var(--buyora-blue-dark) !important;
+    font-size: 0.82rem;
+    font-weight: 800;
+    border-radius: 50rem;
+    padding: 0.42rem 0.85rem;
+    white-space: nowrap;
+    transition: all 0.22s ease;
+}
+
+    .buyora-nav-admin-btn i {
+        color: var(--buyora-orange);
+    }
+
+    .buyora-nav-admin-btn:hover {
+        background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+        border-color: var(--buyora-blue);
+        color: #ffffff !important;
+        transform: translateY(-1px);
+    }
+
+        .buyora-nav-admin-btn:hover i {
+            color: #ffffff;
+        }
+
+.buyora-username-text {
+    max-width: 95px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+/* زر تبديل اللغة الصغير (مثل المواقع العالمية) */
+.buyora-lang-switch-btn {
+    height: 38px;
+    padding: 0 0.72rem;
+    border-radius: 50rem;
+    background-color: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    color: var(--buyora-blue-dark);
+    font-size: 0.78rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.32rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+    .buyora-lang-switch-btn i {
+        color: var(--buyora-orange);
+        font-size: 0.9rem;
+    }
+
+    .buyora-lang-switch-btn:hover {
+        background-color: var(--buyora-blue);
+        border-color: var(--buyora-blue);
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 56, 168, 0.2);
+    }
+
+        .buyora-lang-switch-btn:hover i {
+            color: #ffffff;
+        }
+
+.buyora-navbar-toggler {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    border: 1.5px solid #e2e8f0;
+    background-color: #f8fafc;
+    color: var(--buyora-blue-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+    .buyora-navbar-toggler:focus {
+        box-shadow: 0 0 0 3px rgba(0, 56, 168, 0.15);
+    }
+
+/* شريط التنقل السفلي للهاتف (Mobile App-Style Bottom Navigation) */
+@media (max-width: 991.98px) {
+    .buyora-body-with-bottom-nav {
+        padding-bottom: 68px;
+    }
+}
+
+.buyora-mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    inset-inline: 0;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -6px 24px rgba(7, 31, 78, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 1040;
+    padding: 0 0.25rem;
+}
+
+.buyora-bottom-nav-item {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 700;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+    .buyora-bottom-nav-item i {
+        font-size: 1.22rem;
+        line-height: 1;
+        transition: transform 0.2s ease;
+    }
+
+    .buyora-bottom-nav-item.active,
+    .buyora-bottom-nav-item:hover {
+        color: var(--buyora-blue);
+    }
+
+        .buyora-bottom-nav-item.active i {
+            color: var(--buyora-orange);
+            transform: translateY(-2px);
+        }
+
+        .buyora-bottom-nav-item.active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 28px;
+            height: 3px;
+            border-radius: 0 0 4px 4px;
+            background-color: var(--buyora-orange);
+        }
+
+/* تنسيق CartCount داخل الشريط السفلي للموبايل */
+.buyora-bottom-nav-cart .buyora-cart-btn {
+    width: auto;
+    height: auto;
+    border: none;
+    background: transparent !important;
+    padding: 0;
+    color: inherit;
+    box-shadow: none !important;
+}
+
+.buyora-bottom-nav-cart .buyora-cart-count-badge {
+    top: -5px;
+    inset-inline-end: -10px;
+}
+
+.buyora-bottom-cart-label {
+    pointer-events: none;
+}
+
+/* ==========================================
+   User Profile Badge (Full Name & Avatar)
+   ========================================== */
+.buyora-profile-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.26rem 0.85rem 0.26rem 0.3rem;
+    border-radius: 50rem;
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    transition: all 0.22s ease;
+}
+
+html[dir="rtl"] .buyora-profile-badge {
+    padding: 0.26rem 0.3rem 0.26rem 0.85rem;
+}
+
+.buyora-profile-badge:hover {
+    background-color: #ffffff;
+    border-color: rgba(0, 56, 168, 0.25);
+    box-shadow: 0 4px 12px rgba(7, 31, 78, 0.06);
+}
+
+.buyora-profile-avatar {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.buyora-profile-online-dot {
+    position: absolute;
+    bottom: -1px;
+    inset-inline-end: -1px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #10b981;
+    border: 2px solid #ffffff;
+}
+
+.buyora-profile-name {
+    font-size: 0.84rem;
+    font-weight: 800;
+    color: var(--buyora-blue-dark);
+    white-space: nowrap;
+}
+
+/* ==========================================
+   Responsive Admin Layout, Topbar & Sidebar Refinements
+   ========================================== */
+.buyora-admin-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f4f7fb;
+}
+
+.buyora-admin-main {
+    flex: 1;
+    min-width: 0; /* مهم جداً لمنع الجداول والـ Charts من كسر عرض الشاشة على الموبايل */
+    display: flex;
+    flex-direction: column;
+}
+
+.buyora-admin-topbar {
+    min-height: 68px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e2e8f0;
+    z-index: 1020;
+}
+
+.buyora-sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background-color: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    color: var(--buyora-blue-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+    .buyora-sidebar-toggle:hover {
+        background-color: var(--buyora-blue);
+        border-color: var(--buyora-blue);
+        color: #ffffff;
+    }
+
+.buyora-sidebar-close-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+    .buyora-sidebar-close-btn:hover {
+        background-color: #ef4444;
+        border-color: #ef4444;
+    }
+
+/* زر الذهاب للمتجر في الهيدر العلوي للأدمن */
+.buyora-topbar-store-pill {
+    height: 38px;
+    padding: 0 0.8rem;
+    border-radius: 50rem;
+    background-color: rgba(255, 107, 0, 0.1);
+    border: 1.5px solid rgba(255, 107, 0, 0.25);
+    color: var(--buyora-orange) !important;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+    .buyora-topbar-store-pill:hover {
+        background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+        border-color: var(--buyora-orange);
+        color: #ffffff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 107, 0, 0.25);
+    }
+
+.buyora-profile-role {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--buyora-orange);
+    white-space: nowrap;
+}
+
+/* ضبط القائمة الجانبية للأدمن في الشاشات الصغيرة والكبيرة */
+@media (max-width: 991.98px) {
+    .buyora-admin-sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        inset-inline-start: 0;
+        width: 280px;
+        z-index: 1055;
+        transform: translateX(-105%);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html[dir="rtl"] .buyora-admin-sidebar {
+        transform: translateX(105%);
+    }
+
+    .buyora-admin-sidebar.show {
+        transform: translateX(0) !important;
+    }
+
+    .buyora-admin-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(7, 31, 78, 0.55);
+        backdrop-filter: blur(3px);
+        z-index: 1050;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.25s ease;
+    }
+
+        .buyora-admin-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+}

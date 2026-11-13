@@ -1,4 +1,5 @@
-﻿@model GetProductByIdViewModel
+﻿@using Buyora.Areas.Customer.ViewModel.Product
+@model GetProductByIdViewModel
 @inject IStringLocalizer<SharedResource> _localizer
 
 @{
@@ -24,11 +25,11 @@
             </div>
             <div class="col-12 col-md-5 text-md-end">
                 <div class="d-flex flex-wrap align-items-center justify-content-md-end gap-2">
-                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn buyora-action-btn btn-edit d-inline-flex align-items-center gap-1 px-3 py-2">
+                    <a asp-area="Customer" asp-action="Details" asp-route-id="@Model.Id" class="btn buyora-action-btn btn-edit d-inline-flex align-items-center gap-1 px-3 py-2">
                         <i class="bi bi-eye"></i>
                         <span>@_localizer["productdetails"]</span>
                     </a>
-                    <a asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-1 px-3 py-2">
+                    <a  asp-action="Index" class="btn buyora-btn-outline d-inline-flex align-items-center gap-1 px-3 py-2">
                         <i class="bi bi-arrow-left-short fs-5 buyora-rtl-flip"></i>
                         <span>@_localizer["back"]</span>
                     </a>
@@ -107,7 +108,7 @@
                 <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
                     <input asp-for="Id" type="hidden"  value="@Model.Id" />
                     <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3">
-                        <a asp-action="Index" class="btn buyora-btn-light w-100 w-sm-auto px-4">
+                        <a  asp-action="Index" class="btn buyora-btn-light w-100 w-sm-auto px-4">
                             @_localizer["cancel"]
                         </a>
                         <button type="submit" class="btn btn-buyora-danger d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto px-5">

@@ -8,12 +8,33 @@
 @inject SignInManager<ApplicationUser> _signInManager
 @inject IShoppingCartService _shoppingCartService
 @inject IStringLocalizer<SharedResource> _localizer
-@inject SignInManager<ApplicationUser> _sinInManager
 
 @{
     var IsRightToLift = CultureHelper.IsRightToLeft();
+    var currentArea = ViewContext.RouteData.Values["area"]?.ToString() ?? "";
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
-    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";    
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    bool isSignedIn = _signInManager.IsSignedIn(User);
+    bool isStaff = User.IsInRole("Admin") || User.IsInRole("Employee");
+
+    string displayUserName = "";
+    string userInitial = "U";
+
+    if (isSignedIn)
+    {
+        displayUserName = Context.Session.GetString(SD.AppUserName) ?? "";
+        if (string.IsNullOrWhiteSpace(displayUserName))
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            displayUserName = !string.IsNullOrWhiteSpace(currentUser?.Name)
+                ? currentUser.Name
+                : (User.Identity?.Name?.Split('@')[0] ?? "User");
+
+            Context.Session.SetString(SD.AppUserName, displayUserName);
+        }
+
+        userInitial = displayUserName.Trim().Substring(0, 1).ToUpper();
+    }
 }
 <!DOCTYPE html>
 <html lang="@(IsRightToLift ? "ar" : "en")" dir="@(IsRightToLift ? "rtl" : "ltr")">
@@ -38,9 +59,9 @@
     <link rel="stylesheet" href="~/Buyora.styles.css" asp-append-version="true" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 buyora-body-with-bottom-nav">
 
-    <div class="buyora-topbar d-none d-md-block">
+    <div class="buyora-topbar d-none d-lg-block">
         <div class="container d-flex align-items-center justify-content-between py-1">
             <div class="d-flex align-items-center gap-3">
                 <span class="buyora-topbar-item">
@@ -62,44 +83,62 @@
         </div>
     </div>
 
-    <header class="sticky-top">
+    <header class="sticky-top buyora-header-wrap">
         <nav class="navbar navbar-expand-lg buyora-navbar py-2">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center gap-2 m-0" asp-area="Customer" asp-controller="Home" asp-action="Index">
+            <div class="container gap-2">
+                <a class="navbar-brand d-flex align-items-center gap-2 m-0 flex-shrink-0"
+                   asp-area="Customer" asp-controller="Home" asp-action="Index">
                     <img src="~/Logo.png" alt="Buyora" class="buyora-logo" />
                     <span class="brand-title">Buyora</span>
                 </a>
 
-                <div class="d-flex align-items-center gap-2 d-lg-none">
+                <div class="d-flex align-items-center gap-2 d-lg-none ms-auto">
+                    @await Html.PartialAsync("_SelectLanguagePartial")
                     @await Component.InvokeAsync("CartCount")
+                    <button class="navbar-toggler buyora-navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#buyoraMainNavbar"
+                            aria-controls="buyoraMainNavbar"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <i class="bi bi-list fs-4"></i>
+                    </button>
                 </div>
 
                 <div class="collapse navbar-collapse" id="buyoraMainNavbar">
-                    <ul class="navbar-nav ms-lg-3 me-auto mb-2 mb-lg-0 gap-lg-1 pt-3 pt-lg-0">
+                    <ul class="navbar-nav ms-lg-2 me-lg-2 mb-2 mb-lg-0 gap-lg-1 pt-3 pt-lg-0 flex-shrink-0">
                         <li class="nav-item">
                             <a class="nav-link buyora-nav-link @(string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
                                asp-area="Customer" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house-door me-1"></i> @_localizer["home"]
+                                <i class="bi bi-house-door"></i>
+                                <span>@_localizer["home"]</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link buyora-nav-link @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
-                               asp-area="Admin" asp-controller="Product" asp-action="Index">
-                                <i class="bi bi-bag-check me-1"></i> @_localizer["products"]
+                               asp-area="Customer" asp-controller="Product" asp-action="Index">
+                                <i class="bi bi-bag-check"></i>
+                                <span>@_localizer["products"]</span>
                             </a>
                         </li>
-                        @if (_signInManager.IsSignedIn(User))
-                            {
-                                <li class="nav-item">
+                        @if (isSignedIn)
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link buyora-nav-link @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
                                    asp-area="Customer" asp-controller="Order" asp-action="Index">
-                                    <i class="bi bi-receipt-cutoff me-1"></i> @_localizer["myorders"]
+                                    <i class="bi bi-receipt-cutoff"></i>
+                                    <span>@_localizer["myorders"]</span>
                                 </a>
-                            </li>         
-                            }
+                            </li>
+                        }
                     </ul>
 
-                    <form asp-area="Admin" asp-controller="Product" asp-action="Index" method="get" class="buyora-nav-search my-2 my-lg-0 mx-lg-3">
+                    <form asp-area="Customer"
+                          asp-controller="Product"
+                          asp-action="Index"
+                          method="get"
+                          class="buyora-nav-search flex-grow-1 my-2 my-lg-0 mx-lg-2">
                         <div class="buyora-nav-search-box">
                             <i class="bi bi-search buyora-nav-search-icon"></i>
                             <input type="search"
@@ -108,20 +147,38 @@
                                    class="form-control buyora-nav-search-input"
                                    placeholder="@_localizer["searchproductsplaceholder"]"
                                    autocomplete="off" />
+                            <button type="submit" class="buyora-nav-search-submit" aria-label="Search">
+                                <i class="bi bi-arrow-right-short buyora-rtl-flip"></i>
+                            </button>
                         </div>
                     </form>
 
-                    <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 pt-3 pt-lg-0 border-top border-lg-0 mt-2 mt-lg-0">
-                        @await Component.InvokeAsync("CartCount")
-                    </div>
-                </div>
-                        @if (_sinInManager.IsSignedIn(User))
+                    <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 pt-2 pt-lg-0 border-top border-lg-0 mt-2 mt-lg-0 ms-lg-auto flex-shrink-0">
+                        @if (isStaff)
+                        {
+                            <a asp-area="Admin"
+                               asp-controller="Dashboard"
+                               asp-action="Index"
+                               class="btn buyora-nav-admin-btn d-inline-flex align-items-center justify-content-center gap-1">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>@_localizer["dashboard"]</span>
+                            </a>
+                        }
+
+                        <div class="d-none d-lg-block">
+                            @await Component.InvokeAsync("CartCount")
+                        </div>
+
+                        @if (isSignedIn)
                         {
                             <div class="d-flex align-items-center justify-content-between gap-2">
-                                <span class="buyora-user-pill d-inline-flex align-items-center gap-2">
-                                    <i class="bi bi-person-circle text-buyora-orange"></i>
-                                    <span class="text-truncate" style="max-width: 120px;">@User.Identity?.Name</span>
-                                </span>
+                                <div class="buyora-profile-badge">
+                                    <span class="buyora-profile-avatar">
+                                        @userInitial
+                                        <span class="buyora-profile-online-dot"></span>
+                                    </span>
+                                    <span class="buyora-profile-name">@displayUserName</span>
+                                </div>
 
                                 <form asp-area="Identity"
                                       asp-controller="Account"
@@ -129,30 +186,24 @@
                                       method="post"
                                       class="d-inline m-0">
                                     <button type="submit"
-                                            class="btn buyora-nav-logout-btn d-inline-flex align-items-center justify-content-center gap-1">
+                                            class="btn buyora-nav-logout-btn d-inline-flex align-items-center justify-content-center gap-1"
+                                            title="@_localizer["logout"]">
                                         <i class="bi bi-box-arrow-right buyora-rtl-flip"></i>
-                                        <span>@_localizer["logout"]</span>
+                                        <span class="d-lg-none d-xxl-inline">@_localizer["logout"]</span>
                                     </button>
                                 </form>
                             </div>
                         }
                         else
                         {
-                            <div class="d-flex align-items-center gap-2">
-                                <a class="btn buyora-btn-outline btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1 flex-grow-1"
-                                   asp-area="Identity" asp-controller="Account" asp-action="Login">
-                                    <i class="bi bi-box-arrow-in-right buyora-rtl-flip"></i>
-                                    <span>@_localizer["login"]</span>
-                                </a>
-                                <a class="btn btn-buyora-accent btn-add-to-cart btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1 flex-grow-1"
-                                   asp-area="Identity" asp-controller="Account" asp-action="Register">
-                                    <i class="bi bi-person-plus-fill cart-btn-icon"></i>
-                                    <span class="cart-btn-text">@_localizer["register"]</span>
-                                </a>
-                            </div>
+                            <a class="btn buyora-btn-outline btn-sm py-2 px-3 d-inline-flex align-items-center justify-content-center gap-1"
+                               asp-area="Identity" asp-controller="Account" asp-action="Login">
+                                <i class="bi bi-box-arrow-in-right buyora-rtl-flip"></i>
+                                <span>@_localizer["login"]</span>
+                            </a>
                         }
 
-                        <div class="language-switcher-wrapper d-flex justify-content-center justify-content-lg-end ms-lg-1">
+                        <div class="d-none d-lg-flex align-items-center">
                             @await Html.PartialAsync("_SelectLanguagePartial")
                         </div>
                     </div>
@@ -167,6 +218,71 @@
             @RenderBody()
         </main>
     </div>
+
+    <nav class="buyora-mobile-bottom-nav d-lg-none" aria-label="Mobile Navigation">
+        <a asp-area="Customer"
+           asp-controller="Home"
+           asp-action="Index"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi @(string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) ? "bi-house-door-fill" : "bi-house-door")"></i>
+            <span>@_localizer["home"]</span>
+        </a>
+
+        <a asp-area="Customer"
+           asp-controller="Product"
+           asp-action="Index"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "bi-bag-check-fill" : "bi-bag-check")"></i>
+            <span>@_localizer["products"]</span>
+        </a>
+
+        <div class="buyora-bottom-nav-item buyora-bottom-nav-cart @(string.Equals(currentController, "Cart", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            @await Component.InvokeAsync("CartCount")
+            <span class="buyora-bottom-cart-label">@_localizer["shoppingcart"]</span>
+        </div>
+
+        @if (isStaff)
+        {
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index"
+               class="buyora-bottom-nav-item @(string.Equals(currentController, "Dashboard", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                <i class="bi bi-speedometer2"></i>
+                <span>@_localizer["dashboard"]</span>
+            </a>
+        }
+        else if (isSignedIn)
+        {
+            <a asp-area="Customer"
+               asp-controller="Order"
+               asp-action="Index"
+               class="buyora-bottom-nav-item @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                <i class="bi @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "bi-receipt-cutoff" : "bi-receipt")"></i>
+                <span>@_localizer["myorders"]</span>
+            </a>
+        }
+
+        @if (isSignedIn)
+        {
+            <a asp-area="Customer"
+               asp-controller="Order"
+               asp-action="Index"
+               class="buyora-bottom-nav-item @(isStaff && string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                <i class="bi bi-person-circle"></i>
+                <span>@displayUserName</span>
+            </a>
+        }
+        else
+        {
+            <a asp-area="Identity"
+               asp-controller="Account"
+               asp-action="Login"
+               class="buyora-bottom-nav-item @(string.Equals(currentController, "Account", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                <i class="bi bi-person-circle"></i>
+                <span>@_localizer["login"]</span>
+            </a>
+        }
+    </nav>
 
     <footer class="buyora-footer mt-auto">
         <div class="container pt-5 pb-4">
@@ -199,12 +315,12 @@
                             </a>
                         </li>
                         <li>
-                            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="buyora-footer-link">
+                            <a asp-area="Customer" asp-controller="Product" asp-action="Index" class="buyora-footer-link">
                                 @_localizer["products"]
                             </a>
                         </li>
                         <li>
-                            <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="buyora-footer-link">
+                            <a asp-area="Customer" asp-controller="Order" asp-action="Index" class="buyora-footer-link">
                                 @_localizer["myorders"]
                             </a>
                         </li>
@@ -213,7 +329,6 @@
                                 @_localizer["shoppingcart"]
                             </a>
                         </li>
-                        
                     </ul>
                 </div>
 
@@ -267,7 +382,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
             $(function() {
-                const $cartBadges = $(".js-cart-count");
                 const loginUrl = '@Url.Action("Login", "Account", new { area = "Identity" })';
 
                 $(document).on("submit", ".js-add-to-cart-form, form[action*='AddToCart']", function(e) {
@@ -288,6 +402,7 @@
                         data: $form.serialize(),
                         success: function(response) {
                             if (response && response.success) {
+                                const $cartBadges = $(".js-cart-count");
                                 $cartBadges.each(function() {
                                     const $badge = $(this);
                                     const currentVal = parseInt($badge.text().trim()) || 0;

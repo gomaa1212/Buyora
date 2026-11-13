@@ -1,13 +1,36 @@
 ﻿@using Buyora.Helper
 @using Buyora.Resources
+@using BuyoraUtility
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<SharedResource> _localizer
-@inject SignInManager<ApplicationUser> _sinInManager
+@inject SignInManager<ApplicationUser> _signInManager
+@inject UserManager<ApplicationUser> _userManager
 
 @{
     var isRtl = CultureHelper.IsRightToLeft();
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    bool isSignedIn = _signInManager.IsSignedIn(User);
+    bool isAdmin = User.IsInRole("Admin");
+
+    string displayUserName = "";
+    string userInitial = "A";
+
+    if (isSignedIn)
+    {
+        displayUserName = Context.Session.GetString(SD.AppUserName) ?? "";
+        if (string.IsNullOrWhiteSpace(displayUserName))
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            displayUserName = !string.IsNullOrWhiteSpace(currentUser?.Name)
+                ? currentUser.Name
+                : (User.Identity?.Name?.Split('@')[0] ?? "Admin");
+
+            Context.Session.SetString(SD.AppUserName, displayUserName);
+        }
+
+        userInitial = displayUserName.Trim().Substring(0, 1).ToUpper();
+    }
 }
 <!DOCTYPE html>
 <html lang="@(isRtl ? "ar" : "en")" dir="@(isRtl ? "rtl" : "ltr")">
@@ -31,12 +54,12 @@
     <link rel="stylesheet" href="~/Buyora.styles.css" asp-append-version="true" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 </head>
-<body class="buyora-admin-body">
+<body class="buyora-admin-body buyora-body-with-bottom-nav">
 
     <div class="buyora-admin-backdrop" id="adminSidebarBackdrop"></div>
 
     <div class="buyora-admin-layout">
-        <aside class="buyora-admin-sidebar d-flex flex-column" id="adminSidebar">
+        <aside class="buyora-admin-sidebar d-flex flex-column" id="adminSidebar" aria-label="Admin Sidebar">
             <div class="buyora-sidebar-brand d-flex align-items-center justify-content-between px-4 py-3">
                 <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="d-flex align-items-center gap-2 text-decoration-none">
                     <img src="~/Logo.png" alt="Buyora" class="buyora-sidebar-logo" />
@@ -45,7 +68,9 @@
                         <span class="buyora-sidebar-badge">@_localizer["adminpanel"]</span>
                     </div>
                 </a>
-                <button type="button" class="btn-close btn-close-white d-lg-none shadow-none" id="closeSidebarBtn" aria-label="Close"></button>
+                <button type="button" class="buyora-sidebar-close-btn d-lg-none" id="closeSidebarBtn" aria-label="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
             </div>
 
             <div class="buyora-sidebar-menu flex-grow-1 px-3 py-3 overflow-auto">
@@ -73,7 +98,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="Product" asp-action="Index"
+                            <a asp-area="Admin" asp-controller="Product" asp-action="Index" asp-route-from="admin"
                                class="buyora-sidebar-link @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
                                 <span class="buyora-sidebar-icon"><i class="bi bi-bag-check-fill"></i></span>
                                 <span>@_localizer["products"]</span>
@@ -113,49 +138,53 @@
                       asp-controller="Account"
                       asp-action="Logout"
                       method="post"
-                      class="w-100">
-
+                      class="w-100 m-0">
                     <button type="submit"
                             class="btn buyora-sidebar-logout-btn w-100 d-flex align-items-center justify-content-center gap-2">
-
                         <i class="bi bi-box-arrow-right fs-5 buyora-rtl-flip"></i>
                         <span>@_localizer["logout"]</span>
-
                     </button>
                 </form>
-
             </div>
         </aside>
 
         <div class="buyora-admin-main d-flex flex-column min-vh-100">
-            <header class="buyora-admin-topbar sticky-top px-3 px-md-4 py-3 d-flex align-items-center justify-content-between gap-3">
-                <div class="d-flex align-items-center gap-3">
-                    <button type="button" class="btn buyora-sidebar-toggle d-lg-none" id="openSidebarBtn" aria-label="Toggle Menu">
+            <header class="buyora-admin-topbar sticky-top px-3 px-md-4 py-2 d-flex align-items-center justify-content-between gap-2">
+                <div class="d-flex align-items-center gap-2 gap-sm-3 min-w-0">
+                    <button type="button" class="btn buyora-sidebar-toggle d-lg-none flex-shrink-0" id="openSidebarBtn" aria-label="Toggle Menu">
                         <i class="bi bi-list fs-4"></i>
                     </button>
-                    <div>
-                        <h5 class="fw-extrabold text-buyora-blue mb-0">@(ViewData["Title"] ?? _localizer["dashboard"])</h5>
-                        <span class="text-muted" style="font-size: 0.78rem;">Buyora Control Center</span>
+                    <div class="min-w-0">
+                        <h5 class="fw-extrabold text-buyora-blue mb-0 text-truncate">@(ViewData["Title"] ?? _localizer["dashboard"])</h5>
+                        <span class="text-muted d-none d-sm-block" style="font-size: 0.75rem;">Buyora Control Center</span>
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                    <a asp-area="Customer"
+                       asp-controller="Home"
+                       asp-action="Index"
+                       class="buyora-topbar-store-pill d-inline-flex align-items-center gap-1"
+                       title="@_localizer["store"]">
+                        <i class="bi bi-shop-window"></i>
+                        <span class="d-none d-md-inline">@_localizer["store"]</span>
+                    </a>
+
                     <div class="language-switcher-wrapper">
                         @await Html.PartialAsync("_SelectLanguagePartial")
                     </div>
 
-                    @if (_sinInManager.IsSignedIn(User))
+                    @if (isSignedIn)
                     {
-                        <div class="buyora-admin-profile d-none d-sm-flex align-items-center gap-2 ps-2 border-start">
-                            <div class="buyora-admin-avatar">
-                                <i class="bi bi-person-fill-gear"></i>
-                            </div>
-                            <div class="d-none d-md-block">
-                                <span class="fw-bold text-dark d-block text-truncate" style="max-width: 140px; font-size: 0.85rem;">
-                                    @User.Identity?.Name
-                                </span>
-                                <span class="text-buyora-orange fw-semibold d-block" style="font-size: 0.72rem;">
-                                    @_localizer["administrator"]
+                        <div class="buyora-profile-badge">
+                            <span class="buyora-profile-avatar">
+                                @userInitial
+                                <span class="buyora-profile-online-dot"></span>
+                            </span>
+                            <div class="d-none d-sm-flex flex-column justify-content-center lh-1">
+                                <span class="buyora-profile-name">@displayUserName</span>
+                                <span class="buyora-profile-role mt-1">
+                                    @(isAdmin ? _localizer["administrator"] : "Staff")
                                 </span>
                             </div>
                         </div>
@@ -179,8 +208,52 @@
         </div>
     </div>
 
+    <nav class="buyora-mobile-bottom-nav d-lg-none" aria-label="Admin navigation">
+        <a asp-area="Admin"
+           asp-controller="Dashboard"
+           asp-action="Index"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "Dashboard", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi bi-speedometer2"></i>
+            <span>@_localizer["dashboard"]</span>
+        </a>
+
+        <a asp-area="Admin"
+           asp-controller="Order"
+           asp-action="Index"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) || string.Equals(currentController, "Orders", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi bi-receipt-cutoff"></i>
+            <span>@_localizer["orders"]</span>
+        </a>
+
+        <a asp-area="Admin"
+           asp-controller="Product"
+           asp-action="Index"
+           asp-route-from="admin"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi bi-bag-check-fill"></i>
+            <span>@_localizer["products"]</span>
+        </a>
+
+        <a asp-area="Admin"
+           asp-controller="Category"
+           asp-action="Index"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "Category", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi bi-grid-fill"></i>
+            <span>@_localizer["categories"]</span>
+        </a>
+
+        <a asp-area="Admin"
+           asp-controller="User"
+           asp-action="Index"
+           class="buyora-bottom-nav-item @(string.Equals(currentController, "User", StringComparison.OrdinalIgnoreCase) || string.Equals(currentController, "Users", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <i class="bi bi-people-fill"></i>
+            <span>@_localizer["users"]</span>
+        </a>
+    </nav>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 
@@ -188,15 +261,27 @@
             $(function() {
                 const $sidebar = $("#adminSidebar");
                 const $backdrop = $("#adminSidebarBackdrop");
+                const $body = $("body");
 
-                $("#openSidebarBtn").on("click", function() {
+                function openSidebar() {
                     $sidebar.addClass("show");
                     $backdrop.addClass("show");
-                });
+                    $body.css("overflow", "hidden");
+                }
 
-                $("#closeSidebarBtn, #adminSidebarBackdrop").on("click", function() {
+                function closeSidebar() {
                     $sidebar.removeClass("show");
                     $backdrop.removeClass("show");
+                    $body.css("overflow", "");
+                }
+
+                $("#openSidebarBtn").on("click", openSidebar);
+                $("#closeSidebarBtn, #adminSidebarBackdrop").on("click", closeSidebar);
+
+                $(document).on("keydown", function(e) {
+                    if (e.key === "Escape" && $sidebar.hasClass("show")) {
+                        closeSidebar();
+                    }
                 });
             });
     </script>

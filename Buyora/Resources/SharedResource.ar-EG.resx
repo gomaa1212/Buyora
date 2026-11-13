@@ -127,22 +127,49 @@
     <value>إلغاء</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>الاقسام</value>
+    <value>الأقسام</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="categoryname" xml:space="preserve">
+    <value>اسم القسم</value>
+  </data>
+  <data name="displayorder" xml:space="preserve">
+    <value>ترتيب العرض</value>
+  </data>
+  <data name="inactive" xml:space="preserve">
+    <value>غير نشط</value>
+  </data>
+  <data name="nocategoriesfound" xml:space="preserve">
+    <value>لا توجد أقسام حالياً</value>
+  </data>
+  <data name="nocategoriessubtitle" xml:space="preserve">
+    <value>ابدأ ببناء متجرك عبر إضافة أول قسم للمنتجات.</value>
+  </data>
+  <data name="nameenplaceholder" xml:space="preserve">
+    <value>مثال: Electronics</value>
+  </data>
+  <data name="namearplaceholder" xml:space="preserve">
+    <value>مثال: إلكترونيات</value>
+  </data>
+  <data name="showcategoryonstore" xml:space="preserve">
+    <value>إظهار هذا القسم للعملاء في المتجر</value>
   </data>
   <data name="categoryCreateTitle" xml:space="preserve">
-    <value>أضف فئة منتجات جديدة إلى كتالوج متجرك.</value>
+    <value>إضافة قسم منتجات جديد إلى قائمة متجرك</value>
   </data>
   <data name="categoryDeleteTitle" xml:space="preserve">
-    <value>راجع تفاصيل الفئة قبل حذفها نهائيًا</value>
+    <value>إزالة هذا القسم نهائياً من قائمة الأقسام</value>
   </data>
   <data name="categoryEditTitle" xml:space="preserve">
-    <value>تحديث تفاصيل الفئة وترتيب العرض والحالة</value>
+    <value>تحديث اسم القسم وترتيب العرض وحالة الظهور بالمتجر</value>
   </data>
   <data name="categoryIndexTitle" xml:space="preserve">
-    <value>إدارة وتنظيم أقسام منتجاتك</value>
+    <value>إدارة أقسام المنتجات وحالة الظهور وترتيب العرض</value>
   </data>
   <data name="createcategory" xml:space="preserve">
-    <value>اضافة قسم </value>
+    <value>إضافة قسم جديد</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>حذف</value>
@@ -154,7 +181,7 @@
     <value>تعديل</value>
   </data>
   <data name="editcategory" xml:space="preserve">
-    <value>تعديل قسم</value>
+    <value>تعديل القسم</value>
   </data>
   <data name="home" xml:space="preserve">
     <value>الصفحة الرئيسية</value>
@@ -163,10 +190,10 @@
     <value>الخصوصية</value>
   </data>
   <data name="sureDelete" xml:space="preserve">
-    <value>هل أنت متأكد؟</value>
+    <value>هل أنت متأكد من رغبتك في الحذف؟</value>
   </data>
   <data name="sureDeleteTitle" xml:space="preserve">
-    <value>أنت على وشك حذف هذه الفئة نهائيًا. لا يمكن التراجع عن هذا الإجراء</value>
+    <value>لا يمكن التراجع عن هذا الإجراء. يرجى مراجعة البيانات أدناه قبل التأكيد.</value>
   </data>
   <data name="activeoffer" xml:space="preserve">
     <value>عرض مفعل</value>
@@ -298,7 +325,7 @@
     <value>المعلومات الأساسية</value>
   </data>
   <data name="isactive" xml:space="preserve">
-    <value>منتج مفعل</value>
+    <value>نشط؟</value>
   </data>
   <data name="mainthumbnail" xml:space="preserve">
     <value>الصورة الرئيسية</value>
@@ -307,10 +334,10 @@
     <value>الحد الأقصى للملف: 2 ميجابايت</value>
   </data>
   <data name="namear" xml:space="preserve">
-    <value>اسم المنتج (بالعربي)</value>
+    <value>الاسم (بالعربي)</value>
   </data>
   <data name="nameen" xml:space="preserve">
-    <value>اسم المنتج (بالإنجليزي)</value>
+    <value>الاسم (بالإنجليزي)</value>
   </data>
   <data name="nodescription" xml:space="preserve">
     <value>لا يوجد وصف متاح لهذا المنتج.</value>
@@ -347,6 +374,18 @@
   </data>
   <data name="products" xml:space="preserve">
     <value>المنتجات</value>
+  </data>
+  <data name="productvisibility" xml:space="preserve">
+    <value>فلترة حالة العرض بالمتجر</value>
+  </data>
+  <data name="allproducts" xml:space="preserve">
+    <value>كل المنتجات</value>
+  </data>
+  <data name="activeproducts" xml:space="preserve">
+    <value>المنتجات النشطة (المعروضة للعميل)</value>
+  </data>
+  <data name="inactiveproducts" xml:space="preserve">
+    <value>المنتجات غير النشطة (مخفية)</value>
   </data>
   <data name="productstatus" xml:space="preserve">
     <value>حالة المنتج</value>

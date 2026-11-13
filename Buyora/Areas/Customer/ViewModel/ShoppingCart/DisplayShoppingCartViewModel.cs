@@ -1,4 +1,4 @@
-﻿namespace Buyora.Areas.Customer.ViewModel
+﻿namespace Buyora.Areas.Customer.ViewModel.ShoppingCart
 {
     public class DisplayShoppingCartViewModel
     {
