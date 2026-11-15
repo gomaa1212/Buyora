@@ -1,8 +1,10 @@
 
 using Buyora.DependencyInjection;
+using BuyoraDataAccess.DbInitializer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +39,17 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     );
 });
 
-
+builder.Services.AddRateLimiter(o =>
+{
+    o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    o.AddPolicy("chat", ctx => RateLimitPartition.GetFixedWindowLimiter(
+        ctx.Connection.RemoteIpAddress?.ToString() ?? "anon",
+        _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 300,
+            Window = TimeSpan.FromMinutes(1)
+        }));
+});
 
 var app = builder.Build();
 
@@ -64,6 +76,8 @@ app.Use(async (context, next) =>
 
 app.UseRouting();
 
+app.UseRateLimiter();
+
 app.UseSession();
 
 app.UseAuthentication();
@@ -71,6 +85,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+await SeedDatabase();
 
 app.MapControllerRoute(
     name:"MyArea",
@@ -84,3 +100,12 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+
+async Task SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitilizer = scope.ServiceProvider.GetRequiredService<IDbInitilizer>();
+        await dbInitilizer.InitilizeAsync();
+    }
+}

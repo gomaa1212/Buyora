@@ -1,0 +1,88 @@
+@{
+    var chatIsAuthenticated = User.Identity?.IsAuthenticated == true;
+    var chatLanguage = CultureHelper.IsRightToLeft() ? "ar" : "en";
+    var chatUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "guest";
+    var chatScope = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(chatUserId)))
+        .ToLowerInvariant()[..16];
+}
+
+<div id="buyoraChatWidget"
+     class="buyora-chat-widget"
+     data-webhook-url="https://gomaa1212.app.n8n.cloud/webhook/buyora-chat"
+     data-session-token-url="@Url.Content("~/api/chat/session-token")"
+     data-authenticated="@chatIsAuthenticated.ToString().ToLowerInvariant()"
+     data-chat-scope="@chatScope"
+     data-language="@chatLanguage">
+    <div id="buyoraChatBackdrop" class="buyora-chat-backdrop" hidden></div>
+    <section id="buyoraChatPanel"
+             class="buyora-chat-panel"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="buyoraChatTitle"
+             aria-hidden="true"
+             hidden>
+        <header class="buyora-chat-header">
+            <div class="buyora-chat-header-identity">
+                <span class="buyora-chat-avatar" aria-hidden="true"><i class="bi bi-stars"></i></span>
+                <div class="buyora-chat-heading-copy">
+                    <h2 id="buyoraChatTitle" class="buyora-chat-title" data-chat-text="title">مساعد Buyora</h2>
+                    <span class="buyora-chat-presence"><span class="buyora-chat-presence-dot"></span><span data-chat-text="online">متاح الآن</span></span>
+                </div>
+            </div>
+            <div class="buyora-chat-header-actions">
+                <button type="button" id="buyoraChatNew" class="buyora-chat-icon-btn" aria-label="محادثة جديدة" title="محادثة جديدة" data-chat-aria="newChat">
+                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                </button>
+                <button type="button" id="buyoraChatClose" class="buyora-chat-icon-btn" aria-label="إغلاق المحادثة" data-chat-aria="close">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+        </header>
+
+        <div id="buyoraChatMessages" class="buyora-chat-messages" aria-live="polite" aria-relevant="additions text">
+            <div class="buyora-chat-welcome">
+                <span class="buyora-chat-welcome-icon"><i class="bi bi-chat-heart-fill" aria-hidden="true"></i></span>
+                <h3 data-chat-text="welcomeTitle">أهلًا بيك في Buyora</h3>
+                <p data-chat-text="welcomeBody">اسألني عن المنتجات، العروض أو طلباتك.</p>
+                <div class="buyora-chat-suggestions" aria-label="أسئلة مقترحة" data-chat-aria="suggestions">
+                    <button type="button" class="buyora-chat-suggestion" data-chat-prompt-ar="وريني المنتجات اللي عليها خصم" data-chat-prompt-en="Show me discounted products">
+                        <i class="bi bi-tag" aria-hidden="true"></i><span data-chat-text="deals">العروض والخصومات</span>
+                    </button>
+                    <button type="button" class="buyora-chat-suggestion" data-chat-prompt-ar="عايز أتابع طلباتي" data-chat-prompt-en="I want to check my orders">
+                        <i class="bi bi-box-seam" aria-hidden="true"></i><span data-chat-text="orders">متابعة طلباتي</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="buyoraChatStatus" class="buyora-chat-status" role="status" aria-live="polite"></div>
+        <form id="buyoraChatForm" class="buyora-chat-composer">
+            <label class="visually-hidden" for="buyoraChatInput" data-chat-text="inputLabel">اكتب رسالتك</label>
+            <textarea id="buyoraChatInput"
+                      class="buyora-chat-input"
+                      rows="1"
+                      maxlength="1000"
+                      placeholder="اكتب رسالتك هنا..."
+                      data-chat-placeholder="inputPlaceholder"
+                      autocomplete="off"></textarea>
+            <button id="buyoraChatSend" type="submit" class="buyora-chat-send" aria-label="إرسال الرسالة" data-chat-aria="send">
+                <i class="bi bi-send-fill" aria-hidden="true"></i>
+            </button>
+        </form>
+        <div class="buyora-chat-footnote"><i class="bi bi-shield-check" aria-hidden="true"></i><span data-chat-text="footnote">مساعد ذكي من Buyora · لا تشارك بياناتك الحساسة</span></div>
+    </section>
+
+    <button type="button"
+            id="buyoraChatToggle"
+            class="buyora-chat-toggle"
+            aria-controls="buyoraChatPanel"
+            aria-expanded="false"
+            aria-label="افتح محادثة Buyora"
+            title="مساعد Buyora"
+            data-chat-aria="open">
+        <span class="buyora-chat-toggle-icon buyora-chat-open-icon"><i class="bi bi-chat-dots-fill" aria-hidden="true"></i></span>
+        <span class="buyora-chat-toggle-icon buyora-chat-close-icon"><i class="bi bi-x-lg" aria-hidden="true"></i></span>
+        <span class="buyora-chat-toggle-label" data-chat-text="toggle">محتاج مساعدة؟</span>
+        <span class="buyora-chat-toggle-ping" aria-hidden="true"></span>
+    </button>
+</div>

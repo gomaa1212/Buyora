@@ -1,16 +1,41 @@
-﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-@if (TempData["SuccessMessage"] != null)
+﻿@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
 {
-
     <script>
-        toastr.success('@TempData["SuccessMessage"]');
+        (function () {
+            function showToast() {
+                if (typeof toastr !== "undefined") {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        positionClass: document.documentElement.dir === "rtl" ? "toast-top-left" : "toast-top-right",
+                        preventDuplicates: true,
+                        showDuration: "300",
+                        hideDuration: "1000",
+                        timeOut: "4500",
+                        extendedTimeOut: "1000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                    };
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <text>toastr.success('@Html.Raw(TempData["SuccessMessage"])');</text>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <text>toastr.error('@Html.Raw(TempData["ErrorMessage"])');</text>
+                    }
+                } else {
+                    setTimeout(showToast, 100);
+                }
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", showToast);
+            } else {
+                showToast();
+            }
+        })();
     </script>
 }
-@if (TempData["ErrorMessage"] != null)
-{
 
-    <script>
-        toastr.error('@TempData["ErrorMessage"]');
-    </script>
-}

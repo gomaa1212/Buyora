@@ -948,18 +948,58 @@ html[dir="rtl"] .buyora-rtl-flip {
     font-weight: 800;
 }
 
-/* ===== Hero ===== */
+/* ===== Hero with Dynamic Animations & Ambient Glow ===== */
 .buyora-hero-section {
     background-color: #ffffff;
-    border-radius: 24px;
+    border-radius: 28px;
     border: 1px solid rgba(0, 56, 168, 0.08);
-    box-shadow: 0 12px 36px rgba(7, 31, 78, 0.06);
-    min-height: 480px;
+    box-shadow: 0 16px 44px rgba(7, 31, 78, 0.07);
+    min-height: 500px;
     display: flex;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
 
-/* الصورة بتاخد 55% من العرض على الجهة المقابلة للنص (يمين في LTR / شمال في RTL) */
+/* Ambient glow blobs in hero background */
+.buyora-ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(65px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+.buyora-ambient-glow.glow-1 {
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.22) 0%, rgba(255, 168, 0, 0) 70%);
+    top: -80px;
+    inset-inline-end: 15%;
+    animation: glowFloat1 8s ease-in-out infinite alternate;
+}
+
+.buyora-ambient-glow.glow-2 {
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(0, 56, 168, 0.18) 0%, rgba(7, 31, 78, 0) 70%);
+    bottom: -100px;
+    inset-inline-start: -60px;
+    animation: glowFloat2 10s ease-in-out infinite alternate;
+}
+
+@keyframes glowFloat1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-30px, 40px) scale(1.15); }
+}
+
+@keyframes glowFloat2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, -30px) scale(1.2); }
+}
+
+/* Hero background graphic with subtle floating physics */
 .buyora-hero-bg {
     position: absolute;
     inset-block: 0;
@@ -970,14 +1010,29 @@ html[dir="rtl"] .buyora-rtl-flip {
     background-size: contain;
     z-index: 1;
     pointer-events: none;
-    /* تلاشي ناعم ناحية النص */
     -webkit-mask-image: linear-gradient(to left, #000 80%, transparent);
     mask-image: linear-gradient(to left, #000 80%, transparent);
+    animation: heroFloat 5.5s ease-in-out infinite alternate;
 }
 
-/* في العربي بنقلب الصورة عشان الشخصية تبص ناحية النص (الـ mask بيتقلب معاها تلقائيًا) */
+@keyframes heroFloat {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-12px); }
+}
+
 html[dir="rtl"] .buyora-hero-bg {
     transform: scaleX(-1);
+    animation: heroFloatRtl 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes heroFloatRtl {
+    0% { transform: scaleX(-1) translateY(0px); }
+    100% { transform: scaleX(-1) translateY(-12px); }
+}
+
+.buyora-mobile-hero-img {
+    animation: heroFloat 5s ease-in-out infinite alternate;
+    box-shadow: 0 12px 28px rgba(7, 31, 78, 0.08);
 }
 
 @media (max-width: 991.98px) {
@@ -990,44 +1045,104 @@ html[dir="rtl"] .buyora-hero-bg {
     }
 }
 
+/* Staggered entrance animation for hero content */
+.buyora-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
 .buyora-hero-badge {
     background: linear-gradient(135deg, rgba(0, 56, 168, 0.08) 0%, rgba(255, 107, 0, 0.12) 100%);
     color: var(--buyora-blue-dark);
     font-weight: 700;
     font-size: 0.85rem;
-    padding: 0.45rem 1rem;
+    padding: 0.45rem 1.1rem;
     border-radius: 50rem;
-    border: 1px solid rgba(255, 107, 0, 0.2);
+    border: 1px solid rgba(255, 107, 0, 0.25);
+    box-shadow: 0 4px 14px rgba(255, 107, 0, 0.08);
+    animation: heroSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.buyora-hero-badge i {
+    animation: starTwinkle 2.5s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 0 rgba(255, 107, 0, 0));
+    }
+    50% {
+        transform: scale(1.3) rotate(20deg);
+        filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.7));
+    }
 }
 
 .buyora-hero-title {
-    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    font-size: clamp(2rem, 3.2vw, 3rem);
     color: var(--buyora-blue-dark);
-    line-height: 1.3;
+    line-height: 1.28;
     letter-spacing: -0.5px;
     text-wrap: balance;
+    animation: heroSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
+/* Shimmering Animated Gradient Text */
 .buyora-text-gradient {
-    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-orange) 100%);
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-orange) 45%, var(--buyora-blue) 100%);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
+    animation: textGradientShift 5s ease infinite;
+}
+
+@keyframes textGradientShift {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
 }
 
 .buyora-hero-subtitle {
     font-size: 1.05rem;
-    line-height: 1.7;
+    line-height: 1.75;
     max-width: 540px;
+    animation: heroSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
-.buyora-hero-search {
-    max-width: 520px;
+.buyora-hero-actions {
+    animation: heroSlideUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
-/* ===== باقي الأقسام (من غير تغيير) ===== */
+.buyora-hero-stats {
+    animation: heroSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+@keyframes heroSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stats Hover Micro-interaction */
+.buyora-stat-box {
+    padding: 0.5rem 0.25rem;
+    border-radius: 12px;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.buyora-stat-box:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* ===== Feature Perks Section with Playful Physics ===== */
 .buyora-feature-icon {
     width: 52px;
     height: 52px;
@@ -1037,46 +1152,152 @@ html[dir="rtl"] .buyora-hero-bg {
     justify-content: center;
     font-size: 1.5rem;
     flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
-    .buyora-feature-icon.icon-orange {
-        background-color: rgba(255, 107, 0, 0.12);
-        color: var(--buyora-orange);
-    }
+.buyora-feature-icon.icon-orange {
+    background-color: rgba(255, 107, 0, 0.12);
+    color: var(--buyora-orange);
+}
 
-    .buyora-feature-icon.icon-blue {
-        background-color: rgba(0, 56, 168, 0.1);
-        color: var(--buyora-blue);
-    }
+.buyora-feature-icon.icon-blue {
+    background-color: rgba(0, 56, 168, 0.1);
+    color: var(--buyora-blue);
+}
 
+.buyora-card:hover .buyora-feature-icon {
+    transform: scale(1.15) rotate(6deg);
+    box-shadow: 0 8px 20px rgba(7, 31, 78, 0.14);
+}
+
+/* ===== Category Tiles with Ripple & Pulse ===== */
 .buyora-cat-tile {
-    border-radius: 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(0, 56, 168, 0.08);
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.buyora-cat-tile:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(7, 31, 78, 0.1);
+    border-color: rgba(255, 107, 0, 0.35);
+    background-color: #ffffff;
 }
 
 .buyora-cat-tile-avatar {
-    width: 58px;
-    height: 58px;
-    border-radius: 16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
     background: linear-gradient(135deg, rgba(0, 56, 168, 0.08) 0%, rgba(255, 107, 0, 0.1) 100%);
     color: var(--buyora-blue);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.55rem;
     font-weight: 800;
-    transition: all 0.25s ease;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .buyora-cat-tile:hover .buyora-cat-tile-avatar {
     background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
     color: #ffffff;
-    transform: scale(1.08);
+    transform: scale(1.15) rotate(3deg);
+    box-shadow: 0 8px 22px rgba(255, 107, 0, 0.38);
 }
 
-.buyora-promo-banner {
-    background: linear-gradient(135deg, var(--buyora-blue-dark) 0%, var(--buyora-blue) 100%);
-    box-shadow: 0 16px 36px rgba(7, 31, 78, 0.18);
+/* ===== Discount Badge Breathing Pulse ===== */
+.buyora-discount-badge {
+    animation: discountPulse 2.6s ease-in-out infinite;
 }
+
+@keyframes discountPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(255, 107, 0, 0.25);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 6px 18px rgba(255, 107, 0, 0.48);
+    }
+}
+
+/* ===== Dynamic Animated Promo Banner ===== */
+.buyora-promo-banner {
+    background: linear-gradient(135deg, #071f4e 0%, #0038A8 50%, #FF6B00 100%);
+    background-size: 220% 220%;
+    animation: promoGradientMove 7s ease infinite;
+    box-shadow: 0 16px 40px rgba(7, 31, 78, 0.2);
+    border-radius: 28px;
+}
+
+@keyframes promoGradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.buyora-promo-circle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.08);
+    filter: blur(20px);
+}
+
+.buyora-promo-circle.circle-1 {
+    width: 260px;
+    height: 260px;
+    top: -80px;
+    inset-inline-end: 10%;
+    animation: heroFloat 6s ease-in-out infinite alternate;
+}
+
+.buyora-promo-circle.circle-2 {
+    width: 180px;
+    height: 180px;
+    bottom: -60px;
+    inset-inline-start: 15%;
+    animation: heroFloat 8s ease-in-out infinite alternate-reverse;
+}
+
+.buyora-promo-badge i {
+    animation: promoFlash 1.8s ease infinite;
+}
+
+@keyframes promoFlash {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.25); opacity: 0.85; filter: drop-shadow(0 0 5px #ffd700); }
+}
+
+/* Button Shimmer / Sheen Sweep */
+.buyora-btn-glow,
+.btn-buyora-accent {
+    position: relative;
+    overflow: hidden;
+}
+
+.buyora-btn-glow::after,
+.btn-buyora-accent::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -70%;
+    width: 45%;
+    height: 200%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: rotate(30deg);
+    transition: none;
+    pointer-events: none;
+}
+
+.buyora-btn-glow:hover::after,
+.btn-buyora-accent:hover::after {
+    left: 130%;
+    transition: left 0.75s ease-in-out;
+}
+
 .buyora-cat-scroll {
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
@@ -1872,6 +2093,30 @@ html[dir="rtl"] .buyora-cart-pill {
         border-color: var(--buyora-orange);
         color: #ffffff;
         transform: translateY(-2px);
+    }
+
+    .buyora-social-link.social-github:hover {
+        background: #24292e;
+        border-color: #3b434a;
+        box-shadow: 0 4px 12px rgba(36, 41, 46, 0.4);
+    }
+
+    .buyora-social-link.social-linkedin:hover {
+        background: #0a66c2;
+        border-color: #0a66c2;
+        box-shadow: 0 4px 12px rgba(10, 102, 194, 0.4);
+    }
+
+    .buyora-social-link.social-whatsapp:hover {
+        background: #25d366;
+        border-color: #25d366;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+    }
+
+    .buyora-social-link.social-khamsat:hover {
+        background: #238ac9;
+        border-color: #238ac9;
+        box-shadow: 0 4px 12px rgba(35, 138, 201, 0.4);
     }
 
 .buyora-pay-badge {
@@ -2723,24 +2968,9 @@ html[dir="rtl"] .buyora-cart-pill {
         min-height: 44px;
     }
 
-    .buyora-store-body {
-        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-    }
-
-    .buyora-mobile-bottom-nav {
-        position: fixed;
-        inset-inline: 0;
-        bottom: 0;
-        z-index: 1030;
-        display: flex;
-        align-items: stretch;
-        justify-content: space-around;
-        min-height: 64px;
-        padding: 0.35rem 0.35rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
-        background: rgba(255, 255, 255, 0.97);
-        border-top: 1px solid rgba(7, 31, 78, 0.1);
-        box-shadow: 0 -6px 22px rgba(7, 31, 78, 0.09);
-        backdrop-filter: blur(14px);
+    .buyora-store-body,
+    .buyora-body-with-bottom-nav {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
     }
 
     .buyora-mobile-nav-item {
@@ -3096,24 +3326,34 @@ html[dir="rtl"] .buyora-cart-pill {
 /* شريط التنقل السفلي للهاتف (Mobile App-Style Bottom Navigation) */
 @media (max-width: 991.98px) {
     .buyora-body-with-bottom-nav {
-        padding-bottom: 68px;
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    .buyora-mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        inset-inline: 0;
+        height: calc(64px + env(safe-area-inset-bottom, 0px));
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(226, 232, 240, 0.95);
+        box-shadow: 0 -6px 24px rgba(7, 31, 78, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        z-index: 1040;
+        padding: 0 0.25rem env(safe-area-inset-bottom, 0px);
     }
 }
 
-.buyora-mobile-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    inset-inline: 0;
-    height: 64px;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid #e2e8f0;
-    box-shadow: 0 -6px 24px rgba(7, 31, 78, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    z-index: 1040;
-    padding: 0 0.25rem;
+@media (min-width: 992px) {
+    .buyora-mobile-bottom-nav {
+        display: none !important;
+    }
+    .buyora-body-with-bottom-nav {
+        padding-bottom: 0 !important;
+    }
 }
 
 .buyora-bottom-nav-item {
@@ -3129,13 +3369,15 @@ html[dir="rtl"] .buyora-cart-pill {
     font-size: 0.68rem;
     font-weight: 700;
     position: relative;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
     .buyora-bottom-nav-item i {
-        font-size: 1.22rem;
+        font-size: 1.25rem;
         line-height: 1;
-        transition: transform 0.2s ease;
+        transition: transform 0.2s ease, color 0.2s ease;
     }
 
     .buyora-bottom-nav-item.active,
@@ -3159,6 +3401,10 @@ html[dir="rtl"] .buyora-cart-pill {
         }
 
 /* تنسيق CartCount داخل الشريط السفلي للموبايل */
+.buyora-bottom-nav-cart {
+    cursor: pointer;
+}
+
 .buyora-bottom-nav-cart .buyora-cart-btn {
     width: auto;
     height: auto;
@@ -3366,3 +3612,764 @@ html[dir="rtl"] .buyora-profile-badge {
             visibility: visible;
         }
 }
+
+/* ==========================================================================
+   Buyora Advanced Animations, Micro-interactions & Responsiveness Enhancements
+   ========================================================================== */
+
+/* Prevent accidental horizontal overflow across all screen widths */
+html, body {
+    max-width: 100vw;
+    overflow-x: clip;
+}
+
+/* Micro-interaction Keyframes */
+@keyframes buyoraFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes buyoraPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.32); }
+    100% { transform: scale(1); }
+}
+
+@keyframes buyoraPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes buyoraShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.buyora-badge-pop {
+    animation: buyoraPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.buyora-fade-in {
+    animation: buyoraFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Tactile button press feeling */
+.btn-buyora-primary,
+.btn-buyora-accent,
+.buyora-btn-outline,
+.buyora-btn-light,
+.buyora-action-btn,
+.buyora-cart-remove-btn,
+.buyora-cart-qty-btn {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-buyora-primary:active,
+.btn-buyora-accent:active,
+.buyora-btn-outline:active,
+.buyora-btn-light:active {
+    transform: scale(0.97) !important;
+}
+
+/* Product Card Smooth Hover Physics */
+.buyora-product-card {
+    border: 1px solid rgba(0, 56, 168, 0.08);
+    box-shadow: 0 4px 18px rgba(7, 31, 78, 0.05);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s ease;
+}
+
+.buyora-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 32px rgba(7, 31, 78, 0.12);
+    border-color: rgba(255, 107, 0, 0.32);
+}
+
+/* Smooth Image Loading */
+.buyora-product-img,
+.buyora-stage-img,
+.buyora-cart-item-img {
+    opacity: 0.9;
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.buyora-product-img.img-loaded,
+.buyora-stage-img.img-loaded,
+.buyora-cart-item-img.img-loaded {
+    opacity: 1;
+}
+
+/* Modern Input Focus Glow */
+.buyora-input:focus,
+.buyora-search-input:focus,
+.buyora-nav-search-input:focus {
+    border-color: var(--buyora-blue) !important;
+    box-shadow: 0 0 0 3.5px rgba(0, 56, 168, 0.15) !important;
+    background-color: #ffffff;
+}
+
+/* Floating Back-To-Top Button - Coordinated with Floating Chat */
+.buyora-back-to-top {
+    position: fixed;
+    bottom: calc(138px + env(safe-area-inset-bottom, 0px));
+    inset-inline-end: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 6px 20px rgba(7, 31, 78, 0.22);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    cursor: pointer;
+    z-index: 1035;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.85);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s, background 0.25s ease, box-shadow 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.buyora-back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.buyora-back-to-top:hover {
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    color: #ffffff;
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 10px 24px rgba(255, 107, 0, 0.35);
+}
+
+@media (min-width: 992px) {
+    .buyora-back-to-top {
+        bottom: 88px;
+        inset-inline-end: 28px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .buyora-back-to-top {
+        bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+        inset-inline-end: 21px;
+    }
+}
+
+/* Mobile Bottom Navigation Label truncation */
+.buyora-bottom-nav-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    max-width: 68px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+/* Ensure sticky checkout is static on mobile */
+@media (max-width: 991.98px) {
+    .buyora-checkout-sticky {
+        position: static !important;
+        top: auto !important;
+    }
+}
+
+/* Touch-friendly Stepper in Cart */
+.buyora-cart-qty-btn {
+    min-width: 34px;
+    min-height: 34px;
+}
+
+/* Toastr Modern Glassmorphism Styling */
+#toast-container > div {
+    opacity: 0.96;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(7, 31, 78, 0.16);
+    font-family: inherit;
+    font-weight: 600;
+}
+
+html[dir="rtl"] #toast-container > div {
+    text-align: right;
+}
+
+/* Responsive Table Touch-scroll polish */
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+}
+
+/* Buyora floating customer support chat */
+.buyora-chat-widget {
+    --chat-ink: #102a56;
+    --chat-muted: #718096;
+    --chat-line: #e6edf6;
+    --chat-surface: #ffffff;
+    font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
+}
+
+/* Chat Backdrop (Mobile & Tablet) */
+.buyora-chat-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1058;
+    background: rgba(7, 31, 78, 0.46);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: buyoraFadeIn .2s ease-out;
+}
+
+.buyora-chat-backdrop[hidden] {
+    display: none !important;
+}
+
+body.buyora-chat-open {
+    overflow: hidden !important;
+    touch-action: none;
+}
+
+/* Floating Chat Toggle Button */
+.buyora-chat-toggle {
+    position: fixed;
+    z-index: 1060;
+    inset-inline-end: 24px;
+    bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 54px;
+    height: 54px;
+    padding: 6px 18px 6px 8px;
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    box-shadow: 0 10px 28px rgba(7, 31, 78, 0.28), 0 3px 8px rgba(0, 56, 168, 0.2);
+    cursor: pointer;
+    transition: transform .22s ease, box-shadow .22s ease, opacity .22s ease;
+    animation: buyoraChatPulse 3.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+html[dir="rtl"] .buyora-chat-toggle {
+    padding: 6px 8px 6px 18px;
+}
+
+.buyora-chat-toggle:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 14px 34px rgba(7, 31, 78, 0.35), 0 4px 10px rgba(0, 56, 168, 0.25);
+}
+
+.buyora-chat-toggle:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.buyora-chat-toggle:focus-visible,
+.buyora-chat-icon-btn:focus-visible,
+.buyora-chat-send:focus-visible,
+.buyora-chat-suggestion:focus-visible {
+    outline: 3px solid rgba(255, 107, 0, .75);
+    outline-offset: 3px;
+}
+
+.buyora-chat-toggle-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--buyora-blue-dark);
+    background: #ffffff;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.buyora-chat-close-icon,
+.buyora-chat-widget.is-open .buyora-chat-open-icon,
+.buyora-chat-widget.is-open .buyora-chat-toggle-label,
+.buyora-chat-widget.is-open .buyora-chat-toggle-ping {
+    display: none;
+}
+
+.buyora-chat-widget.is-open .buyora-chat-close-icon {
+    display: inline-flex;
+}
+
+.buyora-chat-widget.is-open .buyora-chat-toggle {
+    animation: none;
+}
+
+.buyora-chat-toggle-label {
+    font-size: .88rem;
+    font-weight: 800;
+    white-space: nowrap;
+    letter-spacing: 0.1px;
+}
+
+.buyora-chat-toggle-ping {
+    position: absolute;
+    top: 3px;
+    inset-inline-start: 5px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, .25);
+}
+
+@keyframes buyoraChatPulse {
+    0% {
+        box-shadow: 0 10px 28px rgba(7, 31, 78, 0.28), 0 0 0 0 rgba(0, 56, 168, 0.45);
+    }
+    70% {
+        box-shadow: 0 12px 32px rgba(7, 31, 78, 0.32), 0 0 0 12px rgba(0, 56, 168, 0);
+    }
+    100% {
+        box-shadow: 0 10px 28px rgba(7, 31, 78, 0.28), 0 0 0 0 rgba(0, 56, 168, 0);
+    }
+}
+
+/* Chat Panel */
+.buyora-chat-panel {
+    position: fixed;
+    z-index: 1059;
+    inset-inline-end: 24px;
+    bottom: 86px;
+    display: flex;
+    flex-direction: column;
+    width: 390px;
+    max-width: calc(100vw - 32px);
+    height: min(610px, calc(100vh - 105px));
+    min-height: min(380px, calc(100vh - 120px));
+    overflow: hidden;
+    border: 1px solid rgba(220, 230, 243, 0.95);
+    border-radius: 22px;
+    background: var(--chat-surface);
+    box-shadow: 0 24px 65px rgba(7, 31, 78, .26), 0 6px 20px rgba(7, 31, 78, .1);
+    transform-origin: bottom right;
+    animation: buyoraChatAppear .22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.buyora-chat-panel[hidden] {
+    display: none !important;
+}
+
+html[dir="rtl"] .buyora-chat-panel {
+    transform-origin: bottom left;
+}
+
+@keyframes buyoraChatAppear {
+    from { opacity: 0; transform: translateY(14px) scale(.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.buyora-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 0 0 auto;
+    padding: 15px 18px;
+    color: #fff;
+    background: radial-gradient(circle at 90% 0%, rgba(255,255,255,.16), transparent 35%), linear-gradient(125deg, var(--buyora-blue) 0%, var(--buyora-blue-dark) 100%);
+    box-shadow: 0 2px 10px rgba(7, 31, 78, 0.12);
+}
+
+.buyora-chat-header-identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.buyora-chat-header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.buyora-chat-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 14px;
+    color: var(--buyora-blue-dark);
+    background: linear-gradient(145deg, #fff 0%, #eaf1ff 100%);
+    font-size: 1.25rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.buyora-chat-heading-copy { min-width: 0; }
+.buyora-chat-title { margin: 0; color: #fff; font-size: 0.98rem; font-weight: 800; line-height: 1.3; }
+.buyora-chat-presence { display: flex; align-items: center; gap: 6px; margin-top: 2px; color: rgba(255,255,255,.85); font-size: .74rem; font-weight: 600; }
+.buyora-chat-presence-dot { width: 7px; height: 7px; border-radius: 50%; background: #5ee09b; box-shadow: 0 0 0 3px rgba(94,224,155,.2); }
+
+.buyora-chat-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255,255,255,.24);
+    border-radius: 11px;
+    color: #fff;
+    background: rgba(255,255,255,.12);
+    cursor: pointer;
+    transition: background .18s ease, transform .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.buyora-chat-icon-btn:hover {
+    background: rgba(255,255,255,.24);
+    transform: translateY(-1px);
+}
+
+.buyora-chat-messages {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 18px 16px 14px;
+    background: radial-gradient(circle at 50% 0%, #f6f9ff 0%, #ffffff 50%);
+    scrollbar-color: #cbd7e7 transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+.buyora-chat-welcome {
+    margin: 6px 0 auto;
+    padding: 6px 4px 16px;
+    text-align: center;
+}
+
+.buyora-chat-welcome-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 17px;
+    color: var(--buyora-orange);
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(16, 42, 86, .08);
+    font-size: 1.35rem;
+}
+
+.buyora-chat-welcome h3 { margin: 0 0 4px; color: var(--chat-ink); font-size: 0.98rem; font-weight: 800; }
+.buyora-chat-welcome p { margin: 0 auto 14px; color: var(--chat-muted); font-size: .82rem; }
+.buyora-chat-suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+
+.buyora-chat-suggestion {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border: 1px solid #dce6f3;
+    border-radius: 999px;
+    color: var(--chat-ink);
+    background: #fff;
+    font: inherit;
+    font-size: .75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
+    box-shadow: 0 2px 5px rgba(7, 31, 78, 0.04);
+}
+
+.buyora-chat-suggestion i { color: var(--buyora-orange); font-size: 0.85rem; }
+.buyora-chat-suggestion:hover { transform: translateY(-1px); border-color: #a9bfdf; color: var(--buyora-blue); background: #f8faff; }
+
+.buyora-chat-message {
+    max-width: 88%;
+    padding: 10px 13px;
+    border-radius: 16px;
+    color: var(--chat-ink);
+    background: #f0f4fa;
+    font-size: .86rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    animation: buyoraFadeIn .18s ease-out;
+}
+
+.buyora-chat-message.is-assistant {
+    align-self: flex-start;
+    border-end-start-radius: 5px;
+    white-space: normal;
+}
+
+.buyora-chat-message.is-user {
+    align-self: flex-end;
+    border-end-end-radius: 5px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--buyora-blue) 0%, #174cba 100%);
+    white-space: pre-wrap;
+    box-shadow: 0 3px 10px rgba(0, 56, 168, 0.18);
+}
+
+.buyora-chat-message p { margin: 0 0 .45rem; }
+.buyora-chat-message p:last-child { margin-bottom: 0; }
+.buyora-chat-message ul,
+.buyora-chat-message ol { margin: .1rem 0 .45rem; padding-inline-start: 1.25rem; }
+.buyora-chat-message li + li { margin-top: .22rem; }
+.buyora-chat-message strong { font-weight: 800; }
+.buyora-chat-message em { font-style: italic; }
+.buyora-chat-message a { color: var(--buyora-orange); font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+.buyora-chat-message.is-user a { color: #fff; }
+
+.buyora-chat-typing { display: inline-flex; align-items: center; gap: 4px; min-width: 52px; }
+.buyora-chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: #8294ad; animation: buyoraChatTyping .9s infinite ease-in-out; }
+.buyora-chat-typing span:nth-child(2) { animation-delay: .12s; }
+.buyora-chat-typing span:nth-child(3) { animation-delay: .24s; }
+@keyframes buyoraChatTyping { 0%, 60%, 100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+.buyora-chat-status { min-height: 0; padding: 0 16px; color: #b42318; background: #fff; font-size: .75rem; }
+.buyora-chat-status:not(:empty) { padding-top: 6px; }
+
+.buyora-chat-composer {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin: 0 12px;
+    padding: 7px 7px 7px 12px;
+    border: 1.5px solid #dce5f1;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(16,42,86,.05);
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+html[dir="rtl"] .buyora-chat-composer {
+    padding: 7px 12px 7px 7px;
+}
+
+.buyora-chat-composer:focus-within {
+    border-color: var(--buyora-blue);
+    box-shadow: 0 0 0 3px rgba(0, 56, 168, 0.12);
+}
+
+.buyora-chat-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-height: 110px;
+    resize: none;
+    padding: 5px 0;
+    border: 0;
+    outline: 0;
+    color: var(--chat-ink);
+    background: transparent;
+    font: inherit;
+    font-size: .88rem;
+    line-height: 1.5;
+}
+
+.buyora-chat-input::placeholder { color: #9aa8ba; }
+
+.buyora-chat-send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--buyora-orange) 0%, var(--buyora-orange-light) 100%);
+    box-shadow: 0 4px 11px rgba(255,107,0,.28);
+    cursor: pointer;
+    transition: transform .18s ease, opacity .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.buyora-chat-send:hover:not(:disabled) { transform: translateY(-1px); }
+.buyora-chat-send:disabled { opacity: .55; cursor: wait; }
+html[dir="rtl"] .buyora-chat-send i { transform: scaleX(-1); }
+
+.buyora-chat-footnote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 8px 10px;
+    color: #8b98aa;
+    font-size: .68rem;
+    text-align: center;
+}
+.buyora-chat-footnote i { color: #1c9a68; }
+
+/* Responsive adjustments for Tablet & Mobile */
+@media (max-width: 991.98px) {
+    .buyora-chat-toggle {
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        inset-inline-end: 20px;
+        min-height: 52px;
+        height: 52px;
+        padding: 6px 16px 6px 7px;
+    }
+
+    html[dir="rtl"] .buyora-chat-toggle {
+        padding: 6px 7px 6px 16px;
+    }
+
+    .buyora-chat-panel {
+        bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+        inset-inline-end: 20px;
+        width: 380px;
+        height: min(580px, calc(100dvh - 86px - env(safe-area-inset-bottom, 0px)));
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Prevent iOS Safari automatic screen zooming on input focus */
+    .buyora-chat-input {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* Mobile Circular FAB */
+    .buyora-chat-toggle {
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        inset-inline-end: 16px;
+        width: 54px;
+        height: 54px;
+        min-height: 54px;
+        padding: 0 !important;
+        border-radius: 50%;
+        justify-content: center;
+    }
+
+    .buyora-chat-toggle-icon {
+        width: 54px;
+        height: 54px;
+        background: transparent;
+        color: #ffffff;
+        font-size: 1.42rem;
+        box-shadow: none;
+    }
+
+    .buyora-chat-toggle-label {
+        display: none !important;
+    }
+
+    .buyora-chat-toggle-ping {
+        top: 2px;
+        inset-inline-start: 4px;
+    }
+
+    /* Hide floating button smoothly when panel is open on mobile */
+    .buyora-chat-widget.is-open .buyora-chat-toggle {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
+    }
+
+    /* Docked Bottom Sheet Panel on mobile */
+    .buyora-chat-panel {
+        inset-inline: 10px;
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+        width: calc(100vw - 20px);
+        max-width: calc(100vw - 20px);
+        height: calc(100dvh - 82px - env(safe-area-inset-bottom, 0px));
+        max-height: 84vh;
+        border-radius: 20px;
+    }
+
+    .buyora-chat-header {
+        padding: 13px 15px;
+    }
+
+    .buyora-chat-messages {
+        padding: 14px 12px 10px;
+    }
+
+    .buyora-chat-message {
+        max-width: 92%;
+        padding: 9px 12px;
+        font-size: .84rem;
+    }
+
+    .buyora-chat-composer {
+        margin-inline: 8px;
+    }
+}
+
+/* Very Small Mobile Screen Polish (<= 400px) */
+@media (max-width: 400px) {
+    .buyora-logo {
+        height: 36px;
+    }
+
+    .brand-title {
+        font-size: 1.25rem;
+    }
+
+    .buyora-lang-switch-btn {
+        height: 34px;
+        padding: 0 0.55rem;
+        font-size: 0.72rem;
+    }
+
+    .buyora-navbar-toggler {
+        width: 36px;
+        height: 36px;
+    }
+
+    .buyora-cart-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Medium Desktop (992px to 1199px) Header Fit */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .buyora-nav-search {
+        max-width: 210px;
+        min-width: 130px;
+    }
+
+    .buyora-navbar .buyora-nav-link {
+        padding: 0.45rem 0.55rem !important;
+        font-size: 0.85rem;
+    }
+
+    .buyora-profile-badge {
+        padding: 0.22rem 0.65rem 0.22rem 0.25rem;
+    }
+
+    html[dir="rtl"] .buyora-profile-badge {
+        padding: 0.22rem 0.25rem 0.22rem 0.65rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .buyora-chat-panel, .buyora-chat-message, .buyora-chat-typing span { animation: none !important; }
+    .buyora-chat-toggle, .buyora-chat-suggestion, .buyora-chat-send { transition: none !important; animation: none !important; }
+}
+

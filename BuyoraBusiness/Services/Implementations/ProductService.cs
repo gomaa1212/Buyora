@@ -36,7 +36,7 @@ namespace BuyoraBusiness.Services.Implementations
             IQueryable<Product> products = _unitOfWork.Repository<Product>().GetAsQuerable().AsNoTracking().Include(x => x.ProductImages);
             if(withActive == true)
             {
-                products = products.Where(x => x.IsActive == true);
+                products = products.Include(x=>x.Category).Where(x => x.IsActive == true && x.Category.IsActive == true);
             }
             else if (withActive == false)
             {

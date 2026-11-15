@@ -40,7 +40,7 @@
 <html lang="@(IsRightToLift ? "ar" : "en")" dir="@(IsRightToLift ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>@ViewData["Title"] - Buyora</title>
     <script type="importmap"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -225,7 +225,7 @@
            asp-action="Index"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi @(string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) ? "bi-house-door-fill" : "bi-house-door")"></i>
-            <span>@_localizer["home"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["home"]</span>
         </a>
 
         <a asp-area="Customer"
@@ -233,12 +233,12 @@
            asp-action="Index"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "bi-bag-check-fill" : "bi-bag-check")"></i>
-            <span>@_localizer["products"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["products"]</span>
         </a>
 
         <div class="buyora-bottom-nav-item buyora-bottom-nav-cart @(string.Equals(currentController, "Cart", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             @await Component.InvokeAsync("CartCount")
-            <span class="buyora-bottom-cart-label">@_localizer["shoppingcart"]</span>
+            <span class="buyora-bottom-cart-label buyora-bottom-nav-label text-truncate">@_localizer["shoppingcart"]</span>
         </div>
 
         @if (isStaff)
@@ -248,7 +248,15 @@
                asp-action="Index"
                class="buyora-bottom-nav-item @(string.Equals(currentController, "Dashboard", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
                 <i class="bi bi-speedometer2"></i>
-                <span>@_localizer["dashboard"]</span>
+                <span class="buyora-bottom-nav-label text-truncate">@_localizer["dashboard"]</span>
+            </a>
+
+            <a asp-area="Customer"
+               asp-controller="Order"
+               asp-action="Index"
+               class="buyora-bottom-nav-item @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+                <i class="bi bi-receipt-cutoff"></i>
+                <span class="buyora-bottom-nav-label text-truncate">@_localizer["myorders"]</span>
             </a>
         }
         else if (isSignedIn)
@@ -258,19 +266,19 @@
                asp-action="Index"
                class="buyora-bottom-nav-item @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
                 <i class="bi @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "bi-receipt-cutoff" : "bi-receipt")"></i>
-                <span>@_localizer["myorders"]</span>
+                <span class="buyora-bottom-nav-label text-truncate">@_localizer["myorders"]</span>
             </a>
-        }
 
-        @if (isSignedIn)
-        {
-            <a asp-area="Customer"
-               asp-controller="Order"
-               asp-action="Index"
-               class="buyora-bottom-nav-item @(isStaff && string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
+            <button type="button"
+                    class="buyora-bottom-nav-item border-0 bg-transparent js-mobile-user-toggle"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#buyoraMainNavbar"
+                    aria-controls="buyoraMainNavbar"
+                    aria-expanded="false"
+                    aria-label="@displayUserName">
                 <i class="bi bi-person-circle"></i>
-                <span>@displayUserName</span>
-            </a>
+                <span class="buyora-bottom-nav-label text-truncate">@displayUserName</span>
+            </button>
         }
         else
         {
@@ -279,10 +287,16 @@
                asp-action="Login"
                class="buyora-bottom-nav-item @(string.Equals(currentController, "Account", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
                 <i class="bi bi-person-circle"></i>
-                <span>@_localizer["login"]</span>
+                <span class="buyora-bottom-nav-label text-truncate">@_localizer["login"]</span>
             </a>
         }
     </nav>
+
+    <button type="button" id="buyoraBackToTop" class="buyora-back-to-top" aria-label="Back to top" title="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <partial name="_CustomerChatWidget" />
 
     <footer class="buyora-footer mt-auto">
         <div class="container pt-5 pb-4">
@@ -299,10 +313,10 @@
                         @_localizer["herosubtitle"]
                     </p>
                     <div class="d-flex align-items-center gap-2">
-                        <a href="#" class="buyora-social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="buyora-social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="buyora-social-link" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="buyora-social-link" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                        <a href="https://github.com/gomaa1212" target="_blank" rel="noopener noreferrer" class="buyora-social-link social-github" title="GitHub" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                        <a href="https://www.linkedin.com/in/abdelrahman-mohammed-87445a284/" target="_blank" rel="noopener noreferrer" class="buyora-social-link social-linkedin" title="LinkedIn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://wa.me/201110974940" target="_blank" rel="noopener noreferrer" class="buyora-social-link social-whatsapp" title="WhatsApp: 01110974940" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://khamsat.com/user/abdo_mo76" target="_blank" rel="noopener noreferrer" class="buyora-social-link social-khamsat" title="خمسات | Khamsat" aria-label="Khamsat"><i class="bi bi-briefcase-fill"></i></a>
                     </div>
                 </div>
 
@@ -369,7 +383,7 @@
                 </div>
                 <div class="col-12 col-md-6 text-center text-md-end">
                     <p class="mb-0 footer-copy">
-                        Developed by <span class="text-buyora-orange fw-bold">Abdelrahman Mohamed</span>
+                        Developed by <a href="https://www.linkedin.com/in/abdelrahman-mohammed-87445a284/" target="_blank" rel="noopener noreferrer" class="text-buyora-orange fw-bold text-decoration-none">Abdelrahman Mohamed</a>
                     </p>
                 </div>
             </div>
@@ -380,6 +394,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/buyora-chat.js" asp-append-version="true"></script>
     <script>
             $(function() {
                 const loginUrl = '@Url.Action("Login", "Account", new { area = "Identity" })';
@@ -402,6 +417,8 @@
                         data: $form.serialize(),
                         success: function(response) {
                             if (response && response.success) {
+                                $icon.removeClass("spinner-border spinner-border-sm").addClass("bi-check2 text-white");
+                                
                                 const $cartBadges = $(".js-cart-count");
                                 $cartBadges.each(function() {
                                     const $badge = $(this);
@@ -410,12 +427,16 @@
                                     $badge.text(nextVal).removeClass("d-none").addClass("buyora-badge-pop");
                                     setTimeout(function() {
                                         $badge.removeClass("buyora-badge-pop");
-                                    }, 350);
+                                    }, 400);
                                 });
 
                                 if (typeof toastr !== "undefined") {
                                     toastr.success(response.message || "Product added to cart successfully.");
                                 }
+
+                                setTimeout(function() {
+                                    $icon.removeClass("bi-check2 text-white").addClass("bi-cart-plus-fill");
+                                }, 900);
                             }
                         },
                         error: function(xhr) {

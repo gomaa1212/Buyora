@@ -1,6 +1,7 @@
 ﻿
 using BuyoraBusiness.Services.Implementations;
 using BuyoraBusiness.Services.Interfaces;
+using BuyoraDataAccess.DbInitializer;
 
 namespace Buyora.DependencyInjection
 {
@@ -16,6 +17,7 @@ namespace Buyora.DependencyInjection
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IDbInitilizer, DbInitilizer>();
             return services;
         }
     }

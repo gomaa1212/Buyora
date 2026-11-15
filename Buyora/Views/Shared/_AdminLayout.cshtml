@@ -36,7 +36,7 @@
 <html lang="@(isRtl ? "ar" : "en")" dir="@(isRtl ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>@ViewData["Title"] - Buyora Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -202,7 +202,7 @@
                     &copy; 2026 <strong class="text-buyora-blue">Buyora</strong> Admin Panel
                 </span>
                 <span class="text-muted small">
-                    By <strong class="text-buyora-orange">Abdelrahman Mohamed</strong>
+                    By <a href="https://www.linkedin.com/in/abdelrahman-mohammed-87445a284/" target="_blank" rel="noopener noreferrer" class="text-buyora-orange fw-bold text-decoration-none">Abdelrahman Mohamed</a>
                 </span>
             </footer>
         </div>
@@ -214,7 +214,7 @@
            asp-action="Index"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "Dashboard", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi bi-speedometer2"></i>
-            <span>@_localizer["dashboard"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["dashboard"]</span>
         </a>
 
         <a asp-area="Admin"
@@ -222,7 +222,7 @@
            asp-action="Index"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "Order", StringComparison.OrdinalIgnoreCase) || string.Equals(currentController, "Orders", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi bi-receipt-cutoff"></i>
-            <span>@_localizer["orders"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["orders"]</span>
         </a>
 
         <a asp-area="Admin"
@@ -231,7 +231,7 @@
            asp-route-from="admin"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "Product", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi bi-bag-check-fill"></i>
-            <span>@_localizer["products"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["products"]</span>
         </a>
 
         <a asp-area="Admin"
@@ -239,7 +239,7 @@
            asp-action="Index"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "Category", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi bi-grid-fill"></i>
-            <span>@_localizer["categories"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["categories"]</span>
         </a>
 
         <a asp-area="Admin"
@@ -247,9 +247,13 @@
            asp-action="Index"
            class="buyora-bottom-nav-item @(string.Equals(currentController, "User", StringComparison.OrdinalIgnoreCase) || string.Equals(currentController, "Users", StringComparison.OrdinalIgnoreCase) ? "active" : "")">
             <i class="bi bi-people-fill"></i>
-            <span>@_localizer["users"]</span>
+            <span class="buyora-bottom-nav-label text-truncate">@_localizer["users"]</span>
         </a>
     </nav>
+
+    <button type="button" id="buyoraBackToTop" class="buyora-back-to-top" aria-label="Back to top" title="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
