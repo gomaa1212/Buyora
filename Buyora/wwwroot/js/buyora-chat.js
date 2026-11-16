@@ -157,29 +157,40 @@
         }
 
         function renderInlineMarkdown(element, text) {
-            const tokenPattern = /(\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*|__[^_]+__|\*[^*\n]+\*|_[^_\n]+_)/g;
+            // Normalize escaped/malformed Markdown links commonly returned by chat models.
+            const normalizedText = String(text ?? "")
+                .replace(/\\([()[\]])/g, "$1")
+                .replace(/\]\(\s+/g, "](")
+                .replace(/\s+\)/g, ")");
+            const tokenPattern = /(\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s<>\"']+|www\.[^\s<>\"']+|\/[A-Za-z0-9._~!$&'()*+,;=:@%/?#-]+|\*\*[^*]+\*\*|__[^_]+__|\*[^*\n]+\*|_[^_\n]+_)/g;
             let cursor = 0;
             let match;
-            while ((match = tokenPattern.exec(text)) !== null) {
-                element.appendChild(document.createTextNode(text.slice(cursor, match.index)));
+            while ((match = tokenPattern.exec(normalizedText)) !== null) {
+                element.appendChild(document.createTextNode(normalizedText.slice(cursor, match.index)));
                 const token = match[0];
-                const linkMatch = token.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+                const linkMatch = token.match(/^\[([^\]]+)\]\(\s*([^)]+?)\s*\)$/);
                 const bold = (token.startsWith("**") && token.endsWith("**")) || (token.startsWith("__") && token.endsWith("__"));
                 const italic = !bold && ((token.startsWith("*") && token.endsWith("*")) || (token.startsWith("_") && token.endsWith("_")));
 
-                if (linkMatch) {
-                    const safe = safeHref(linkMatch[2]);
+                const isBareLink = !linkMatch && /^(https?:\/\/|www\.|\/)/i.test(token);
+                if (linkMatch || isBareLink) {
+                    const rawHref = linkMatch ? linkMatch[2].trim() : token;
+                    const punctuation = isBareLink ? (rawHref.match(/[.,!?;،؛؟]+$/)?.[0] ?? "") : "";
+                    let href = punctuation ? rawHref.slice(0, -punctuation.length) : rawHref;
+                    if (/^www\./i.test(href)) href = `https://${href}`;
+                    const safe = safeHref(href);
                     if (!safe) {
-                        element.appendChild(document.createTextNode(linkMatch[1]));
+                        element.appendChild(document.createTextNode(token));
                     } else {
                         const link = document.createElement("a");
                         link.href = safe.href;
-                        link.textContent = linkMatch[1];
+                        link.textContent = linkMatch ? linkMatch[1] : href;
                         if (safe.external) {
                             link.target = "_blank";
                             link.rel = "noopener noreferrer";
                         }
                         element.appendChild(link);
+                        if (punctuation) element.appendChild(document.createTextNode(punctuation));
                     }
                 } else if (bold || italic) {
                     const formatted = document.createElement(bold ? "strong" : "em");
@@ -191,7 +202,7 @@
                 }
                 cursor = tokenPattern.lastIndex;
             }
-            element.appendChild(document.createTextNode(text.slice(cursor)));
+            element.appendChild(document.createTextNode(normalizedText.slice(cursor)));
         }
 
         function renderAssistantText(element, text) {

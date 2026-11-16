@@ -59,6 +59,12 @@ namespace Buyora.Areas.Admin.Controllers
                 await LoadCategoriesAsync();
                 return View(model);
             }
+            if (await _categoryService.GetCategoryByIdAsync(model.CategoryId) is null)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "The selected category is not valid.");
+                await LoadCategoriesAsync();
+                return View(model);
+            }
             var product = _mapper.Map<Product>(model);
             var res =await _productService.AddProductAsync(product,model.Files,model.MainFile);
             if(res == "Succeeded")
@@ -71,11 +77,17 @@ namespace Buyora.Areas.Admin.Controllers
             return View(model);
         }
         private async Task LoadCategoriesAsync(int? selectedCategoryId = null)
-        {            
+        {
+            var categories = await _categoryService.GetCategoriesListAsync();
+            var isEnglish = CultureHelper.IsEnglish();
+            var displayField = isEnglish ? "NameEn" : "NameAr";
+            var displayableCategories = categories.Where(category =>
+                !string.IsNullOrWhiteSpace(isEnglish ? category.NameEn : category.NameAr));
+
             ViewBag.Categories = new SelectList(
-                await _categoryService.GetCategoriesListAsync(),
+                displayableCategories,
                 "Id",
-                CultureHelper.IsEnglish() ? "NameEn" : "NameAr" ,
+                displayField,
                 selectedCategoryId);
         }
        
@@ -97,6 +109,12 @@ namespace Buyora.Areas.Admin.Controllers
             ModelState.Remove("MainFile");
             if(!ModelState.IsValid)
             {
+                await LoadCategoriesAsync(model.CategoryId);
+                return View(model);
+            }
+            if (await _categoryService.GetCategoryByIdAsync(model.CategoryId) is null)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "The selected category is not valid.");
                 await LoadCategoriesAsync(model.CategoryId);
                 return View(model);
             }

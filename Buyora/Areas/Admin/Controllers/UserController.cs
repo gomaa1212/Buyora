@@ -15,14 +15,16 @@ namespace Buyora.Areas.Admin.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
         private const int pageSize = 10;
         private string CurrentUserId => _userManager.GetUserId(User)!;
 
-        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
+        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper,IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
+            _configuration = configuration;
         }
         public async Task<IActionResult> Index(int page = 1, string? searchTerm = null)
         {
@@ -69,6 +71,12 @@ namespace Buyora.Areas.Admin.Controllers
             if (user == null)
             {
                 return NotFound();
+            }
+            var currentUser = await _userManager.FindByIdAsync(CurrentUserId);
+            if (User.IsInRole("Admin") && await _userManager.IsInRoleAsync(user,"Admin") && currentUser.Email != _configuration["Admin:Email"])
+            {
+                TempData["ErrorMessage"] = "You cannot lock an admin account.";
+                return RedirectToAction(nameof(Index));
             }
             if(user.Id == CurrentUserId)
             {

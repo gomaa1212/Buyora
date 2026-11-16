@@ -40,8 +40,8 @@ namespace BuyoraDataAccess.DbInitializer
                 }
             }
 
-            var adminEmail = "admin@gmail.com";
-            var adminPassword = "Admin@123";
+            var adminEmail = _configuration["Admin:Email"];
+            var adminPassword = _configuration["Admin:Password"];
             if (string.IsNullOrWhiteSpace(adminEmail) && string.IsNullOrWhiteSpace(adminPassword))
                 return;
 

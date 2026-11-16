@@ -3,6 +3,10 @@
 
 @{
     ViewData["Title"] = _localizer["deletecategory"];
+    var unnamedCategoryLabel = _localizer["unnamedcategory"].Value;
+    var displayName = string.IsNullOrWhiteSpace(Model.Name)
+        ? $"{unnamedCategoryLabel} (#{Model.Id})"
+        : Model.Name;
 }
 
 <div class="buyora-page-wrapper">
@@ -41,7 +45,7 @@
                 <div class="buyora-delete-summary text-start p-3 rounded-3 mb-4">
                     <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
                         <span class="text-muted small fw-semibold">@_localizer["categoryname"]</span>
-                        <span class="fw-bold text-buyora-blue">@Model.Name</span>
+                        <span class="fw-bold text-buyora-blue">@displayName</span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
                         <span class="text-muted small fw-semibold">@_localizer["displayorder"]</span>

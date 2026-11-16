@@ -25,7 +25,10 @@ namespace BuyoraModels
         public int Quantity { get; set; }
         public bool IsActive { get; set; } = false;
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = new Category();
+        // Keep the navigation unset when a product is created from CategoryId.
+        // Initializing this to `new Category()` makes EF Core insert a new,
+        // empty category when it adds the product graph.
+        public Category Category { get; set; } = null!;
         public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 
         [NotMapped]

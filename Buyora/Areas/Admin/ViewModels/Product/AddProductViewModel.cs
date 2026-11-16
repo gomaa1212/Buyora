@@ -17,7 +17,7 @@ namespace Buyora.Areas.Admin.ViewModels.Product
         [Required]
         public int Quantity { get; set; }
         public bool IsActive { get; set; } = false;
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid category.")]
         public int CategoryId { get; set; }
         [NotMapped]
         [Required]

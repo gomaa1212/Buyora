@@ -135,6 +135,9 @@
   <data name="categoryname" xml:space="preserve">
     <value>اسم القسم</value>
   </data>
+  <data name="unnamedcategory" xml:space="preserve">
+    <value>قسم بدون اسم</value>
+  </data>
   <data name="displayorder" xml:space="preserve">
     <value>ترتيب العرض</value>
   </data>

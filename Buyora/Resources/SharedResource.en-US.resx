@@ -135,6 +135,9 @@
   <data name="categoryname" xml:space="preserve">
     <value>Category Name</value>
   </data>
+  <data name="unnamedcategory" xml:space="preserve">
+    <value>Unnamed category</value>
+  </data>
   <data name="displayorder" xml:space="preserve">
     <value>Display Order</value>
   </data>

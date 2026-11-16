@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = _localizer["categories"];
+    var unnamedCategoryLabel = _localizer["unnamedcategory"].Value;
 }
 
 <div class="buyora-page-wrapper">
@@ -42,13 +43,16 @@
                     <tbody>
                         @foreach (var category in Model)
                         {
+                            var displayName = string.IsNullOrWhiteSpace(category.Name)
+                                ? $"{unnamedCategoryLabel} (#{category.Id})"
+                                : category.Name;
                             <tr>
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center gap-3">
                                         <span class="buyora-category-avatar">
-                                            @(string.IsNullOrEmpty(category.Name) ? "C" : category.Name.Substring(0, 1).ToUpper())
+                                            @displayName.Substring(0, 1).ToUpper()
                                         </span>
-                                        <span class="fw-bold text-dark">@category.Name</span>
+                                        <span class="fw-bold text-dark">@displayName</span>
                                     </div>
                                 </td>
                                 <td class="text-center">

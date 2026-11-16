@@ -16,10 +16,15 @@ public sealed class ChatApiController : ControllerBase
 {
     private readonly AppDbContext _db;
     private readonly IDataProtector _customerTokenProtector;
+    private readonly IConfiguration _configuration;
 
-    public ChatApiController(AppDbContext db, IDataProtectionProvider dataProtection)
+    public ChatApiController(
+        AppDbContext db,
+        IDataProtectionProvider dataProtection,
+        IConfiguration configuration)
     {
         _db = db;
+        _configuration = configuration;
         _customerTokenProtector = dataProtection.CreateProtector("Buyora.Chat.CustomerToken.v1");
     }
 
@@ -38,6 +43,7 @@ public sealed class ChatApiController : ControllerBase
     {
         page = Math.Max(page, 1);
         pageSize = Math.Clamp(pageSize, 1, 20);
+        var siteBaseUrl = (_configuration["App:BaseUrl"] ?? $"{Request.Scheme}://{Request.Host}").TrimEnd('/');
 
         var products = _db.Product.AsNoTracking()
             .Where(p => p.IsActive && p.Category.IsActive);
@@ -117,7 +123,7 @@ public sealed class ChatApiController : ControllerBase
                     : 0m,
                 inStock = p.Quantity > 0,
                 imageUrl = p.ProductImages.Where(i => i.IsMain).Select(i => i.Url).FirstOrDefault(),
-                productUrl = $"/Customer/Product/Details/{p.Id}"
+                productUrl = $"{siteBaseUrl}/Customer/Product/Details/{p.Id}"
             }).ToListAsync(cancellationToken);
 
         return Ok(new { page, pageSize, totalCount, items });
