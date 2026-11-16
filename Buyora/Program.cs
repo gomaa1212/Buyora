@@ -1,12 +1,24 @@
 
 using Buyora.DependencyInjection;
 using BuyoraDataAccess.DbInitializer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Shared hosting may recycle the app pool and cannot persist keys in a Windows profile.
+// Keep Identity cookies and the short-lived chat customer token valid across restarts.
+if (!builder.Environment.IsDevelopment())
+{
+    var keysPath = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, "..", "private", "keys"));
+    Directory.CreateDirectory(keysPath);
+    builder.Services.AddDataProtection()
+        .SetApplicationName("Buyora")
+        .PersistKeysToFileSystem(new DirectoryInfo(keysPath));
+}
 
 // Add services to the container.
 builder.Services.AddLocalizationDependencyInjection();
@@ -61,6 +73,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Product images are uploaded while the app is running, so they are not part
+// of the static asset manifest generated at build time.
+app.UseStaticFiles();
 
 app.UseRequestLocalization();
 

@@ -1,10 +1,9 @@
 ﻿using BuyoraDataAccess.Data;
 using BuyoraModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace BuyoraDataAccess.DbInitializer
 {
@@ -13,48 +12,64 @@ namespace BuyoraDataAccess.DbInitializer
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public DbInitilizer(AppDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly IConfiguration _configuration;
+
+        public DbInitilizer(
+            AppDbContext db,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration)
         {
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
+            _configuration = configuration;
         }
+
         public async Task InitilizeAsync()
         {
-            if(_db.Database.CanConnect())
+            await _db.Database.MigrateAsync();
+
+            foreach (var roleName in new[] { "Admin", "Employee", "Customer" })
             {
-                if (_db.Database.GetPendingMigrations().Any())
+                if (!await _roleManager.RoleExistsAsync(roleName))
                 {
-                    await _db.Database.MigrateAsync();
+                    var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                    if (!roleResult.Succeeded)
+                        throw new InvalidOperationException($"Could not create the {roleName} role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
                 }
-                else
+            }
+
+            var adminEmail = "admin@gmail.com";
+            var adminPassword = "Admin@123";
+            if (string.IsNullOrWhiteSpace(adminEmail) && string.IsNullOrWhiteSpace(adminPassword))
+                return;
+
+            if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
+                throw new InvalidOperationException("Set both Admin:Email and Admin:Password, or leave both unset.");
+
+            var admin = await _userManager.FindByEmailAsync(adminEmail);
+            if (admin is null)
+            {
+                admin = new ApplicationUser
                 {
-                    if (!_db.Roles.Any())
-                    {
-                        _roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
-                        _roleManager.CreateAsync(new IdentityRole("Employee")).GetAwaiter().GetResult();
-                        _roleManager.CreateAsync(new IdentityRole("Customer")).GetAwaiter().GetResult();
-                    }
-                }
-                var user = await _userManager.FindByEmailAsync("admin@gmail.com");
-                if(user == null)
-                {
-                    user = new ApplicationUser()
-                    {
-                        UserName = "admin",
-                        Email = "admin@gmail.com",
-                        EmailConfirmed = true,
-                        PhoneNumber = "01000000000",
-                        Name = "Admin",
-                        Address = "Egypt"
-                    };
-                    var res = await _userManager.CreateAsync(user, "Admin@123");
-                    if(res.Succeeded == true)
-                    {
-                        await _userManager.AddToRoleAsync(user, "Admin");
-                    }
-                    
-                }
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true,
+                    Name = "Buyora Administrator",
+                    Address = string.Empty
+                };
+
+                var createResult = await _userManager.CreateAsync(admin, adminPassword);
+                if (!createResult.Succeeded)
+                    throw new InvalidOperationException($"Could not create the configured administrator: {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
+            }
+
+            if (!await _userManager.IsInRoleAsync(admin, "Admin"))
+            {
+                var addRoleResult = await _userManager.AddToRoleAsync(admin, "Admin");
+                if (!addRoleResult.Succeeded)
+                    throw new InvalidOperationException($"Could not grant the Admin role: {string.Join(", ", addRoleResult.Errors.Select(e => e.Description))}");
             }
         }
     }

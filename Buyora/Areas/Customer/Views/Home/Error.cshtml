@@ -1,0 +1,61 @@
+@using Buyora.Helper
+@{
+    Layout = null;
+    var isRtl = CultureHelper.IsRightToLeft();
+    var requestId = ViewData["RequestId"]?.ToString();
+    var title = isRtl ? "حصلت مشكلة غير متوقعة" : "Something went wrong";
+    var message = isRtl
+        ? "حصل خطأ أثناء تنفيذ طلبك. جرّب مرة تانية، ولو المشكلة استمرت تواصل مع خدمة العملاء."
+        : "We couldn’t complete your request. Please try again, or contact customer support if the problem continues.";
+    var homeLabel = isRtl ? "الرجوع للرئيسية" : "Back to home";
+    var supportLabel = isRtl ? "التواصل مع الدعم" : "Contact support";
+}
+<!DOCTYPE html>
+<html lang="@(isRtl ? "ar" : "en")" dir="@(isRtl ? "rtl" : "ltr")">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>@title - Buyora</title>
+    <style>
+        :root { color-scheme: light; font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+        * { box-sizing: border-box; }
+        body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 24px; color: #102a56; background: radial-gradient(circle at 15% 10%, #e8efff 0, transparent 35%), linear-gradient(145deg, #f5f8fd, #eef3fa); }
+        .error-card { width: min(100%, 560px); padding: clamp(28px, 6vw, 48px); border: 1px solid #e3eaf4; border-radius: 24px; background: rgba(255,255,255,.96); box-shadow: 0 24px 70px rgba(7,31,78,.12); text-align: center; }
+        .brand { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; color: #071f4e; font-size: 1.15rem; font-weight: 800; }
+        .brand img { width: 42px; height: 42px; object-fit: contain; }
+        .error-icon { width: 76px; height: 76px; display: grid; place-items: center; margin: 0 auto 22px; border-radius: 24px; color: #d45516; background: #fff3e9; font-size: 2.1rem; font-weight: 800; }
+        h1 { margin: 0 0 12px; color: #071f4e; font-size: clamp(1.45rem, 4vw, 1.9rem); }
+        p { margin: 0 auto; max-width: 420px; color: #60718a; line-height: 1.8; }
+        .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
+        .button { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 0 18px; border: 1px solid transparent; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #0038a8, #071f4e); font-size: .92rem; font-weight: 700; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
+        .button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(7,31,78,.18); }
+        .button.secondary { border-color: #dce5f1; color: #163767; background: #fff; }
+        .request-id { margin-top: 24px; color: #8492a6; font-size: .75rem; }
+        .request-id code { direction: ltr; unicode-bidi: isolate; }
+        @@media (max-width: 480px) { body { padding: 14px; } .actions { flex-direction: column; } .button { width: 100%; } }
+    </style>
+</head>
+<body>
+    <main class="error-card">
+        <div class="brand">
+            <img src="@Url.Content("~/Logo.png")" alt="" />
+            <span>Buyora</span>
+        </div>
+        <div class="error-icon" aria-hidden="true">!</div>
+        <h1>@title</h1>
+        <p>@message</p>
+        <div class="actions">
+            <a class="button" href="/">@homeLabel</a>
+            <a class="button secondary" href="https://wa.me/201110974940">@supportLabel</a>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(requestId))
+        {
+            <div class="request-id">
+                @(isRtl ? "رقم المتابعة" : "Reference ID"):
+                <code>@requestId</code>
+            </div>
+        }
+    </main>
+</body>
+</html>

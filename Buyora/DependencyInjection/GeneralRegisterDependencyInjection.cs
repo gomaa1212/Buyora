@@ -8,7 +8,11 @@ namespace Buyora.DependencyInjection
     {
         public static IServiceCollection AddGeneralRegisterDependencyInjection(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(x => x.UseSqlServer(configuration["Constr"]));
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("Database connection is missing. Configure ConnectionStrings:DefaultConnection.");
+
+            services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
 
             services.AddAutoMapper(
                 cfg => { },
