@@ -480,3 +480,38 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Local configuration and secrets
+.env*
+!.env.example
+secrets.json
+appsettings.Local.json
+appsettings.*.Local.json
+*.user
+*.userosscache
+
+# Visual Studio and editor state
+.vs/
+.vscode/
+.idea/
+.history/
+
+# .NET build, publish, and test output
+**/bin/
+**/obj/
+**/TestResults/
+**/artifacts/
+**/publish/
+*.coverage
+*.coveragexml
+*.binlog
+
+# Local uploads and persistent data protection keys
+Buyora/wwwroot/uploads/
+private/keys/
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.backup
+*~
