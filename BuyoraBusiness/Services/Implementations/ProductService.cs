@@ -242,7 +242,7 @@ namespace BuyoraBusiness.Services.Implementations
         }
         public async Task<List<Product>> GetProductsWithDiscountAsync()
         {
-            return await _unitOfWork.Repository<Product>().GetAsQuerable().OrderByDescending(x => x.DiscountPrice).Where(x => x.DiscountPrice != null && x.IsActive == true).Include(x => x.ProductImages).Take(20).ToListAsync();
+            return await _unitOfWork.Repository<Product>().GetAsQuerable().Where(x => x.DiscountPrice != null && x.IsActive == true && x.Price > 0 && x.DiscountPrice < x.Price).OrderByDescending(x => (x.Price - x.DiscountPrice) / x.Price * 100).Include(x => x.ProductImages).Take(20).ToListAsync();
         }
     }
 }
