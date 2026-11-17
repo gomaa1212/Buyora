@@ -289,6 +289,11 @@ When adding a UI string, add the same resource key to both files. The applicatio
 
 ---
 
-## License
+## Contact & Feedback
 
-No license file is currently included. All rights are reserved unless the repository owner adds a license.
+Have questions, suggestions, or feedback about Buyora? Feel free to reach out!
+
+- **LinkedIn:** [Abdelrahman Mohammed](https://www.linkedin.com/in/abdelrahman-mohammed-87445a284/)
+- **WhatsApp:** [+20 111 097 4940](https://wa.me/201110974940)
+
+If you find this project useful or interesting, consider giving it a ⭐ **Star** on GitHub. Your support is greatly appreciated!
