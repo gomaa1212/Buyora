@@ -1,3 +1,20 @@
+<div align="center">
+  <img src="Buyora/wwwroot/Logo.png" alt="Buyora Logo" width="120" height="120" style="border-radius: 20px;" />
+  <h1>Buyora — Bilingual E-Commerce Platform</h1>
+  <p><strong>A modern, production-ready e-commerce platform built with ASP.NET Core MVC on .NET 10, featuring an autonomous AI customer-support assistant.</strong></p>
+
+  <p>
+    <a href="https://buyora.runasp.net" target="_blank"><img src="https://img.shields.io/badge/Live_Demo-buyora.runasp.net-brightgreen?style=for-the-badge&logo=google-chrome" alt="Live Demo" /></a>
+    <img src="https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=dotnet" alt=".NET 10" />
+    <img src="https://img.shields.io/badge/ASP.NET_Core-MVC-512BD4?style=for-the-badge&logo=dotnet" alt="ASP.NET Core" />
+    <img src="https://img.shields.io/badge/SQL_Server-2022-CC292B?style=for-the-badge&logo=microsoftsqlserver" alt="SQL Server" />
+    <img src="https://img.shields.io/badge/AI_Agent-n8n_%2B_Gemini-FF6D00?style=for-the-badge&logo=google" alt="AI Agent" />
+  </p>
+</div>
+
+---
+
+
 # Buyora
 
 Buyora is a bilingual e-commerce platform built with ASP.NET Core MVC. Customers can browse products, search by category, manage a shopping cart, place cash-on-delivery orders, and review their order history. Store staff manage the catalog, categories, orders, and users through a separate admin area. A customer-support assistant connects the storefront to an n8n workflow and the Buyora chat API.
